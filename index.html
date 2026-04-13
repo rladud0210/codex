@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elon Musk Future Briefing</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --panel: rgba(10, 20, 37, 0.72);
+      --panel-strong: rgba(14, 27, 48, 0.92);
+      --line: rgba(166, 206, 255, 0.16);
+      --text: #edf5ff;
+      --muted: #96abc6;
+      --accent: #8de1ff;
+      --accent-2: #ffd47e;
+      --accent-3: #8cffb5;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Pretendard", "Noto Sans KR", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(66, 157, 255, 0.22), transparent 28%),
+        radial-gradient(circle at 85% 18%, rgba(255, 196, 92, 0.2), transparent 22%),
+        radial-gradient(circle at 60% 80%, rgba(73, 255, 173, 0.12), transparent 18%),
+        linear-gradient(180deg, #06101d 0%, #08111f 40%, #03060b 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.6), transparent 80%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 16px;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      margin: 18px auto 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(5, 13, 24, 0.68);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 24px rgba(141, 225, 255, 0.8);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.9fr;
+      gap: 24px;
+      padding: 36px 0 28px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-aside,
+    .section-card,
+    .quote-card,
+    .timeline,
+    .closing {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(117, 225, 255, 0.08);
+      border: 1px solid rgba(117, 225, 255, 0.18);
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 18px;
+      font-size: clamp(2.7rem, 6vw, 5.5rem);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      max-width: 10ch;
+    }
+
+    .lead {
+      margin-top: 18px;
+      max-width: 60ch;
+      font-size: 1.06rem;
+      line-height: 1.8;
+      color: #c6d6ea;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .hero-aside {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 212, 126, 0.08), transparent 26%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+        var(--panel-strong);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 18px;
+    }
+
+    .score {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .score div {
+      padding: 16px 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .score strong {
+      display: block;
+      font-size: 1.65rem;
+      margin-bottom: 6px;
+    }
+
+    .score span,
+    .aside-note,
+    .card-copy p,
+    .timeline-item p,
+    .closing p,
+    footer p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .aside-note {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(141, 225, 255, 0.07);
+      border: 1px solid rgba(141, 225, 255, 0.16);
+    }
+
+    .section {
+      padding: 22px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-head p {
+      max-width: 52ch;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .section-card {
+      grid-column: span 4;
+      padding: 24px;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .section-card:hover,
+    .quote-card:hover,
+    .timeline:hover,
+    .closing:hover {
+      transform: translateY(-4px);
+      border-color: rgba(141, 225, 255, 0.3);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--accent-2);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section-card h3 {
+      font-size: 1.34rem;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .card-kicker {
+      margin-top: 20px;
+      color: var(--accent-3);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .quote-wrap {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .quote-card,
+    .timeline,
+    .closing {
+      padding: 28px;
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.8vw, 2.6rem);
+      line-height: 1.22;
+      letter-spacing: -0.04em;
+      max-width: 14ch;
+    }
+
+    .quote-card small {
+      display: block;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .timeline-item:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .year {
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.88rem;
+    }
+
+    .closing {
+      margin: 22px 0 34px;
+      background:
+        radial-gradient(circle at top right, rgba(141, 225, 255, 0.11), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(255, 212, 126, 0.11), transparent 26%),
+        var(--panel-strong);
+    }
+
+    .closing h2 {
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      margin-bottom: 12px;
+      letter-spacing: -0.04em;
+    }
+
+    .closing-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      align-items: start;
+      margin-top: 18px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .checklist div {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    footer {
+      padding: 0 0 32px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .quote-wrap,
+      .closing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-card {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .nav {
+        position: static;
+      }
+
+      .nav,
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-copy,
+      .hero-aside,
+      .section-card,
+      .quote-card,
+      .timeline,
+      .closing {
+        border-radius: 22px;
+      }
+
+      .hero-copy,
+      .hero-aside,
+      .quote-card,
+      .timeline,
+      .closing {
+        padding: 22px;
+      }
+
+      .section-card {
+        grid-column: span 12;
+      }
+
+      .score,
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span>Future Briefing</span>
+      </div>
+      <div class="nav-links">
+        <a href="#vision">비전</a>
+        <a href="#pillars">핵심 축</a>
+        <a href="#timeline">로드맵</a>
+        <a href="#briefing">브리핑</a>
+      </div>
+    </nav>
+
+    <header class="hero" id="vision">
+      <section class="hero-copy">
+        <div class="eyebrow">Elon Musk Vision Map</div>
+        <h1>지구를 확장하고 기계를 가속하는 미래</h1>
+        <p class="lead">
+          이 페이지는 일론 머스크가 여러 사업에서 반복적으로 제시해 온 미래상을 하나의 화면으로 정리한 브리핑입니다.
+          핵심은 인류를 다행성 종으로 만들고, 에너지를 전기화하며, 자율 시스템과 AI로 생산성을 급격히 끌어올리는 데 있습니다.
+        </p>
+        <div class="hero-meta">
+          <span class="pill">Mars Settlement</span>
+          <span class="pill">Autonomous Mobility</span>
+          <span class="pill">AI Infrastructure</span>
+          <span class="pill">Sustainable Energy</span>
+        </div>
+      </section>
+
+      <aside class="hero-aside">
+        <div>
+          <div class="eyebrow">At A Glance</div>
+          <p class="lead" style="margin-top: 14px; font-size: 1rem;">
+            머스크의 미래관은 단순한 제품 로드맵이 아니라, 문명 전체를 더 빠르고 더 넓게 움직이려는 산업 설계에 가깝습니다.
+          </p>
+        </div>
+        <div class="score">
+          <div>
+            <strong>6</strong>
+            <span>핵심 산업 축</span>
+          </div>
+          <div>
+            <strong>2</strong>
+            <span>거대 목표: 지구와 화성</span>
+          </div>
+          <div>
+            <strong>1</strong>
+            <span>공통 원리: 속도와 규모</span>
+          </div>
+        </div>
+        <div class="aside-note">
+          브리핑 포인트: 그의 비전은 늘 “더 싸게, 더 크게, 더 자동화되게”라는 제조 철학과 결합돼 있습니다.
+        </div>
+      </aside>
+    </header>
+
+    <section class="section" id="pillars">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Core Pillars</div>
+          <h2>미래를 떠받치는 6개의 축</h2>
+        </div>
+        <p>
+          각각의 회사는 따로 보이지만, 실제로는 운송, 에너지, AI, 우주, 인간-기계 인터페이스를 하나의 시스템으로 연결하려는 흐름 안에 있습니다.
+        </p>
+      </div>
+
+      <div class="grid">
+        <article class="section-card">
+          <div class="card-copy">
+            <span class="tag">SpaceX</span>
+            <h3>화성 이주와 다행성 문명</h3>
+            <p>
+              장기적으로 인류 생존 확률을 높이기 위해 지구 밖 자급형 거점을 만드는 구상입니다. 재사용 로켓과 대형 발사체는 그 비용 장벽을 무너뜨리기 위한 도구입니다.
+            </p>
+          </div>
+          <div class="card-kicker">핵심 질문: “인류는 한 행성에만 머물러도 되는가?”</div>
+        </article>
+
+        <article class="section-card">
+          <div class="card-copy">
+            <span class="tag">Tesla</span>
+            <h3>전기차를 넘어 에너지 시스템화</h3>
+            <p>
+              자동차 판매보다 더 큰 그림은 배터리, 저장장치, 전력망, 태양광을 하나로 묶는 에너지 전환입니다. 차량은 그 생태계의 가장 대중적인 진입점입니다.
+            </p>
+          </div>
+          <div class="card-kicker">핵심 질문: “화석연료 이후의 기본 인프라는 무엇인가?”</div>
+        </article>
+
+        <article class="section-card">
+          <div class="card-copy">
+            <span class="tag">xAI / AI</span>
+            <h3>초지능 시대의 도구 주도권</h3>
+            <p>
+              AI는 단순한 소프트웨어 기능이 아니라, 연구·생산·운송·의사결정 전반을 가속하는 기반 기술로 취급됩니다. 누가 그 계산 자원과 모델을 통제하느냐가 미래 권력의 일부가 됩니다.
+            </p>
+          </div>
+          <div class="card-kicker">핵심 질문: “AI는 보조 도구인가, 산업 운영체제인가?”</div>
+        </article>
+
+        <article class="section-card">
+          <div class="card-copy">
+            <span class="tag">Autonomy</span>
+            <h3>자율주행과 로보틱스의 대중화</h3>
+            <p>
+              머스크의 미래상에서 차량은 사람이 직접 운전하는 기계가 아니라, 스스로 움직이며 수익도 창출할 수 있는 로봇 플랫폼에 가깝습니다. 그 연장선에는 휴머노이드 로봇도 놓여 있습니다.
+            </p>
+          </div>
+          <div class="card-kicker">핵심 질문: “노동과 이동은 얼마나 자동화될 수 있는가?”</div>
+        </article>
+
+        <article class="section-card">
+          <div class="card-copy">
+            <span class="tag">Neuralink</span>
+            <h3>인간과 컴퓨터의 직접 연결</h3>
+            <p>
+              뇌-컴퓨터 인터페이스는 장애 극복 기술로 출발하지만, 장기적으로는 인간이 AI와 경쟁하기보다 더 밀접하게 협업하도록 돕는 인터페이스로 상상됩니다.
+            </p>
+          </div>
+          <div class="card-kicker">핵심 질문: “인간은 AI 시대에 어떻게 속도를 맞출 것인가?”</div>
+        </article>
+
+        <article class="section-card">
+          <div class="card-copy">
+            <span class="tag">Infrastructure</span>
+            <h3>도시의 병목을 다시 설계</h3>
+            <p>
+              터널, 고속 물류, 제조 자동화처럼 기존 인프라의 느린 부분을 재설계하려는 시도도 같은 맥락입니다. 교통 체증, 느린 생산, 높은 발사 비용은 모두 줄여야 할 “마찰”로 간주됩니다.
+            </p>
+          </div>
+          <div class="card-kicker">핵심 질문: “문명을 느리게 만드는 병목은 어디에 있는가?”</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="quote-wrap">
+        <article class="quote-card">
+          <div class="eyebrow">Interpretation</div>
+          <blockquote>
+            머스크가 꿈꾸는 미래는 “더 많은 사람이 더 큰 규모의 기술을 더 빨리 쓸 수 있는 세계”라고 요약할 수 있다.
+          </blockquote>
+          <small>이 페이지는 공개적으로 알려진 그의 장기 방향성을 요약한 해석형 브리핑입니다.</small>
+        </article>
+
+        <article class="timeline" id="timeline">
+          <div class="eyebrow">Roadmap View</div>
+          <h2 style="margin-top: 14px; font-size: 2rem; letter-spacing: -0.04em;">어떤 순서로 미래를 당겨오려는가</h2>
+          <div class="timeline-list">
+            <div class="timeline-item">
+              <div class="year">Phase 01</div>
+              <div>
+                <h3>비용 구조 파괴</h3>
+                <p>재사용 로켓, 대규모 배터리 생산, 소프트웨어 중심 차량 구조처럼 기존 산업의 단가를 먼저 무너뜨립니다.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="year">Phase 02</div>
+              <div>
+                <h3>자동화 확장</h3>
+                <p>자율주행, 로보틱스, AI 학습 인프라를 통해 인간 의존도가 높던 운영 영역을 기계 중심으로 재편합니다.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="year">Phase 03</div>
+              <div>
+                <h3>문명 단위 확장</h3>
+                <p>에너지와 우주 수송이 충분히 싸고 안정적이 되면, 지구 밖 정착과 초대형 산업 프로젝트가 현실 영역으로 들어옵니다.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <article class="closing" id="briefing">
+        <div class="eyebrow">Briefing Summary</div>
+        <h2>브리핑 한 장 요약</h2>
+        <p>
+          머스크의 미래는 단순히 “멋진 제품을 많이 만드는 것”이 아니라, 인류가 움직이고, 생각하고, 에너지를 쓰고, 다른 행성으로 나아가는 방식을 통째로 재설계하는 프로젝트에 가깝습니다.
+        </p>
+
+        <div class="closing-grid">
+          <div class="checklist">
+            <div>전기화: 교통과 전력 시스템을 배터리 중심으로 전환</div>
+            <div>자동화: 인간이 하던 이동과 노동의 상당 부분을 기계가 수행</div>
+            <div>확장성: 제조·발사·계산 비용을 급격히 낮춰 대형 프로젝트 가능화</div>
+            <div>다행성: 지구 외 거점을 만들어 문명 리스크 분산</div>
+          </div>
+          <div>
+            <p>
+              동시에 이 비전은 규제, 안전, 과도한 중앙집중, 기술 윤리 같은 문제와 늘 함께 논의됩니다. 그래서 머스크의 미래를 이해하는 가장 좋은 방식은 찬반을 먼저 고르는 것이 아니라,
+              “그가 줄이려는 마찰은 무엇이고, 그 대가로 감수하려는 위험은 무엇인가”를 같이 보는 것입니다.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <p>Designed as a clean one-page HTML briefing for GitHub Pages deployment.</p>
+    </footer>
+  </div>
+</body>
+</html>
