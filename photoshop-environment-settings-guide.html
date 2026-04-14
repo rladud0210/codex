@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photoshop 환경설정 & 파일관리 가이드</title>
+  <style>
+    :root {
+      --bg: #edf2f8;
+      --bg-deep: #dfe9f6;
+      --paper: rgba(255, 255, 255, 0.9);
+      --paper-strong: #ffffff;
+      --text: #17212f;
+      --muted: #5f6b7b;
+      --line: rgba(23, 33, 47, 0.1);
+      --accent: #2d6cdf;
+      --accent-2: #10a7a0;
+      --accent-3: #ff9f43;
+      --shadow: 0 24px 52px rgba(35, 55, 92, 0.12);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max-width: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      color: var(--text);
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(45, 108, 223, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(16, 167, 160, 0.14), transparent 22%),
+        linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 52%, #f7f9fc 100%);
+    }
+
+    p, li, td, th, span {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.05;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 56px 0 28px;
+    }
+
+    .hero-shell,
+    .section,
+    .summary,
+    .footer-note {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(247, 250, 255, 0.82)), var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-shell { padding: 42px; }
+
+    .hero-shell::before,
+    .hero-shell::after,
+    .section::before,
+    .summary::before {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .hero-shell::before {
+      width: 250px;
+      height: 250px;
+      top: -88px;
+      right: -70px;
+      background: rgba(45, 108, 223, 0.14);
+    }
+
+    .hero-shell::after {
+      width: 210px;
+      height: 210px;
+      bottom: -72px;
+      left: -46px;
+      background: rgba(16, 167, 160, 0.12);
+    }
+
+    .section::before,
+    .summary::before {
+      width: 180px;
+      height: 180px;
+      right: -80px;
+      bottom: -80px;
+      background: rgba(255, 159, 67, 0.11);
+    }
+
+    .eyebrow,
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(23, 33, 47, 0.06);
+      color: var(--muted);
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    .eyebrow::before,
+    .tag::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 18px 0 0 var(--accent-2);
+      margin-right: 18px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+      word-break: keep-all;
+    }
+
+    h1 {
+      margin-top: 18px;
+      max-width: 12em;
+      font-size: clamp(2.5rem, 5vw, 4.8rem);
+    }
+
+    h2 { font-size: clamp(1.7rem, 2.4vw, 2.35rem); }
+    h3 { font-size: 1.16rem; }
+
+    .hero-copy {
+      max-width: 780px;
+      margin: 16px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .print-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .action-button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease;
+    }
+
+    .action-button:hover { transform: translateY(-1px); }
+    .action-button.primary { background: #17212f; color: #fff; }
+    .action-button.secondary { background: rgba(45, 108, 223, 0.12); color: #1d4fb0; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      gap: 26px;
+      margin-top: 30px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .panel.pad { padding: 26px; }
+
+    .hero-points,
+    .quick-links,
+    .card-grid,
+    .summary-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-points,
+    .quick-links,
+    .card-grid,
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mini-card,
+    .link-card,
+    .card,
+    .summary-card {
+      border: 1px solid rgba(23, 33, 47, 0.08);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.84);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .mini-card:hover,
+    .link-card:hover,
+    .card:hover,
+    .summary-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 28px rgba(23, 33, 47, 0.08);
+    }
+
+    .mini-card,
+    .summary-card { padding: 20px; }
+
+    .link-card {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 122px;
+    }
+
+    .link-card span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .card { padding: 26px; }
+
+    .diagram {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.88));
+    }
+
+    .diagram svg {
+      width: min(100%, 420px);
+      height: auto;
+    }
+
+    main {
+      padding: 6px 0 60px;
+    }
+
+    .section,
+    .summary,
+    .footer-note {
+      margin-top: 28px;
+      padding: 34px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .section-head p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    .list-card {
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 33, 47, 0.08);
+    }
+
+    .list-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .step-list,
+    .bullet-list,
+    .check-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .step-list li,
+    .bullet-list li,
+    .check-list li {
+      margin-top: 8px;
+    }
+
+    .shortcut-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 33, 47, 0.08);
+    }
+
+    .shortcut-table th,
+    .shortcut-table td {
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(23, 33, 47, 0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .shortcut-table th {
+      background: rgba(23, 33, 47, 0.05);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .shortcut-table tr:last-child td { border-bottom: none; }
+
+    kbd {
+      display: inline-block;
+      padding: 7px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(23, 33, 47, 0.14);
+      background: linear-gradient(180deg, #fff, #f1f5fb);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .worksheet-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .worksheet-item {
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(23, 33, 47, 0.08);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .question-text {
+      margin: 0;
+    }
+
+    .input-row {
+      margin-top: 10px;
+    }
+
+    .fill-line {
+      display: flex;
+      width: min(100%, 260px);
+      margin: 0;
+    }
+
+    .quiz-input,
+    .quiz-textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .quiz-input {
+      border: none;
+      border-bottom: 2px solid rgba(23, 33, 47, 0.22);
+      background: transparent;
+      padding: 2px 4px 6px;
+    }
+
+    .quiz-input:focus,
+    .quiz-textarea:focus {
+      border-color: var(--accent);
+      background: rgba(45, 108, 223, 0.05);
+    }
+
+    .quiz-input.correct {
+      border-color: #167a68;
+      background: rgba(22, 122, 104, 0.08);
+    }
+
+    .quiz-input.incorrect {
+      border-color: #c94f4f;
+      background: rgba(201, 79, 79, 0.08);
+    }
+
+    .quiz-textarea {
+      min-height: 120px;
+      margin-top: 12px;
+      padding: 14px 16px;
+      resize: vertical;
+      border: 1px solid rgba(23, 33, 47, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin-top: 10px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .feedback.correct {
+      color: #167a68;
+      font-weight: 700;
+    }
+
+    .feedback.incorrect {
+      color: #c94f4f;
+      font-weight: 700;
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .score-board {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 33, 47, 0.08);
+      font-weight: 700;
+    }
+
+    .answer-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(16, 167, 160, 0.08);
+      border: 1px solid rgba(16, 167, 160, 0.14);
+      color: #166d69;
+      font-size: 0.95rem;
+    }
+
+    .answer-box.show { display: block; }
+
+    .callout {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(45, 108, 223, 0.08);
+      border: 1px solid rgba(45, 108, 223, 0.12);
+      color: #244b92;
+    }
+
+    .note {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(16, 167, 160, 0.08);
+      border: 1px solid rgba(16, 167, 160, 0.12);
+      color: #166d69;
+    }
+
+    .footer-note {
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .hero-points,
+      .quick-links,
+      .card-grid,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .hero { padding-top: 32px; }
+      .hero-shell,
+      .section,
+      .summary,
+      .footer-note,
+      .panel.pad { padding: 24px; }
+      .section-head { display: block; }
+      .shortcut-table,
+      .shortcut-table tbody,
+      .shortcut-table tr,
+      .shortcut-table th,
+      .shortcut-table td {
+        display: block;
+        width: 100%;
+      }
+      .shortcut-table thead { display: none; }
+      .shortcut-table tr {
+        border-bottom: 1px solid rgba(23, 33, 47, 0.08);
+      }
+      .shortcut-table tr:last-child { border-bottom: none; }
+      .shortcut-table td {
+        padding: 10px 16px;
+        border-bottom: none;
+      }
+      .shortcut-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 4px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+      .fill-line {
+        display: flex;
+        width: 100%;
+        margin: 10px 0 0;
+      }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .grain,
+      .print-actions,
+      .quiz-actions { display: none !important; }
+      .hero-shell,
+      .section,
+      .summary,
+      .footer-note,
+      .panel {
+        box-shadow: none;
+        background: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="hero">
+    <div class="wrap">
+      <section class="hero-shell">
+        <span class="eyebrow">Student Handout · Adobe Photoshop</span>
+        <h1>환경설정과 <span class="nowrap">파일 관리</span>를 한 번에 보는 수업용 가이드</h1>
+        <p class="hero-copy">
+          수업 초반에 가장 많이 확인하는 환경설정 열기, 확대·축소, 화면 이동, 이미지 불러오기,
+          이미지 크기와 캔버스 조절, 저장 방식, 레이어 선택과 그룹 단축키를 빠르게 찾아볼 수 있도록 정리한 배포용 자료입니다.
+        </p>
+
+        <div class="print-actions">
+          <button class="action-button primary" type="button" onclick="window.print()">인쇄 또는 PDF 저장</button>
+          <a class="action-button secondary" href="#summary">핵심 요약 바로가기</a>
+        </div>
+
+        <div class="hero-grid">
+          <div class="panel pad">
+            <div class="hero-points">
+              <article class="mini-card">
+                <strong>환경설정 열기</strong>
+                <p><kbd>Ctrl</kbd> + <kbd>K</kbd> 로 바로 열어 수업 시작 전 기본 세팅을 맞춥니다.</p>
+              </article>
+              <article class="mini-card">
+                <strong>화면 조작</strong>
+                <p><kbd>Alt</kbd> + 마우스 휠로 확대·축소, <kbd>Space</kbd> + 드래그로 화면을 이동합니다.</p>
+              </article>
+              <article class="mini-card">
+                <strong>파일 관리</strong>
+                <p>불러오기, 이미지 크기 변경, 캔버스 조절, 저장과 내보내기 흐름을 구분해서 기억합니다.</p>
+              </article>
+              <article class="mini-card">
+                <strong>레이어 선택</strong>
+                <p><kbd>Shift</kbd> 는 연속 선택, <kbd>Ctrl</kbd> 은 개별 선택, <kbd>Ctrl</kbd> + <kbd>G</kbd> 는 그룹입니다.</p>
+              </article>
+            </div>
+          </div>
+
+          <aside class="quick-links">
+            <a class="link-card" href="#preferences">
+              <strong>환경설정</strong>
+              <span><kbd>Ctrl</kbd> + <kbd>K</kbd> 로 시작</span>
+            </a>
+            <a class="link-card" href="#view-control">
+              <strong>화면 조작</strong>
+              <span>확대·축소, 화면 이동, 실행 취소</span>
+            </a>
+            <a class="link-card" href="#file-management">
+              <strong>파일 관리</strong>
+              <span>불러오기, 크기 조절, 저장</span>
+            </a>
+            <a class="link-card" href="#layers">
+              <strong>레이어</strong>
+              <span>선택 범위, 그룹, 그룹 해제</span>
+            </a>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section" id="preferences">
+      <div class="section-head">
+        <div>
+          <span class="tag">Preferences</span>
+          <h2>환경설정 열기</h2>
+        </div>
+        <p>수업 중 환경설정 안내가 나오면 가장 먼저 이 단축키부터 실행합니다.</p>
+      </div>
+
+      <div class="card-grid">
+        <article class="card">
+          <h3>기본 단축키</h3>
+          <p><kbd>Ctrl</kbd> + <kbd>K</kbd></p>
+          <div class="callout">포토샵 환경설정 창을 여는 가장 빠른 방법입니다.</div>
+        </article>
+        <article class="card">
+          <h3>수업에서 기억할 포인트</h3>
+          <ul class="bullet-list">
+            <li>환경설정은 작업을 시작하기 전에 한 번 확인하면 이후 실습이 훨씬 안정적입니다.</li>
+            <li>강사가 설정 변경을 안내하면 메뉴를 찾지 말고 먼저 <kbd>Ctrl</kbd> + <kbd>K</kbd> 를 누릅니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="view-control">
+      <div class="section-head">
+        <div>
+          <span class="tag">View Control</span>
+          <h2>확대·축소와 화면 이동</h2>
+        </div>
+        <p>실습 중 가장 자주 반복하는 조작입니다. 손에 익을수록 작업 속도가 크게 빨라집니다.</p>
+      </div>
+
+      <table class="shortcut-table">
+        <thead>
+          <tr>
+            <th>기능</th>
+            <th>방법</th>
+            <th>설명</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="기능">확대·축소</td>
+            <td data-label="방법"><kbd>Alt</kbd> + 마우스 휠</td>
+            <td data-label="설명">화면을 빠르게 확대하거나 축소할 때 사용합니다.</td>
+          </tr>
+          <tr>
+            <td data-label="기능">화면 이동</td>
+            <td data-label="방법"><kbd>Space</kbd> + 마우스 왼쪽 클릭 드래그</td>
+            <td data-label="설명">캔버스 안을 이동하며 다른 위치를 확인할 때 사용합니다.</td>
+          </tr>
+          <tr>
+            <td data-label="기능">실행 취소</td>
+            <td data-label="방법"><kbd>Ctrl</kbd> + <kbd>Z</kbd></td>
+            <td data-label="설명">방금 한 작업을 뒤로 되돌립니다.</td>
+          </tr>
+          <tr>
+            <td data-label="기능">재실행</td>
+            <td data-label="방법"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td>
+            <td data-label="설명">실행 취소한 작업을 다시 앞으로 진행합니다.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">확대·축소와 화면 이동은 도구를 바꾸지 않고도 계속 쓰게 되는 기본 동작이라 초반에 반드시 익혀 두는 것이 좋습니다.</div>
+    </section>
+
+    <section class="section" id="file-management">
+      <div class="section-head">
+        <div>
+          <span class="tag">File Management</span>
+          <h2>파일 관리와 크기 조절</h2>
+        </div>
+        <p>이미지를 가져오는 방법부터 이미지 크기, 캔버스, 저장 방식까지 흐름으로 기억하면 실수가 줄어듭니다.</p>
+      </div>
+
+      <div class="card-grid">
+        <article class="card">
+          <h3>이미지 가져오기</h3>
+          <ol class="step-list">
+            <li><kbd>Ctrl</kbd> + <kbd>O</kbd> 로 파일 열기</li>
+            <li>파일을 포토샵 탭 쪽으로 드래그해서 열기</li>
+            <li>이미지를 캔버스로 직접 드래그해서 가져오기</li>
+          </ol>
+        </article>
+
+        <article class="card">
+          <h3>이미지 크기와 캔버스 크기</h3>
+          <ul class="bullet-list">
+            <li><strong>Image → Image Size</strong>: 이미지와 캔버스를 함께 조절합니다.</li>
+            <li><strong>Image → Canvas Size</strong>: 캔버스만 조절합니다.</li>
+            <li><strong>크롭 툴</strong>: 보이는 작업 영역을 잘라내며 정리할 때 사용합니다.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>저장 메뉴 구분</h3>
+          <ul class="bullet-list">
+            <li><strong>File → Save</strong>: 현재 작업 파일을 그대로 저장</li>
+            <li><strong>File → Save As</strong>: 다른 이름이나 형식으로 새로 저장</li>
+            <li><strong>File → Save a Copy</strong>: 복사본 저장</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>내보내기</h3>
+          <ul class="bullet-list">
+            <li><strong>File → Export → Save for Web</strong>: 웹 업로드용 결과물을 만들 때 자주 사용합니다.</li>
+            <li><strong>File → Save a Copy</strong>: 제출용 파일을 따로 분리할 때 유용합니다.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout">
+        이미지 전체 크기를 바꾸려는지, 작업판만 넓히거나 줄이려는지 먼저 판단한 뒤
+        <strong>Image Size</strong> 와 <strong>Canvas Size</strong> 를 구분해서 써야 합니다.
+      </div>
+    </section>
+
+    <section class="section" id="artboard">
+      <div class="section-head">
+        <div>
+          <span class="tag">Artboard</span>
+          <h2>아트보드 기억할 점</h2>
+        </div>
+        <p>메모가 많지 않은 파트라 수업용 핵심만 짧게 정리했습니다.</p>
+      </div>
+
+      <div class="card-grid">
+        <article class="card">
+          <h3>언제 쓰는가</h3>
+          <ul class="bullet-list">
+            <li>한 파일 안에서 여러 화면 시안이나 여러 버전을 함께 관리할 때 사용합니다.</li>
+            <li>SNS 카드뉴스, 배너 시안, 화면별 디자인 정리에 특히 편리합니다.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>수업 포인트</h3>
+          <ul class="bullet-list">
+            <li>아트보드는 여러 작업판을 나누는 개념이고, 레이어는 요소를 쌓아 관리하는 개념입니다.</li>
+            <li>아트보드와 레이어를 혼동하지 않도록 역할을 분리해서 기억합니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="layers">
+      <div class="section-head">
+        <div>
+          <span class="tag">Layers</span>
+          <h2>레이어 선택과 그룹</h2>
+        </div>
+        <p>레이어를 정확하게 선택하고 묶을 수 있어야 수정 속도와 정리 상태가 좋아집니다.</p>
+      </div>
+
+      <table class="shortcut-table">
+        <thead>
+          <tr>
+            <th>기능</th>
+            <th>단축키</th>
+            <th>기억할 점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="기능">연속 범위 선택</td>
+            <td data-label="단축키"><kbd>Shift</kbd></td>
+            <td data-label="기억할 점">이 레이어부터 저 레이어까지 이어서 선택할 때 사용합니다.</td>
+          </tr>
+          <tr>
+            <td data-label="기능">개별 선택 추가</td>
+            <td data-label="단축키"><kbd>Ctrl</kbd></td>
+            <td data-label="기억할 점">떨어져 있는 레이어를 하나씩 골라 선택할 때 사용합니다.</td>
+          </tr>
+          <tr>
+            <td data-label="기능">그룹</td>
+            <td data-label="단축키"><kbd>Ctrl</kbd> + <kbd>G</kbd></td>
+            <td data-label="기억할 점">선택한 레이어를 한 묶음으로 정리합니다.</td>
+          </tr>
+          <tr>
+            <td data-label="기능">그룹 해제</td>
+            <td data-label="단축키"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd></td>
+            <td data-label="기억할 점">묶어 둔 그룹을 다시 풀 때 사용합니다.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">레이어가 많아질수록 그룹 정리는 선택이 아니라 필수입니다. 수정 범위를 줄이고 파일을 읽기 쉽게 만드는 기본 습관으로 보시면 됩니다.</div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <div>
+          <span class="tag">Worksheet</span>
+          <h2>수강생 복습 문제</h2>
+        </div>
+        <p>수업 직후 바로 풀어보면서 단축키와 메뉴 흐름이 기억나는지 점검하는 파트입니다.</p>
+      </div>
+
+      <div class="card-grid">
+        <article class="card">
+          <h3>빈칸 채우기</h3>
+          <div class="worksheet-list">
+            <div class="worksheet-item" data-answer="ctrl+k,ctrl + k">
+              <p class="question-text">1. 포토샵 환경설정을 여는 단축키를 쓰세요.</p>
+              <div class="input-row"><span class="fill-line"><input class="quiz-input" type="text" placeholder="정답 입력"></span></div>
+              <div class="feedback" aria-live="polite"></div>
+            </div>
+            <div class="worksheet-item" data-answer="alt+마우스휠,alt + 마우스 휠,alt+휠,alt + 휠">
+              <p class="question-text">2. 화면 확대·축소 방법을 쓰세요.</p>
+              <div class="input-row"><span class="fill-line"><input class="quiz-input" type="text" placeholder="정답 입력"></span></div>
+              <div class="feedback" aria-live="polite"></div>
+            </div>
+            <div class="worksheet-item" data-answer="space+드래그,space + 드래그,스페이스바+드래그,스페이스바 + 드래그,space+마우스왼쪽드래그">
+              <p class="question-text">3. 화면 이동 방법을 쓰세요.</p>
+              <div class="input-row"><span class="fill-line"><input class="quiz-input" type="text" placeholder="정답 입력"></span></div>
+              <div class="feedback" aria-live="polite"></div>
+            </div>
+            <div class="worksheet-item" data-answer="image size">
+              <p class="question-text">4. 이미지와 캔버스를 함께 조절하는 메뉴명을 쓰세요.</p>
+              <div class="input-row"><span class="fill-line"><input class="quiz-input" type="text" placeholder="예: Image Size"></span></div>
+              <div class="feedback" aria-live="polite"></div>
+            </div>
+            <div class="worksheet-item" data-answer="canvas size">
+              <p class="question-text">5. 캔버스만 조절하는 메뉴명을 쓰세요.</p>
+              <div class="input-row"><span class="fill-line"><input class="quiz-input" type="text" placeholder="예: Canvas Size"></span></div>
+              <div class="feedback" aria-live="polite"></div>
+            </div>
+            <div class="worksheet-item" data-answer="ctrl+g,ctrl + g">
+              <p class="question-text">6. 선택한 레이어를 그룹으로 묶는 단축키를 쓰세요.</p>
+              <div class="input-row"><span class="fill-line"><input class="quiz-input" type="text" placeholder="정답 입력"></span></div>
+              <div class="feedback" aria-live="polite"></div>
+            </div>
+          </div>
+          <div class="quiz-actions">
+            <button class="action-button primary" type="button" id="checkAnswers">정답 확인</button>
+            <button class="action-button secondary" type="button" id="showAnswers">정답 보기</button>
+            <button class="action-button secondary" type="button" id="resetAnswers">초기화</button>
+          </div>
+          <div class="score-board" id="scoreBoard">점수: 아직 채점 전</div>
+        </article>
+
+        <article class="card">
+          <h3>서술형 확인</h3>
+          <div class="worksheet-list">
+            <div class="worksheet-item">
+              <p>1. <strong>Save</strong>, <strong>Save As</strong>, <strong>Save a Copy</strong> 의 차이를 간단히 적어보세요.</p>
+              <textarea class="quiz-textarea" placeholder="여기에 직접 작성하세요."></textarea>
+              <div class="answer-box">예시 답안: Save는 현재 파일에 그대로 저장, Save As는 다른 이름이나 형식으로 새 저장, Save a Copy는 원본과 별도로 복사본 저장이다.</div>
+            </div>
+            <div class="worksheet-item">
+              <p>2. 아트보드와 레이어의 차이를 한 줄로 정리해보세요.</p>
+              <textarea class="quiz-textarea" placeholder="여기에 직접 작성하세요."></textarea>
+              <div class="answer-box">예시 답안: 아트보드는 여러 작업판을 나누는 개념이고, 레이어는 한 작업판 안에서 요소를 층층이 관리하는 개념이다.</div>
+            </div>
+            <div class="worksheet-item">
+              <p>3. <strong>Shift</strong> 선택과 <strong>Ctrl</strong> 선택이 각각 어떤 상황에서 쓰이는지 적어보세요.</p>
+              <textarea class="quiz-textarea" placeholder="여기에 직접 작성하세요."></textarea>
+              <div class="answer-box">예시 답안: Shift는 연속된 레이어 범위를 한 번에 선택할 때, Ctrl은 떨어져 있는 레이어를 개별로 추가 선택할 때 사용한다.</div>
+            </div>
+          </div>
+          <div class="quiz-actions">
+            <button class="action-button secondary" type="button" id="toggleEssayAnswers">서술형 정답 보기</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="summary" id="summary">
+      <div class="section-head">
+        <div>
+          <span class="tag">Quick Summary</span>
+          <h2>수업 전 30초 체크</h2>
+        </div>
+        <p>실습 시작 전에 아래 다섯 가지만 떠올려도 초반 실수를 크게 줄일 수 있습니다.</p>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card">
+          <h3>1. 환경설정</h3>
+          <p><kbd>Ctrl</kbd> + <kbd>K</kbd></p>
+        </article>
+        <article class="summary-card">
+          <h3>2. 확대·축소</h3>
+          <p><kbd>Alt</kbd> + 마우스 휠</p>
+        </article>
+        <article class="summary-card">
+          <h3>3. 화면 이동</h3>
+          <p><kbd>Space</kbd> + 드래그</p>
+        </article>
+        <article class="summary-card">
+          <h3>4. 크기 조절</h3>
+          <p><strong>Image Size</strong> 와 <strong>Canvas Size</strong> 를 구분하기</p>
+        </article>
+        <article class="summary-card">
+          <h3>5. 레이어 정리</h3>
+          <p><kbd>Ctrl</kbd> + <kbd>G</kbd> / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd></p>
+        </article>
+        <article class="summary-card">
+          <h3>6. 저장 방식</h3>
+          <p><strong>Save</strong>, <strong>Save As</strong>, <strong>Save a Copy</strong>, <strong>Save for Web</strong> 의 차이 기억하기</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-note">
+      <strong>배포용 메모</strong>
+      <p>
+        이 문서는 포토샵 수업 초반 반복 내용을 빠르게 확인하는 용도로 구성했습니다.
+        실습 중에는 화면 조작, 이미지 크기, 저장 파트만 다시 확인해도 대부분의 기본 질문을 해결할 수 있습니다.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const worksheetItems = Array.from(document.querySelectorAll('.worksheet-item[data-answer]'));
+    const checkAnswersButton = document.getElementById('checkAnswers');
+    const showAnswersButton = document.getElementById('showAnswers');
+    const resetAnswersButton = document.getElementById('resetAnswers');
+    const toggleEssayAnswersButton = document.getElementById('toggleEssayAnswers');
+    const scoreBoard = document.getElementById('scoreBoard');
+    const essayAnswerBoxes = Array.from(document.querySelectorAll('.answer-box'));
+
+    function normalizeText(value) {
+      return value.toLowerCase().replace(/\s+/g, ' ').trim();
+    }
+
+    function setShowAnswerState(isOpen) {
+      showAnswersButton.dataset.open = String(isOpen);
+      showAnswersButton.textContent = isOpen ? '정답 숨기기' : '정답 보기';
+    }
+
+    function checkAnswers() {
+      let correctCount = 0;
+
+      worksheetItems.forEach((item) => {
+        const input = item.querySelector('.quiz-input');
+        const feedback = item.querySelector('.feedback');
+        const acceptedAnswers = item.dataset.answer.split(',').map((answer) => normalizeText(answer));
+        const userAnswer = normalizeText(input.value);
+
+        input.classList.remove('correct', 'incorrect');
+        feedback.classList.remove('correct', 'incorrect');
+
+        if (!userAnswer) {
+          feedback.textContent = '입력값을 확인해보세요.';
+          return;
+        }
+
+        if (acceptedAnswers.includes(userAnswer)) {
+          input.classList.add('correct');
+          feedback.classList.add('correct');
+          feedback.textContent = '정답입니다.';
+          correctCount += 1;
+        } else {
+          input.classList.add('incorrect');
+          feedback.classList.add('incorrect');
+          feedback.textContent = '오답입니다. 다시 확인해보세요.';
+        }
+      });
+
+      scoreBoard.textContent = `점수: ${correctCount} / ${worksheetItems.length}`;
+    }
+
+    function resetAnswers() {
+      worksheetItems.forEach((item) => {
+        const input = item.querySelector('.quiz-input');
+        const feedback = item.querySelector('.feedback');
+        input.value = '';
+        input.classList.remove('correct', 'incorrect');
+        feedback.textContent = '';
+        feedback.classList.remove('correct', 'incorrect');
+      });
+
+      document.querySelectorAll('.quiz-textarea').forEach((textarea) => {
+        textarea.value = '';
+      });
+
+      essayAnswerBoxes.forEach((box) => box.classList.remove('show'));
+      toggleEssayAnswersButton.dataset.open = 'false';
+      toggleEssayAnswersButton.textContent = '서술형 정답 보기';
+      setShowAnswerState(false);
+      scoreBoard.textContent = '점수: 아직 채점 전';
+    }
+
+    function toggleObjectiveAnswers() {
+      const isShowing = showAnswersButton.dataset.open === 'true';
+
+      worksheetItems.forEach((item) => {
+        const input = item.querySelector('.quiz-input');
+        const feedback = item.querySelector('.feedback');
+        const firstAnswer = item.dataset.answer.split(',')[0];
+
+        if (!isShowing) {
+          input.value = firstAnswer;
+          input.classList.remove('incorrect');
+          input.classList.add('correct');
+          feedback.textContent = '정답 예시를 표시했습니다.';
+          feedback.classList.remove('incorrect');
+          feedback.classList.add('correct');
+        } else {
+          input.value = '';
+          input.classList.remove('correct', 'incorrect');
+          feedback.textContent = '';
+          feedback.classList.remove('correct', 'incorrect');
+        }
+      });
+
+      setShowAnswerState(!isShowing);
+      scoreBoard.textContent = isShowing ? '점수: 아직 채점 전' : '점수: 정답 예시 표시 중';
+    }
+
+    function toggleEssayAnswers() {
+      const isShowing = toggleEssayAnswersButton.dataset.open === 'true';
+      essayAnswerBoxes.forEach((box) => box.classList.toggle('show', !isShowing));
+      toggleEssayAnswersButton.dataset.open = String(!isShowing);
+      toggleEssayAnswersButton.textContent = !isShowing ? '서술형 정답 숨기기' : '서술형 정답 보기';
+    }
+
+    checkAnswersButton.addEventListener('click', checkAnswers);
+    showAnswersButton.addEventListener('click', toggleObjectiveAnswers);
+    resetAnswersButton.addEventListener('click', resetAnswers);
+    toggleEssayAnswersButton.addEventListener('click', toggleEssayAnswers);
+    setShowAnswerState(false);
+  </script>
+</body>
+</html>
