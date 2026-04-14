@@ -301,6 +301,100 @@
       text-transform: uppercase;
     }
 
+    .quiz-item {
+      padding: 20px;
+      border: 1px solid rgba(28, 36, 48, 0.08);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .quiz-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 28px rgba(28, 36, 48, 0.08);
+    }
+
+    .fill-line {
+      display: inline-flex;
+      vertical-align: middle;
+      width: clamp(140px, 24vw, 220px);
+      margin: 0 6px;
+    }
+
+    .quiz-input {
+      width: 100%;
+      outline: none;
+      color: var(--text);
+      border: none;
+      border-bottom: 2px solid rgba(28, 36, 48, 0.22);
+      background: transparent;
+      padding: 2px 4px 6px;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .quiz-input:focus {
+      border-color: var(--accent);
+      background: rgba(239, 108, 63, 0.05);
+    }
+
+    .quiz-input.correct {
+      border-color: #167a68;
+      background: rgba(22, 122, 104, 0.08);
+    }
+
+    .quiz-input.incorrect {
+      border-color: #c94f4f;
+      background: rgba(201, 79, 79, 0.08);
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin-top: 10px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .feedback.correct {
+      color: #167a68;
+      font-weight: 700;
+    }
+
+    .feedback.incorrect {
+      color: #c94f4f;
+      font-weight: 700;
+    }
+
+    .answer-box {
+      display: none;
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(31, 143, 130, 0.16);
+      background: rgba(31, 143, 130, 0.08);
+      color: #176354;
+      font-size: 0.95rem;
+    }
+
+    .answer-box.show {
+      display: block;
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .score-board {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(28, 36, 48, 0.08);
+      font-weight: 800;
+    }
+
     .lead {
       margin: 12px 0 0;
       color: var(--muted);
@@ -507,6 +601,12 @@
         align-items: stretch;
       }
 
+      .fill-line {
+        display: flex;
+        width: 100%;
+        margin: 10px 0 0;
+      }
+
       .arrow {
         width: 100%;
       }
@@ -518,7 +618,8 @@
       }
 
       .grain,
-      .print-actions {
+      .print-actions,
+      .quiz-actions {
         display: none !important;
       }
 
@@ -570,6 +671,7 @@
         <div class="print-actions">
           <button class="action-button primary" type="button" onclick="window.print()">인쇄 또는 PDF 저장</button>
           <a class="action-button secondary" href="#save-export">저장 / Export 바로가기</a>
+          <a class="action-button ghost" href="#review">복습 문제 풀기</a>
         </div>
 
         <div class="hero-grid">
@@ -914,56 +1016,83 @@
       </div>
 
       <div class="card-grid">
-        <article class="card">
+        <article class="quiz-item" data-answer="ctrl+k,ctrl + k">
           <h3>문제 1</h3>
-          <p class="lead">환경설정 창을 여는 단축키는 무엇인가요?</p>
+          <p class="lead">환경설정 창을 여는 단축키는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="단축키 입력"></span>이다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Ctrl + K</div>
         </article>
 
-        <article class="card cool">
+        <article class="quiz-item" data-answer="alt+마우스휠,alt + 마우스 휠,alt+휠,alt + 휠">
           <h3>문제 2</h3>
-          <p class="lead">화면을 확대하거나 축소할 때 사용하는 조작은 무엇인가요?</p>
+          <p class="lead">화면을 확대하거나 축소할 때는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="조작 입력"></span>를 사용한다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Alt + 마우스 휠</div>
         </article>
 
-        <article class="card soft">
+        <article class="quiz-item" data-answer="save">
           <h3>문제 3</h3>
-          <p class="lead">캔버스를 손처럼 끌어서 이동하는 방법을 두 가지 적어보세요.</p>
+          <p class="lead">현재 작업 파일을 같은 이름으로 저장하는 메뉴는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="메뉴명 입력"></span>이다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Save</div>
         </article>
 
-        <article class="card">
+        <article class="quiz-item" data-answer="preserve illustrator editing capabilities,preserveillustratoreditingcapabilities">
           <h3>문제 4</h3>
-          <p class="lead"><code>Save</code>, <code>Save As</code>, <code>Save a Copy</code>의 차이를 설명해 보세요.</p>
+          <p class="lead">Illustrator에서 PDF를 다시 편집 가능하게 저장하려면 <span class="fill-line"><input class="quiz-input" type="text" placeholder="옵션명 입력"></span>를 체크한다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Preserve Illustrator Editing Capabilities</div>
         </article>
 
-        <article class="card cool">
+        <article class="quiz-item" data-answer="use artboards,useartboards">
           <h3>문제 5</h3>
-          <p class="lead">Illustrator에서 PDF를 다시 편집 가능하게 저장하려면 어떤 옵션을 체크해야 하나요?</p>
+          <p class="lead"><code>Export As</code>에서 아트보드 기준으로 내보내려면 <span class="fill-line"><input class="quiz-input" type="text" placeholder="체크 항목 입력"></span>를 체크한다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Use Artboards</div>
         </article>
 
-        <article class="card soft">
+        <article class="quiz-item" data-answer="1번과3번만,1번과 3번만,1번 3번만">
           <h3>문제 6</h3>
-          <p class="lead"><code>File → Export → Export As</code>에서 <code>Use Artboards</code>는 왜 체크하나요?</p>
+          <p class="lead"><code>Range</code>에 <code>1,3</code>을 입력하면 <span class="fill-line"><input class="quiz-input" type="text" placeholder="의미 입력"></span> 내보내기가 된다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: 1번과 3번만 내보내기</div>
         </article>
 
-        <article class="card">
+        <article class="quiz-item" data-answer="1번부터3번까지전체,1번부터 3번까지 전체,1~3번전체,1부터3까지전체">
           <h3>문제 7</h3>
-          <p class="lead"><code>Range</code>에 <code>1,3</code>을 입력한 경우와 <code>1-3</code>을 입력한 경우의 차이는 무엇인가요?</p>
+          <p class="lead"><code>Range</code>에 <code>1-3</code>을 입력하면 <span class="fill-line"><input class="quiz-input" type="text" placeholder="의미 입력"></span> 내보내기가 된다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: 1번부터 3번까지 전체 내보내기</div>
         </article>
 
-        <article class="card cool">
+        <article class="quiz-item" data-answer="shift">
           <h3>문제 8</h3>
-          <p class="lead"><code>Shift</code> 키를 사용할 수 있는 대표적인 세 가지 상황을 적어보세요.</p>
+          <p class="lead">정비율 유지, 다중선택, 선택 해제에 공통으로 자주 쓰는 키는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="키 입력"></span>이다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Shift</div>
         </article>
 
-        <article class="card soft">
+        <article class="quiz-item" data-answer="ctrl+f,ctrl + f">
           <h3>문제 9</h3>
-          <p class="lead">같은 위치의 앞쪽으로 제자리 복제하는 단축키와 뒤쪽으로 제자리 복제하는 단축키는 무엇인가요?</p>
+          <p class="lead">같은 위치의 앞쪽으로 제자리 복제하는 단축키는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="단축키 입력"></span>이다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Ctrl + F</div>
         </article>
 
-        <article class="card">
+        <article class="quiz-item" data-answer="ctrl+b,ctrl + b">
           <h3>문제 10</h3>
-          <p class="lead"><code>Alt + 드래그</code>는 어떤 상황에서 유용한가요?</p>
+          <p class="lead">같은 위치의 뒤쪽으로 제자리 복제하는 단축키는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="단축키 입력"></span>이다.</p>
+          <div class="feedback"></div>
+          <div class="answer-box">정답: Ctrl + B</div>
         </article>
       </div>
+
+      <div class="quiz-actions">
+        <button class="action-button primary" type="button" id="checkAnswers">정답 확인</button>
+        <button class="action-button ghost" type="button" id="showAnswers">정답 보기</button>
+      </div>
+      <div class="score-board" id="scoreBoard">점수: 아직 채점 전</div>
+      <div class="hint">주관식 서술형 대신 빠른 확인용 빈칸 문제로 구성했습니다. 필요하면 다음 단계에서 서술형 복습 문제도 추가할 수 있습니다.</div>
     </section>
 
     <section class="summary">
@@ -1008,5 +1137,91 @@
       <span>수강생에게는 실습 시작 전 1회 읽기, 실습 중에는 저장 / 선택 / 복제 파트 재확인을 권장합니다.</span>
     </div>
   </main>
+  <script>
+    const quizItems = Array.from(document.querySelectorAll('.quiz-item[data-answer]'));
+    const checkAnswersButton = document.getElementById('checkAnswers');
+    const showAnswersButton = document.getElementById('showAnswers');
+    const scoreBoard = document.getElementById('scoreBoard');
+
+    const normalize = (value) => value.toLowerCase().replace(/\s+/g, '');
+
+    function resetItem(item) {
+      const input = item.querySelector('.quiz-input');
+      const feedback = item.querySelector('.feedback');
+      input.classList.remove('correct', 'incorrect');
+      feedback.textContent = '';
+      feedback.className = 'feedback';
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      quizItems.forEach((item) => {
+        const input = item.querySelector('.quiz-input');
+        const feedback = item.querySelector('.feedback');
+        const answers = item.dataset.answer.split(',').map((answer) => normalize(answer));
+        const userAnswer = normalize(input.value.trim());
+
+        input.classList.remove('correct', 'incorrect');
+        feedback.className = 'feedback';
+
+        if (!userAnswer) {
+          feedback.textContent = '답을 입력해 보세요.';
+          return;
+        }
+
+        if (answers.includes(userAnswer)) {
+          input.classList.add('correct');
+          feedback.classList.add('correct');
+          feedback.textContent = '정답입니다.';
+          score += 1;
+        } else {
+          input.classList.add('incorrect');
+          feedback.classList.add('incorrect');
+          feedback.textContent = '다시 확인해 보세요.';
+        }
+      });
+
+      scoreBoard.textContent = `점수: ${score} / ${quizItems.length}`;
+    }
+
+    function toggleAnswers() {
+      const isShowing = showAnswersButton.dataset.open === 'true';
+
+      if (!isShowing) {
+        quizItems.forEach((item) => {
+          item.querySelector('.answer-box').classList.add('show');
+          const feedback = item.querySelector('.feedback');
+          if (!feedback.textContent) {
+            feedback.textContent = '정답 예시를 표시했습니다.';
+          }
+        });
+        showAnswersButton.dataset.open = 'true';
+        showAnswersButton.textContent = '정답 숨기기';
+        scoreBoard.textContent = '점수: 정답 예시 표시 중';
+        return;
+      }
+
+      quizItems.forEach((item) => {
+        item.querySelector('.answer-box').classList.remove('show');
+        resetItem(item);
+      });
+      showAnswersButton.dataset.open = 'false';
+      showAnswersButton.textContent = '정답 보기';
+      scoreBoard.textContent = '점수: 아직 채점 전';
+    }
+
+    quizItems.forEach((item) => {
+      const input = item.querySelector('.quiz-input');
+      input.addEventListener('input', () => {
+        resetItem(item);
+        if (showAnswersButton.dataset.open === 'true') {
+          item.querySelector('.answer-box').classList.add('show');
+        }
+      });
+    });
+
+    checkAnswersButton.addEventListener('click', checkAnswers);
+    showAnswersButton.addEventListener('click', toggleAnswers);
+  </script>
 </body>
 </html>
