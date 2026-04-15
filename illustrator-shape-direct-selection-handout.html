@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 도형 그리기 & 직접선택도구 학습지</title>
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --bg-deep: #efe3d3;
+      --paper: rgba(255, 252, 247, 0.9);
+      --text: #1f2430;
+      --muted: #5c6472;
+      --line: rgba(31, 36, 48, 0.1);
+      --accent: #e86b44;
+      --accent-2: #1f8c80;
+      --accent-3: #efb24b;
+      --shadow: 0 24px 56px rgba(58, 44, 30, 0.12);
+      --radius-xl: 30px;
+      --max-width: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(232, 107, 68, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(31, 140, 128, 0.16), transparent 24%),
+        linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 48%, #fbf7f1 100%);
+    }
+
+    p, li, span, label, td, th {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    .nowrap { white-space: nowrap; }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.022) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 54px 0 28px;
+    }
+
+    .hero-shell, .section, .footer-note {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 247, 239, 0.8)), var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-shell { padding: 42px; }
+
+    .hero-shell::before, .hero-shell::after, .section::before {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .hero-shell::before {
+      width: 250px;
+      height: 250px;
+      top: -84px;
+      right: -68px;
+      background: rgba(232, 107, 68, 0.12);
+    }
+
+    .hero-shell::after {
+      width: 210px;
+      height: 210px;
+      left: -44px;
+      bottom: -68px;
+      background: rgba(31, 140, 128, 0.12);
+    }
+
+    .section::before {
+      width: 180px;
+      height: 180px;
+      right: -80px;
+      bottom: -80px;
+      background: rgba(239, 178, 75, 0.12);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(31, 36, 48, 0.06);
+      color: var(--muted);
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 18px 0 0 var(--accent-2);
+      margin-right: 18px;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    h1 {
+      margin-top: 18px;
+      max-width: 10em;
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+    }
+
+    h2 { font-size: clamp(1.7rem, 2.4vw, 2.35rem); }
+    h3 { font-size: 1.18rem; }
+
+    .hero-copy {
+      max-width: 760px;
+      margin: 16px 0 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    .hero-grid, .shortcut-grid, .concept-grid, .usage-grid, .worksheet-grid, .checklist-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      margin-top: 30px;
+      align-items: stretch;
+    }
+
+    .shortcut-grid, .concept-grid, .usage-grid, .checklist-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .worksheet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .panel, .shortcut-card, .concept-card, .usage-card, .worksheet-card, .check-card, .mini-card {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .panel.pad, .shortcut-card, .concept-card, .usage-card, .worksheet-card, .check-card {
+      padding: 26px;
+    }
+
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .mini-card strong, .shortcut-card strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .hero-action-row, .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .action-button {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(31, 36, 48, 0.12);
+    }
+
+    .action-button.primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #f08f55);
+    }
+
+    .action-button.secondary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-2), #32a091);
+    }
+
+    .action-button.ghost {
+      color: var(--text);
+      background: rgba(31, 36, 48, 0.08);
+    }
+
+    .hero-diagram {
+      display: grid;
+      place-items: center;
+      min-height: 100%;
+      padding: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.88));
+    }
+
+    .hero-diagram svg {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 560px;
+      color: var(--muted);
+    }
+
+    .shortcut-card {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .shortcut-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(232, 107, 68, 0.12), rgba(232, 107, 68, 0.22));
+      color: #9a3d1f;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .shortcut-card ul, .concept-card ul, .usage-card ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .shortcut-card p, .concept-card p, .usage-card p, .check-card p, .worksheet-card p {
+      margin: 0;
+    }
+
+    .concept-card.warm, .worksheet-card.warm {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 247, 239, 0.86));
+    }
+
+    .concept-card.cool, .worksheet-card.cool {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(241, 249, 247, 0.88));
+    }
+
+    .concept-visual {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px dashed rgba(31, 36, 48, 0.14);
+      background: rgba(255, 255, 255, 0.64);
+    }
+
+    .concept-visual svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 36, 48, 0.06);
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(31, 140, 128, 0.08);
+      border: 1px solid rgba(31, 140, 128, 0.14);
+      color: #1f6157;
+      font-weight: 600;
+    }
+
+    .worksheet-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(31, 36, 48, 0.08);
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .worksheet-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .worksheet-item {
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(31, 36, 48, 0.08);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .worksheet-item p { margin: 0; }
+
+    .fill-line {
+      display: inline-block;
+      min-width: 160px;
+      vertical-align: middle;
+    }
+
+    .quiz-input, .quiz-textarea {
+      width: 100%;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .quiz-input {
+      border: none;
+      border-bottom: 2px solid rgba(31, 36, 48, 0.22);
+      background: transparent;
+      padding: 2px 4px 7px;
+    }
+
+    .quiz-textarea {
+      min-height: 120px;
+      padding: 14px 16px;
+      resize: vertical;
+      border: 1px solid rgba(31, 36, 48, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.84);
+      margin-top: 12px;
+    }
+
+    .quiz-input:focus, .quiz-textarea:focus {
+      border-color: var(--accent);
+      background: rgba(232, 107, 68, 0.05);
+    }
+
+    .quiz-input.correct {
+      border-color: #167a68;
+      background: rgba(22, 122, 104, 0.08);
+    }
+
+    .quiz-input.incorrect {
+      border-color: #c94f4f;
+      background: rgba(201, 79, 79, 0.08);
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      min-height: 1.3em;
+    }
+
+    .answer-box {
+      display: none;
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(31, 140, 128, 0.08);
+      border: 1px solid rgba(31, 140, 128, 0.14);
+      color: #1f6157;
+      font-size: 0.95rem;
+    }
+
+    .answer-box.show { display: block; }
+
+    .score-board {
+      margin-top: 14px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .checklist-grid { margin-top: 6px; }
+
+    .check-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 249, 242, 0.86));
+    }
+
+    .check-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      align-items: flex-start;
+    }
+
+    .check-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      margin-top: 4px;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+    }
+
+    .footer-note {
+      margin: 24px 0 56px;
+      padding: 24px 28px;
+    }
+
+    .footer-note p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .shortcut-grid, .concept-grid, .usage-grid, .worksheet-grid, .checklist-grid, .hero-points {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .wrap { width: min(calc(100% - 20px), var(--max-width)); }
+      .hero-shell, .section, .footer-note { border-radius: 26px; }
+      .hero-shell, .section { padding: 22px; }
+      h1 { max-width: none; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .shortcut-card { flex-direction: column; }
+      .shortcut-key { min-width: 0; width: fit-content; }
+      .hero-action-row, .action-row { flex-direction: column; }
+      .action-button { width: 100%; }
+      .fill-line { display: block; width: 100%; margin-top: 8px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .grain, .hero-action-row, .action-row { display: none !important; }
+      .hero-shell, .section, .footer-note, .panel, .shortcut-card, .concept-card, .usage-card, .worksheet-card, .check-card {
+        box-shadow: none;
+        background: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <header class="hero">
+    <div class="wrap">
+      <section class="hero-shell">
+        <span class="eyebrow">Illustrator Class Handout</span>
+        <h1>도형 그리기와 <span class="nowrap">직접선택도구</span>, 오늘 수업 핵심만 정리</h1>
+        <p class="hero-copy">
+          오늘 배운 내용은 도형을 그리고, 필요한 포인트만 골라 형태를 조정하는 흐름입니다.
+          단축키를 익히고, 패스와 앵커 포인트의 개념을 이해하면 더 빠르고 정확하게 편집할 수 있습니다.
+        </p>
+        <div class="worksheet-banner">복습 목적: 보고 끝내는 자료가 아니라, 직접 써보며 기억하는 학습지</div>
+
+        <div class="hero-grid">
+          <div class="panel pad">
+            <div class="hero-points">
+              <article class="mini-card">
+                <strong>오늘의 핵심 1</strong>
+                <p>도형을 그린 뒤 <span class="nowrap">직접선택도구</span>로 특정 포인트만 골라 다듬는 흐름이 중요합니다.</p>
+              </article>
+              <article class="mini-card">
+                <strong>오늘의 핵심 2</strong>
+                <p><code>Shift</code>, <code>Ctrl</code>, 그룹과 잠금 단축키를 알면 작업 속도가 크게 빨라집니다.</p>
+              </article>
+              <article class="mini-card">
+                <strong>오늘의 핵심 3</strong>
+                <p><span class="nowrap">열린 패스</span>와 <span class="nowrap">닫힌 패스</span>를 구분해야 어떤 모양이 만들어지는지 예측할 수 있습니다.</p>
+              </article>
+              <article class="mini-card">
+                <strong>오늘의 핵심 4</strong>
+                <p><span class="nowrap">격리모드</span>는 그룹을 풀지 않고도 원하는 개체만 수정할 수 있게 도와주는 안전한 편집 모드입니다.</p>
+              </article>
+            </div>
+
+            <div class="hero-action-row">
+              <a class="action-button primary" href="#shortcuts">단축키 보기</a>
+              <a class="action-button secondary" href="#worksheet">워크시트 풀기</a>
+              <a class="action-button ghost" href="#checklist">수업 체크리스트</a>
+            </div>
+          </div>
+
+          <aside class="panel hero-diagram" aria-label="도형과 직접선택도구 설명 이미지">
+            <svg viewBox="0 0 420 320" role="img">
+              <defs>
+                <linearGradient id="shapeFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffd9c7"/>
+                  <stop offset="100%" stop-color="#fff2e7"/>
+                </linearGradient>
+              </defs>
+              <rect x="52" y="60" width="140" height="140" rx="32" fill="url(#shapeFill)" stroke="#e86b44" stroke-width="4"/>
+              <path d="M250 78 C308 40, 374 88, 350 156 C338 192, 300 226, 240 210 C190 196, 180 126, 250 78 Z" fill="#e5f7f3" stroke="#1f8c80" stroke-width="4"/>
+              <circle cx="52" cy="130" r="7" fill="#1f2430"/>
+              <circle cx="192" cy="130" r="7" fill="#1f2430"/>
+              <circle cx="122" cy="60" r="7" fill="#1f2430"/>
+              <circle cx="122" cy="200" r="7" fill="#1f2430"/>
+              <circle cx="250" cy="78" r="7" fill="#e86b44"/>
+              <circle cx="350" cy="156" r="7" fill="#1f8c80"/>
+              <circle cx="240" cy="210" r="7" fill="#1f8c80"/>
+              <line x1="250" y1="78" x2="220" y2="42" stroke="#e86b44" stroke-width="3"/>
+              <line x1="250" y1="78" x2="290" y2="54" stroke="#e86b44" stroke-width="3"/>
+              <circle cx="220" cy="42" r="5" fill="#fff" stroke="#e86b44" stroke-width="3"/>
+              <circle cx="290" cy="54" r="5" fill="#fff" stroke="#e86b44" stroke-width="3"/>
+              <rect x="40" y="236" width="340" height="46" rx="18" fill="#ffffff" stroke="rgba(31,36,48,0.12)"/>
+              <text x="60" y="265" fill="#1f2430" font-size="18" font-family="Segoe UI, Apple SD Gothic Neo, Noto Sans KR, sans-serif">도형을 그린 뒤 포인트만 골라 형태를 조정</text>
+            </svg>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section" id="shortcuts">
+      <div class="section-head">
+        <div><h2>자주 쓰는 단축키</h2></div>
+        <p>오늘 수업에서 바로 자주 쓰게 되는 단축키들입니다. 외우려 하기보다 반복하면서 손에 익히는 것이 더 중요합니다.</p>
+      </div>
+
+      <div class="shortcut-grid">
+        <article class="shortcut-card"><div class="shortcut-key">Ctrl + Z</div><div><strong>실행 취소</strong><p>방금 한 작업을 뒤로 되돌립니다.</p></div></article>
+        <article class="shortcut-card"><div class="shortcut-key">Ctrl + Shift + Z</div><div><strong>재실행</strong><p>되돌린 작업을 다시 앞으로 가져옵니다.</p></div></article>
+        <article class="shortcut-card"><div class="shortcut-key">Shift</div><div><strong>보조 키</strong><ul><li>정비율 유지</li><li>다중 선택</li><li>선택 해제 보조</li></ul></div></article>
+        <article class="shortcut-card"><div class="shortcut-key">Ctrl + D</div><div><strong>이전 작업 반복</strong><p>방금 했던 변형이나 복제 작업을 한 번 더 반복합니다.</p></div></article>
+        <article class="shortcut-card"><div class="shortcut-key">Ctrl + G</div><div><strong>그룹</strong><p>여러 개체를 한 덩어리처럼 묶어 함께 이동하거나 정리할 수 있습니다.</p></div></article>
+        <article class="shortcut-card"><div class="shortcut-key">Ctrl + Shift + G</div><div><strong>그룹 해제</strong><p>묶여 있던 그룹을 다시 풀어 각각의 개체로 만듭니다.</p></div></article>
+        <article class="shortcut-card"><div class="shortcut-key">Ctrl + 2</div><div><strong>잠금</strong><p>선택한 개체를 움직이지 않게 잠가 둡니다.</p></div></article>
+        <article class="shortcut-card"><div class="shortcut-key">Ctrl + Alt + 2</div><div><strong>전체 잠금 해제</strong><p>잠겨 있던 모든 개체를 한 번에 다시 편집 가능하게 만듭니다.</p></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="concepts">
+      <div class="section-head">
+        <div><h2>패스와 <span class="nowrap">직접선택도구</span> 이해하기</h2></div>
+        <p>도형 편집은 결국 패스를 이해하는 일입니다. 어떤 점을 선택하고, 어떻게 움직일지 생각하면서 편집해야 형태가 깔끔해집니다.</p>
+      </div>
+
+      <div class="concept-grid">
+        <article class="concept-card warm">
+          <h3>패스 Path</h3>
+          <p>패스는 벡터로 이루어진 선입니다. 앵커 포인트와 선분으로 연결되어 있어, 확대해도 깨지지 않고 다시 수정할 수 있습니다.</p>
+          <div class="pill-list"><span class="pill">벡터 선</span><span class="pill">앵커 포인트</span><span class="pill">재편집 가능</span></div>
+          <div class="concept-visual">
+            <svg viewBox="0 0 420 160" role="img">
+              <path d="M46 112 L136 48 L224 110 L316 62" fill="none" stroke="#e86b44" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="46" cy="112" r="8" fill="#1f2430"/>
+              <circle cx="136" cy="48" r="8" fill="#1f2430"/>
+              <circle cx="224" cy="110" r="8" fill="#1f2430"/>
+              <circle cx="316" cy="62" r="8" fill="#1f2430"/>
+              <text x="32" y="144" fill="#5c6472" font-size="17">앵커 포인트와 선분이 이어진 벡터 선</text>
+            </svg>
+          </div>
+        </article>
+
+        <article class="concept-card cool">
+          <h3><span class="nowrap">열린 패스</span> / <span class="nowrap">닫힌 패스</span></h3>
+          <p>시작점과 종료점이 다르면 <span class="nowrap">열린 패스</span>, 같으면 <span class="nowrap">닫힌 패스</span>입니다. 면이 생기려면 보통 <span class="nowrap">닫힌 패스</span>가 필요합니다.</p>
+          <div class="pill-list"><span class="pill"><span class="nowrap">열린 패스</span>: 시작점 ≠ 종료점</span><span class="pill"><span class="nowrap">닫힌 패스</span>: 시작점 = 종료점</span></div>
+          <div class="concept-visual">
+            <svg viewBox="0 0 420 180" role="img">
+              <path d="M38 118 L102 60 L164 112" fill="none" stroke="#e86b44" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="38" cy="118" r="8" fill="#e86b44"/>
+              <circle cx="164" cy="112" r="8" fill="#1f8c80"/>
+              <polygon points="248,118 300,58 362,112 314,146" fill="#e5f7f3" stroke="#1f8c80" stroke-width="5" stroke-linejoin="round"/>
+              <circle cx="248" cy="118" r="8" fill="#1f2430"/>
+              <circle cx="300" cy="58" r="8" fill="#1f2430"/>
+              <circle cx="362" cy="112" r="8" fill="#1f2430"/>
+              <circle cx="314" cy="146" r="8" fill="#1f2430"/>
+              <text x="26" y="156" fill="#5c6472" font-size="16">열린 패스</text>
+              <text x="274" y="156" fill="#5c6472" font-size="16">닫힌 패스</text>
+            </svg>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="usage">
+      <div class="section-head">
+        <div><h2>도구 활용과 실전 감각</h2></div>
+        <p>오늘 배운 기능은 실제 작업에서 서로 연결해서 사용합니다. 상황과 목적을 같이 기억해 두면 다음 작업에서 훨씬 빠르게 꺼내 쓸 수 있습니다.</p>
+      </div>
+
+      <div class="concept-grid">
+        <article class="concept-card cool">
+          <h3>Direct Selection Tool</h3>
+          <p><span class="nowrap">직접선택도구</span>는 전체 개체가 아니라 원하는 포인트만 선택해서 수정하는 도구입니다.</p>
+          <ul>
+            <li>원하는 앵커 포인트만 선택</li>
+            <li>패스 일부만 이동</li>
+            <li>핸들을 조절해 곡률 수정</li>
+          </ul>
+          <div class="callout">핵심: 도형 전체를 움직이는 것이 아니라, 모양을 이루는 점과 선을 고른 뒤 편집합니다.</div>
+        </article>
+
+        <article class="concept-card warm">
+          <h3>편집 전에 먼저 생각할 것</h3>
+          <ul>
+            <li>이 도형의 기본 원형은 무엇이었을까?</li>
+            <li>어느 앵커 포인트를 선택해야 원하는 방향으로 변할까?</li>
+            <li>직선으로 만들 것인지, 곡선으로 만들 것인지?</li>
+          </ul>
+          <div class="callout">모양이 이상하게 무너지면, 너무 많은 포인트를 한꺼번에 움직였는지 먼저 확인합니다.</div>
+        </article>
+      </div>
+
+      <div class="usage-grid" style="margin-top:22px;">
+        <article class="usage-card">
+          <h3>도형 그리기 팁</h3>
+          <ul>
+            <li>도형 그리기 전에 기존 개체를 먼저 선택하면 같은 색상으로 바로 그릴 수 있습니다.</li>
+            <li><code>Shift</code>를 누르면 원, 정사각형처럼 정비율을 유지하기 쉽습니다.</li>
+            <li>도형을 만든 뒤 <span class="nowrap">직접선택도구</span>로 일부 포인트만 수정하면 새로운 형태를 빠르게 만들 수 있습니다.</li>
+          </ul>
+        </article>
+
+        <article class="usage-card">
+          <h3><span class="nowrap">격리모드</span></h3>
+          <p><strong>원하는 개체만 따로 편집할 수 있는 기능</strong>입니다.</p>
+          <ul>
+            <li>그룹을 풀지 않고 내부 개체만 수정하고 싶을 때 사용</li>
+            <li>실수로 다른 개체를 건드릴 가능성을 줄일 수 있음</li>
+            <li>해제할 때는 여백을 더블클릭</li>
+          </ul>
+        </article>
+
+        <article class="usage-card">
+          <h3>그룹과 잠금의 차이</h3>
+          <ul>
+            <li>그룹은 여러 개체를 함께 움직이기 쉽게 묶는 기능</li>
+            <li>잠금은 해당 개체를 실수로 선택하거나 이동하지 않게 막는 기능</li>
+            <li>배경이나 기준선은 잠가두고 작업하면 훨씬 안정적입니다.</li>
+          </ul>
+        </article>
+
+        <article class="usage-card">
+          <h3>반복 작업 줄이기</h3>
+          <ul>
+            <li><code>Ctrl + D</code>로 방금 한 작업을 반복하면 간격 맞추기와 복제 작업이 빨라집니다.</li>
+            <li>같은 도형을 여러 번 만들 때 특히 유용합니다.</li>
+            <li>정렬과 복제를 함께 사용하면 규칙적인 패턴 만들기에 좋습니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <div><h2>복습 워크시트</h2></div>
+        <p>직접 입력해 보면서 오늘 배운 개념을 다시 정리해 보세요. 아래 버튼으로 채점과 정답 예시 확인이 가능합니다.</p>
+      </div>
+
+      <div class="worksheet-grid">
+        <article class="worksheet-card warm">
+          <h3>빈칸 채우기</h3>
+          <div class="worksheet-list">
+            <div class="worksheet-item" data-answer="ctrl+z,ctrl + z"><p>1. 실행 취소, 즉 뒤로가기는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="단축키 입력"></span>이다.</p><div class="feedback"></div></div>
+            <div class="worksheet-item" data-answer="ctrl+shift+z,ctrl + shift + z"><p>2. 재실행, 즉 앞으로 가기는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="단축키 입력"></span>이다.</p><div class="feedback"></div></div>
+            <div class="worksheet-item" data-answer="shift"><p>3. 정비율 유지, 다중 선택, 선택 해제 보조에 자주 쓰는 키는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="키 입력"></span>이다.</p><div class="feedback"></div></div>
+            <div class="worksheet-item" data-answer="ctrl+d,ctrl + d"><p>4. 이전 작업 반복 단축키는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="단축키 입력"></span>이다.</p><div class="feedback"></div></div>
+            <div class="worksheet-item" data-answer="닫힌패스,닫힌 패스"><p>5. 시작점과 종료점이 같은 패스는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="개념 입력"></span>이다.</p><div class="feedback"></div></div>
+            <div class="worksheet-item" data-answer="직접선택도구,직접 선택 도구,direct selection tool,directselectiontool"><p>6. 앵커 포인트, 패스, 핸들을 직접 편집하는 도구는 <span class="fill-line"><input class="quiz-input" type="text" placeholder="도구명 입력"></span>이다.</p><div class="feedback"></div></div>
+          </div>
+
+          <div class="action-row">
+            <button class="action-button primary" type="button" id="checkAnswers">정답 확인</button>
+            <button class="action-button secondary" type="button" id="showAnswers">정답 보기</button>
+            <button class="action-button ghost" type="button" id="resetAnswers">초기화</button>
+          </div>
+          <div class="score-board" id="scoreBoard">점수: 아직 채점 전</div>
+        </article>
+
+        <article class="worksheet-card cool">
+          <h3>서술형 정리</h3>
+          <div class="worksheet-list">
+            <div class="worksheet-item">
+              <p>1. <span class="nowrap">격리모드</span>는 언제 활용하면 좋을까요?</p>
+              <textarea class="quiz-textarea" placeholder="직접 작성해보세요."></textarea>
+              <div class="answer-box">예시 답안: 그룹으로 묶인 개체를 풀지 않고, 그 안의 특정 개체만 따로 수정하고 싶을 때 활용한다.</div>
+            </div>
+            <div class="worksheet-item">
+              <p>2. 도형 편집 전에 왜 기본 모양을 먼저 생각해야 할까요?</p>
+              <textarea class="quiz-textarea" placeholder="이유를 적어보세요."></textarea>
+              <div class="answer-box">예시 답안: 원래 어떤 도형에서 시작했는지 알면 어느 포인트를 움직여야 할지 판단하기 쉬워지고, 형태가 무너지지 않게 편집할 수 있다.</div>
+            </div>
+            <div class="worksheet-item">
+              <p>3. 오늘 수업에서 내가 특히 기억해야 할 단축키나 개념 3가지를 적어보세요.</p>
+              <textarea class="quiz-textarea" placeholder="예: Shift, Ctrl + D, 닫힌 패스"></textarea>
+              <div class="answer-box">예시 답안: Shift로 정비율 유지, Ctrl + D로 반복 작업, 직접선택도구로 앵커 포인트 편집.</div>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="action-button secondary" type="button" id="toggleEssayAnswers">서술형 예시 보기</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="checklist">
+      <div class="section-head">
+        <div><h2>수업 체크리스트</h2></div>
+        <p>마지막으로 스스로 점검해 보세요. 설명할 수 있으면 이해한 것이고, 손으로 해낼 수 있으면 익힌 것입니다.</p>
+      </div>
+
+      <div class="checklist-grid">
+        <article class="check-card">
+          <h3>오늘 꼭 기억할 3가지</h3>
+          <div class="check-row"><input id="check-1" type="checkbox"><label for="check-1">도형을 그리기 전에 기존 개체를 먼저 선택하면 같은 색상으로 그릴 수 있다.</label></div>
+          <div class="check-row"><input id="check-2" type="checkbox"><label for="check-2">모양을 편집하기 전에 기본 도형이 무엇이었는지 먼저 생각한다.</label></div>
+          <div class="check-row"><input id="check-3" type="checkbox"><label for="check-3">원하는 형태를 만들기 위해 어떤 앵커 포인트를 선택해야 하는지 판단할 수 있다.</label></div>
+        </article>
+
+        <article class="check-card">
+          <h3>스스로 말해보기</h3>
+          <div class="check-row"><input id="check-4" type="checkbox"><label for="check-4"><span class="nowrap">열린 패스</span>와 <span class="nowrap">닫힌 패스</span>의 차이를 설명할 수 있다.</label></div>
+          <div class="check-row"><input id="check-5" type="checkbox"><label for="check-5"><span class="nowrap">직접선택도구</span>가 일반 선택도구와 어떻게 다른지 설명할 수 있다.</label></div>
+          <div class="check-row"><input id="check-6" type="checkbox"><label for="check-6"><span class="nowrap">격리모드</span>를 언제 쓰는지 말할 수 있다.</label></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="footer-note">
+      <p>페이지 49 관련 내용은 수업 자료와 함께 다시 확인해 두세요. 필요하면 이 자료를 바탕으로 문제지 버전이나 교사용 정답 버전도 이어서 만들 수 있습니다.</p>
+    </section>
+  </main>
+  <script>
+    const worksheetItems = Array.from(document.querySelectorAll('.worksheet-item[data-answer]'));
+    const essayAnswerBoxes = Array.from(document.querySelectorAll('.worksheet-card.cool .answer-box'));
+    const checkAnswersButton = document.getElementById('checkAnswers');
+    const showAnswersButton = document.getElementById('showAnswers');
+    const resetAnswersButton = document.getElementById('resetAnswers');
+    const toggleEssayAnswersButton = document.getElementById('toggleEssayAnswers');
+    const scoreBoard = document.getElementById('scoreBoard');
+
+    let isShowingAnswers = false;
+    let isShowingEssayAnswers = false;
+
+    function normalizeText(value) {
+      return value.toLowerCase().replace(/\s+/g, '').trim();
+    }
+
+    function setScoreText(text) {
+      scoreBoard.textContent = text;
+    }
+
+    function checkAnswers() {
+      let correctCount = 0;
+
+      worksheetItems.forEach((item) => {
+        const input = item.querySelector('.quiz-input');
+        const feedback = item.querySelector('.feedback');
+        const acceptedAnswers = item.dataset.answer.split(',').map((answer) => normalizeText(answer));
+        const userAnswer = normalizeText(input.value);
+
+        input.classList.remove('correct', 'incorrect');
+
+        if (!userAnswer) {
+          feedback.textContent = '답을 입력해 보세요.';
+          return;
+        }
+
+        if (acceptedAnswers.includes(userAnswer)) {
+          input.classList.add('correct');
+          feedback.textContent = '정답입니다.';
+          correctCount += 1;
+        } else {
+          input.classList.add('incorrect');
+          feedback.textContent = '다시 확인해 보세요.';
+        }
+      });
+
+      setScoreText(`점수: ${correctCount} / ${worksheetItems.length}`);
+    }
+
+    function toggleAnswers() {
+      isShowingAnswers = !isShowingAnswers;
+
+      worksheetItems.forEach((item) => {
+        const input = item.querySelector('.quiz-input');
+        const feedback = item.querySelector('.feedback');
+        const firstAnswer = item.dataset.answer.split(',')[0];
+
+        if (isShowingAnswers) {
+          input.value = firstAnswer;
+          input.classList.remove('incorrect');
+          input.classList.add('correct');
+          feedback.textContent = '정답 예시를 표시했습니다.';
+        } else {
+          input.value = '';
+          input.classList.remove('correct', 'incorrect');
+          feedback.textContent = '';
+        }
+      });
+
+      showAnswersButton.textContent = isShowingAnswers ? '정답 숨기기' : '정답 보기';
+      setScoreText(isShowingAnswers ? '점수: 정답 예시 표시 중' : '점수: 아직 채점 전');
+    }
+
+    function resetAnswers() {
+      isShowingAnswers = false;
+      showAnswersButton.textContent = '정답 보기';
+
+      worksheetItems.forEach((item) => {
+        const input = item.querySelector('.quiz-input');
+        const feedback = item.querySelector('.feedback');
+        input.value = '';
+        input.classList.remove('correct', 'incorrect');
+        feedback.textContent = '';
+      });
+
+      document.querySelectorAll('.quiz-textarea').forEach((textarea) => {
+        textarea.value = '';
+      });
+
+      essayAnswerBoxes.forEach((box) => box.classList.remove('show'));
+      isShowingEssayAnswers = false;
+      toggleEssayAnswersButton.textContent = '서술형 예시 보기';
+      setScoreText('점수: 아직 채점 전');
+    }
+
+    function toggleEssayAnswers() {
+      isShowingEssayAnswers = !isShowingEssayAnswers;
+      essayAnswerBoxes.forEach((box) => box.classList.toggle('show', isShowingEssayAnswers));
+      toggleEssayAnswersButton.textContent = isShowingEssayAnswers ? '서술형 예시 숨기기' : '서술형 예시 보기';
+    }
+
+    checkAnswersButton.addEventListener('click', checkAnswers);
+    showAnswersButton.addEventListener('click', toggleAnswers);
+    resetAnswersButton.addEventListener('click', resetAnswers);
+    toggleEssayAnswersButton.addEventListener('click', toggleEssayAnswers);
+
+    worksheetItems.forEach((item) => {
+      const input = item.querySelector('.quiz-input');
+      input.addEventListener('input', () => {
+        input.classList.remove('correct', 'incorrect');
+        item.querySelector('.feedback').textContent = '';
+
+        if (isShowingAnswers) {
+          isShowingAnswers = false;
+          showAnswersButton.textContent = '정답 보기';
+          setScoreText('점수: 아직 채점 전');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
