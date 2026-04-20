@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 그라디언트 & 변형 복습 자료</title>
+  <style>
+    :root {
+      --bg: #f5f0e8;
+      --paper: #fffaf2;
+      --paper-2: #ffffff;
+      --ink: #202630;
+      --muted: #626b78;
+      --line: rgba(32, 38, 48, 0.12);
+      --orange: #e76f3c;
+      --green: #147f75;
+      --yellow: #f2b84b;
+      --blue: #3867d6;
+      --shadow: 0 18px 44px rgba(54, 43, 31, 0.12);
+      --radius: 8px;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.65;
+      background:
+        linear-gradient(180deg, #eee3d5 0%, var(--bg) 46%, #fbf7f0 100%);
+    }
+
+    p, li, span, td, th, a {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      border: 1px solid rgba(20, 127, 117, 0.24);
+      border-radius: 999px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      background: rgba(20, 127, 117, 0.08);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(34px, 5vw, 62px);
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    h3 {
+      font-size: 19px;
+    }
+
+    .lead {
+      max-width: 720px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-visual {
+      min-height: 310px;
+      display: grid;
+      align-content: end;
+      padding: 22px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(231, 111, 60, 0.95), rgba(242, 184, 75, 0.86) 38%, rgba(20, 127, 117, 0.9) 68%, rgba(56, 103, 214, 0.92));
+    }
+
+    .gradient-label {
+      width: fit-content;
+      max-width: 100%;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(15, 20, 28, 0.22);
+      backdrop-filter: blur(10px);
+    }
+
+    .gradient-bar {
+      height: 28px;
+      margin-top: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.65);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #e76f3c 0%, #f2b84b 34%, #16a085 68%, #3867d6 100%);
+      box-shadow: 0 14px 30px rgba(20, 24, 32, 0.24);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.64);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(32, 38, 48, 0.1);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(32, 38, 48, 0.14);
+    }
+
+    .btn.primary {
+      color: #fff;
+      background: var(--ink);
+    }
+
+    .btn.secondary {
+      color: var(--green);
+      background: rgba(20, 127, 117, 0.1);
+      box-shadow: none;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+    }
+
+    .section-head p {
+      max-width: 540px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      min-height: 100%;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper-2);
+    }
+
+    .key {
+      display: inline-grid;
+      place-items: center;
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid rgba(32, 38, 48, 0.18);
+      border-bottom-width: 3px;
+      border-radius: 6px;
+      color: var(--ink);
+      font-weight: 900;
+      background: #f8f3eb;
+    }
+
+    .path {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .path span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+      background: var(--green);
+    }
+
+    .path span:nth-child(2) {
+      background: var(--orange);
+    }
+
+    .path span:nth-child(3) {
+      background: var(--blue);
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 14px;
+      border-left: 5px solid var(--orange);
+      border-radius: 6px;
+      color: #4c3527;
+      font-weight: 800;
+      background: rgba(231, 111, 60, 0.1);
+    }
+
+    .priority {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .priority li {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .num {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: white;
+      font-weight: 900;
+      background: var(--orange);
+    }
+
+    .axis-demo {
+      position: relative;
+      min-height: 230px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(90deg, rgba(32, 38, 48, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(32, 38, 48, 0.08) 1px, transparent 1px),
+        #fff;
+      background-size: 28px 28px;
+      overflow: hidden;
+    }
+
+    .axis-line-x,
+    .axis-line-y {
+      position: absolute;
+      background: rgba(20, 127, 117, 0.55);
+    }
+
+    .axis-line-x {
+      left: 18px;
+      right: 18px;
+      top: 50%;
+      height: 2px;
+    }
+
+    .axis-line-y {
+      top: 18px;
+      bottom: 18px;
+      left: 50%;
+      width: 2px;
+    }
+
+    .axis-point {
+      position: absolute;
+      left: calc(50% - 10px);
+      top: calc(50% - 10px);
+      width: 20px;
+      height: 20px;
+      border: 4px solid white;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 2px rgba(20, 127, 117, 0.5);
+    }
+
+    .shape {
+      position: absolute;
+      left: calc(50% + 34px);
+      top: calc(50% - 60px);
+      width: 86px;
+      height: 86px;
+      border: 4px solid #202630;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #f2b84b, #e76f3c);
+      transform: rotate(24deg);
+      box-shadow: 0 16px 26px rgba(32, 38, 48, 0.16);
+    }
+
+    .mini-label {
+      position: absolute;
+      left: 18px;
+      bottom: 16px;
+      padding: 6px 9px;
+      border-radius: 6px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 900;
+      background: rgba(20, 127, 117, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    th,
+    td {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--ink);
+      font-size: 14px;
+      background: #f2eadf;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: white;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--green);
+    }
+
+    .badge.warn {
+      background: var(--orange);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .toggle-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 230px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+      background: var(--green);
+    }
+
+    .toggle.off {
+      color: var(--muted);
+      background: #e7e0d6;
+    }
+
+    .demo-row {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .demo-box {
+      width: 76px;
+      height: 76px;
+      border-radius: 14px;
+      background: #f2b84b;
+    }
+
+    .demo-box.stroke-on {
+      border: 10px solid var(--ink);
+      transform: scale(1.18);
+    }
+
+    .demo-box.stroke-off {
+      border: 4px solid var(--ink);
+      transform: scale(1.18);
+    }
+
+    .corner-on {
+      border-radius: 28px;
+    }
+
+    .corner-off {
+      border-radius: 8px;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 14px 14px 14px 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 18px;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--green);
+      border-radius: 4px;
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 22px;
+      border-radius: var(--radius);
+      color: white;
+      background: #202630;
+    }
+
+    .footer strong {
+      color: var(--yellow);
+    }
+
+    .worksheet-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      gap: 14px;
+    }
+
+    .question-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .question {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .question p {
+      margin: 0;
+    }
+
+    .quiz-input,
+    .quiz-textarea {
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+      transition: border-color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .quiz-input {
+      display: block;
+      width: min(100%, 320px);
+      margin-top: 10px;
+      padding: 9px 10px;
+      border: 1px solid rgba(32, 38, 48, 0.18);
+      border-radius: 6px;
+      background: #fffaf2;
+    }
+
+    .quiz-input:focus,
+    .quiz-textarea:focus {
+      border-color: var(--green);
+      background: rgba(20, 127, 117, 0.06);
+    }
+
+    .quiz-input.correct {
+      border-color: #177463;
+      background: rgba(23, 116, 99, 0.08);
+    }
+
+    .quiz-input.incorrect {
+      border-color: #c94f4f;
+      background: rgba(201, 79, 79, 0.08);
+    }
+
+    .quiz-textarea {
+      width: 100%;
+      min-height: 116px;
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid rgba(32, 38, 48, 0.18);
+      border-radius: 6px;
+      resize: vertical;
+      background: #fffaf2;
+    }
+
+    .feedback {
+      min-height: 22px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .feedback.correct {
+      color: #177463;
+    }
+
+    .feedback.incorrect {
+      color: #c94f4f;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid rgba(20, 127, 117, 0.16);
+      border-radius: 6px;
+      color: #145f57;
+      background: rgba(20, 127, 117, 0.08);
+    }
+
+    .answer.show {
+      display: block;
+    }
+
+    .score {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--ink);
+      font-weight: 900;
+      background: rgba(242, 184, 75, 0.16);
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid,
+      .two,
+      .compare,
+      .checklist,
+      .worksheet-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .section {
+        padding: 22px;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 18px;
+      }
+
+      .hero-visual {
+        min-height: 230px;
+      }
+
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        border-bottom: 1px solid var(--line);
+      }
+
+      tr:last-child {
+        border-bottom: 0;
+      }
+
+      td {
+        border-bottom: 0;
+        padding: 10px 12px;
+      }
+
+      td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 3px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 900;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .footer {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .actions,
+      .nav {
+        display: none !important;
+      }
+
+      .section {
+        margin-top: 14px;
+      }
+
+      .answer {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Illustrator Review</div>
+        <h1>그라디언트와 변형 핵심 복습</h1>
+        <p class="lead">
+          단축키로 빠르게 그라디언트를 넣고, 색 우선순위를 확인한 뒤,
+          축을 기준으로 회전, 반전, 크기조절을 정확하게 적용하는 연습 자료입니다.
+        </p>
+        <nav class="nav" aria-label="복습 목차">
+          <a href="#gradient">그라디언트</a>
+          <a href="#recolor">색 우선순위</a>
+          <a href="#transform">변형</a>
+          <a href="#scale">Scale 옵션</a>
+          <a href="#worksheet">복습 문제</a>
+          <a href="#check">마무리 체크</a>
+        </nav>
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="window.print()">PDF 뽑기</button>
+          <a class="btn secondary" href="#worksheet">복습 문제 풀기</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="그라디언트 예시">
+        <div>
+          <div class="gradient-label">Gradient Fill Preview</div>
+          <div class="gradient-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gradient">
+      <div class="section-head">
+        <h2>1. 그라디언트 삽입</h2>
+        <p>채우기 색에 그라디언트를 넣고, 그라디언트 툴로 방향과 범위를 조절합니다.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="key">.</span>
+          <h3>그라디언트 삽입</h3>
+          <p>선택한 오브젝트의 채우기 색에 기본 그라디언트를 바로 적용합니다.</p>
+        </article>
+        <article class="card">
+          <span class="key">G</span>
+          <h3>그라디언트 툴</h3>
+          <p>드래그해서 그라디언트의 시작점, 끝점, 방향, 길이를 직접 조절합니다.</p>
+        </article>
+        <article class="card">
+          <span class="key">Fill</span>
+          <h3>적용 위치 확인</h3>
+          <p>그라디언트가 면에 들어가는지, 선에 들어가는지 먼저 확인해야 합니다.</p>
+        </article>
+      </div>
+      <div class="note">핵심: 그라디언트가 이상하게 보이면 먼저 Fill/Stroke 중 어디가 활성화되어 있는지 확인합니다.</div>
+    </section>
+
+    <section class="section" id="recolor">
+      <div class="section-head">
+        <h2>2. 색 우선순위 체크</h2>
+        <p>색을 바꾸기 전에 어떤 색이 어디에 적용되어 있는지 확인하면 작업이 덜 꼬입니다.</p>
+      </div>
+      <div class="grid two">
+        <article class="card">
+          <h3>색 확인 순서</h3>
+          <ol class="priority">
+            <li><span class="num">1</span><span>오브젝트가 정확히 선택되어 있는지 확인</span></li>
+            <li><span class="num">2</span><span>Fill과 Stroke 중 어느 쪽이 앞으로 나와 있는지 확인</span></li>
+            <li><span class="num">3</span><span>그라디언트 색상 정지점이 선택되어 있는지 확인</span></li>
+            <li><span class="num">4</span><span>전체 색을 바꿀지, 특정 색만 바꿀지 결정</span></li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Recolor Artwork 경로</h3>
+          <p>작품 전체의 색을 다시 배치하거나, 선택한 색상을 한 번에 바꿀 때 사용합니다.</p>
+          <div class="path" aria-label="Recolor Artwork 메뉴 경로">
+            <span>Edit</span>
+            <span>Edit Colors</span>
+            <span>Recolor Artwork</span>
+          </div>
+          <div class="note">색 우선순위를 먼저 체크한 뒤 Recolor Artwork를 열면 원하는 색만 바꾸기 쉽습니다.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="transform">
+      <div class="section-head">
+        <h2>3. 변형은 축 기준</h2>
+        <p>회전, 반전, 크기조절은 모두 기준점, 즉 축을 어디에 두는지가 결과를 결정합니다.</p>
+      </div>
+      <div class="grid two">
+        <div class="axis-demo" aria-label="변형 기준축 예시">
+          <span class="axis-line-x"></span>
+          <span class="axis-line-y"></span>
+          <span class="axis-point"></span>
+          <span class="shape"></span>
+          <span class="mini-label">축을 기준으로 변형</span>
+        </div>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>조작</th>
+                <th>의미</th>
+                <th>기억 포인트</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="조작"><span class="badge">클릭 후 드래그</span></td>
+                <td data-label="의미">축을 기준으로 자유롭게 이동하며 변형</td>
+                <td data-label="기억 포인트">눈으로 보면서 방향과 정도를 맞출 때 사용</td>
+              </tr>
+              <tr>
+                <td data-label="조작"><span class="badge">Enter</span></td>
+                <td data-label="의미">원위치에서 수치 입력으로 변형</td>
+                <td data-label="기억 포인트">정확한 각도, 비율, 위치가 필요할 때 사용</td>
+              </tr>
+              <tr>
+                <td data-label="조작"><span class="badge warn">Alt 클릭</span></td>
+                <td data-label="의미">축을 이동한 뒤 그 축을 기준으로 변형</td>
+                <td data-label="기억 포인트">중심이 아닌 다른 지점을 기준으로 돌리거나 복제할 때 중요</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:14px">
+        <article class="card">
+          <h3>회전</h3>
+          <p>축을 중심으로 오브젝트를 돌립니다. 기준점이 바뀌면 회전 궤적도 바뀝니다.</p>
+        </article>
+        <article class="card">
+          <h3>반전</h3>
+          <p>축을 기준으로 좌우 또는 상하 방향을 뒤집습니다.</p>
+        </article>
+        <article class="card">
+          <h3>크기조절</h3>
+          <p>축을 중심으로 커지거나 작아집니다. 선과 모서리 옵션을 함께 확인합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="scale">
+      <div class="section-head">
+        <h2>4. Scale 옵션</h2>
+        <p>크기조절할 때 선 두께와 모서리 곡률이 같이 변할지, 그대로 유지될지를 결정합니다.</p>
+      </div>
+      <div class="compare">
+        <article class="toggle-card">
+          <span class="toggle">Scale Stroke & Effects ON</span>
+          <h3>선 두께도 같은 비율로 조절</h3>
+          <p>키면 오브젝트 크기에 맞춰 선 두께와 효과도 같이 커지거나 작아집니다.</p>
+          <div class="demo-row">
+            <div class="demo-box"></div>
+            <div class="demo-box stroke-on"></div>
+          </div>
+        </article>
+        <article class="toggle-card">
+          <span class="toggle off">Scale Stroke & Effects OFF</span>
+          <h3>선 두께 유지</h3>
+          <p>끄면 오브젝트 크기만 바뀌고 선 두께와 효과 크기는 유지됩니다.</p>
+          <div class="demo-row">
+            <div class="demo-box"></div>
+            <div class="demo-box stroke-off"></div>
+          </div>
+        </article>
+        <article class="toggle-card">
+          <span class="toggle">Scale Corners ON</span>
+          <h3>곡률도 같은 비율로 조절</h3>
+          <p>키면 둥근 모서리의 곡률이 크기 변화에 맞춰 같이 변합니다.</p>
+          <div class="demo-row">
+            <div class="demo-box corner-off"></div>
+            <div class="demo-box corner-on" style="transform:scale(1.18)"></div>
+          </div>
+        </article>
+        <article class="toggle-card">
+          <span class="toggle off">Scale Corners OFF</span>
+          <h3>곡률 유지</h3>
+          <p>끄면 크기를 조절해도 모서리 둥글기는 기존 값에 가깝게 유지됩니다.</p>
+          <div class="demo-row">
+            <div class="demo-box corner-off"></div>
+            <div class="demo-box corner-off" style="transform:scale(1.18)"></div>
+          </div>
+        </article>
+      </div>
+      <div class="note">암기 문장: Scale Stroke & Effects는 선 두께, Scale Corners는 모서리 곡률을 같이 키울지 정하는 옵션입니다.</div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <h2>5. 복습 문제</h2>
+        <p>빈칸에 직접 입력하고 채점해보세요. 정답 보기와 초기화, PDF 출력까지 사용할 수 있습니다.</p>
+      </div>
+      <div class="actions" style="margin-bottom:16px">
+        <button class="btn primary" type="button" id="checkAnswers">채점하기</button>
+        <button class="btn secondary" type="button" id="showAnswers">정답 보기</button>
+        <button class="btn secondary" type="button" id="resetAnswers">초기화</button>
+        <button class="btn secondary" type="button" onclick="window.print()">PDF 뽑기</button>
+      </div>
+      <div class="worksheet-grid">
+        <article class="card">
+          <h3>빈칸 문제</h3>
+          <div class="question-list">
+            <div class="question" data-answer=".,마침표">
+              <p>1. 선택한 오브젝트에 그라디언트를 삽입하는 단축키는 무엇인가?</p>
+              <input class="quiz-input" type="text" placeholder="정답 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="g">
+              <p>2. 그라디언트 툴을 선택하는 단축키는 무엇인가?</p>
+              <input class="quiz-input" type="text" placeholder="정답 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="fill,stroke,fill stroke,fill/stroke,면과 선,면 선">
+              <p>3. 색이 이상하게 적용될 때 먼저 확인해야 하는 두 위치는 무엇인가?</p>
+              <input class="quiz-input" type="text" placeholder="예: Fill과 Stroke">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="recolor artwork,recolorartwork">
+              <p>4. Edit → Edit Colors → 다음에 들어가는 색상 재배치 메뉴 이름은?</p>
+              <input class="quiz-input" type="text" placeholder="영문 메뉴명 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="축,기준축,기준점">
+              <p>5. 회전, 반전, 크기조절은 모두 무엇을 기준으로 변형되는가?</p>
+              <input class="quiz-input" type="text" placeholder="개념 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="alt 클릭,alt클릭,alt click">
+              <p>6. 축을 이동한 뒤 그 축을 기준으로 변형하려면 어떤 조작을 사용하는가?</p>
+              <input class="quiz-input" type="text" placeholder="조작 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="scale stroke effects,scale stroke & effects,scale stroke and effects">
+              <p>7. 크기 조절 시 선 두께와 효과도 같은 비율로 조절하는 옵션은?</p>
+              <input class="quiz-input" type="text" placeholder="옵션명 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="scale corners,scalecorners">
+              <p>8. 크기 조절 시 모서리 곡률도 같은 비율로 조절하는 옵션은?</p>
+              <input class="quiz-input" type="text" placeholder="옵션명 입력">
+              <div class="feedback"></div>
+            </div>
+          </div>
+          <div class="score" id="scoreBoard">점수: 아직 채점 전</div>
+        </article>
+
+        <article class="card">
+          <h3>서술형 문제</h3>
+          <div class="question-list">
+            <div class="question">
+              <p>1. 그라디언트 색이 원하는 곳에 적용되지 않을 때 확인할 순서를 적어보세요.</p>
+              <textarea class="quiz-textarea" placeholder="예: 오브젝트 선택 확인, Fill/Stroke 확인, 그라디언트 정지점 확인"></textarea>
+              <div class="answer">예시 답: 먼저 오브젝트가 선택되어 있는지 확인하고, Fill과 Stroke 중 어느 쪽이 활성화되어 있는지 본다. 그다음 그라디언트 정지점이나 Recolor Artwork에서 바꿀 색을 확인한다.</div>
+            </div>
+            <div class="question">
+              <p>2. Alt 클릭으로 축을 옮겨 변형하는 상황을 한 가지 예로 설명해보세요.</p>
+              <textarea class="quiz-textarea" placeholder="예시 상황을 적어보세요."></textarea>
+              <div class="answer">예시 답: 꽃잎이나 시계 눈금처럼 특정 중심점을 기준으로 여러 개를 회전 복제해야 할 때 Alt 클릭으로 기준축을 옮긴 뒤 회전 값을 입력한다.</div>
+            </div>
+            <div class="question">
+              <p>3. Scale Stroke & Effects를 꺼야 하는 상황과 켜야 하는 상황을 비교해보세요.</p>
+              <textarea class="quiz-textarea" placeholder="두 상황을 비교해서 작성해보세요."></textarea>
+              <div class="answer">예시 답: 선 두께를 일정하게 유지해야 하면 끄고, 오브젝트 전체가 같은 비율로 커진 느낌을 유지해야 하면 켠다.</div>
+            </div>
+            <div class="question">
+              <p>4. 오늘 내용 중 실제 작업 전에 꼭 확인할 것 3가지를 적어보세요.</p>
+              <textarea class="quiz-textarea" placeholder="내 체크리스트를 작성해보세요."></textarea>
+              <div class="answer">예시 답: Fill/Stroke 활성 위치, 색 우선순위, 변형 기준축 위치, Scale Stroke & Effects, Scale Corners.</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="check">
+      <div class="section-head">
+        <h2>마무리 체크</h2>
+        <p>작업 전후로 아래 항목만 확인해도 실수를 줄일 수 있습니다.</p>
+      </div>
+      <ul class="checklist">
+        <li><strong>.</strong> 키로 그라디언트를 넣을 수 있다.</li>
+        <li><strong>G</strong> 키로 그라디언트 방향과 범위를 조절할 수 있다.</li>
+        <li>Fill과 Stroke 중 어떤 색이 활성화되어 있는지 확인한다.</li>
+        <li>Edit → Edit Colors → Recolor Artwork 경로를 기억한다.</li>
+        <li>변형은 축을 기준으로 일어난다는 점을 기억한다.</li>
+        <li>Alt 클릭은 축 이동과 변형 기준 설정에 중요하다.</li>
+        <li>Scale Stroke & Effects를 켜면 선 두께도 같이 조절된다.</li>
+        <li>Scale Corners를 켜면 모서리 곡률도 같이 조절된다.</li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <strong>오늘의 핵심:</strong> 색을 바꾸기 전에는 Fill/Stroke와 색 우선순위를 확인하고,
+      변형하기 전에는 축 위치와 Scale 옵션을 먼저 확인합니다.
+    </footer>
+  </main>
+  <script>
+    const quizItems = Array.from(document.querySelectorAll(".question[data-answer]"));
+    const scoreBoard = document.getElementById("scoreBoard");
+    const checkButton = document.getElementById("checkAnswers");
+    const showButton = document.getElementById("showAnswers");
+    const resetButton = document.getElementById("resetAnswers");
+
+    function normalize(value) {
+      return value
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[＋]/g, "+")
+        .replace(/[&]/g, "and")
+        .trim();
+    }
+
+    function answerMatches(input, answers) {
+      const value = normalize(input.value);
+      return answers.some((answer) => normalize(answer) === value);
+    }
+
+    function setFeedback(feedback, state, message) {
+      feedback.textContent = message;
+      feedback.classList.remove("correct", "incorrect");
+      feedback.classList.add(state);
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      quizItems.forEach((item) => {
+        const input = item.querySelector(".quiz-input");
+        const feedback = item.querySelector(".feedback");
+        const answers = (item.dataset.answer || "").split(",");
+        const isCorrect = answerMatches(input, answers);
+        input.classList.remove("correct", "incorrect");
+        input.classList.add(isCorrect ? "correct" : "incorrect");
+        setFeedback(feedback, isCorrect ? "correct" : "incorrect", isCorrect ? "정답입니다." : "다시 확인해보세요.");
+        if (isCorrect) score += 1;
+      });
+      scoreBoard.textContent = `점수: ${score} / ${quizItems.length}`;
+    }
+
+    function showAnswers() {
+      quizItems.forEach((item) => {
+        const input = item.querySelector(".quiz-input");
+        const feedback = item.querySelector(".feedback");
+        input.value = (item.dataset.answer || "").split(",")[0] || "";
+        input.classList.remove("incorrect");
+        input.classList.add("correct");
+        setFeedback(feedback, "correct", "정답을 표시했습니다.");
+      });
+      document.querySelectorAll(".answer").forEach((answer) => answer.classList.add("show"));
+      scoreBoard.textContent = `점수: ${quizItems.length} / ${quizItems.length}`;
+    }
+
+    function resetAnswers() {
+      document.querySelectorAll(".quiz-input").forEach((input) => {
+        input.value = "";
+        input.classList.remove("correct", "incorrect");
+      });
+      document.querySelectorAll(".quiz-textarea").forEach((textarea) => {
+        textarea.value = "";
+      });
+      document.querySelectorAll(".feedback").forEach((feedback) => {
+        feedback.textContent = "";
+        feedback.classList.remove("correct", "incorrect");
+      });
+      document.querySelectorAll(".answer").forEach((answer) => answer.classList.remove("show"));
+      scoreBoard.textContent = "점수: 아직 채점 전";
+    }
+
+    checkButton.addEventListener("click", checkAnswers);
+    showButton.addEventListener("click", showAnswers);
+    resetButton.addEventListener("click", resetAnswers);
+  </script>
+</body>
+</html>
