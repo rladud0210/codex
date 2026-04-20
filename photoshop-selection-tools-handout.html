@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photoshop 선택 도구 정리</title>
+  <style>
+    :root {
+      --bg: #f6f2ea;
+      --paper: #fffdf8;
+      --ink: #1e2430;
+      --muted: #687080;
+      --line: #ded6c9;
+      --accent: #d7603d;
+      --accent-2: #217f78;
+      --accent-3: #d6a23b;
+      --soft: #f1e6d8;
+      --soft-2: #e7f1ef;
+      --shadow: 0 18px 42px rgba(63, 48, 30, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      line-height: 1.65;
+      background:
+        linear-gradient(135deg, rgba(215, 96, 61, 0.08), transparent 28%),
+        linear-gradient(225deg, rgba(33, 127, 120, 0.08), transparent 25%),
+        var(--bg);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.18;
+      letter-spacing: 0;
+      word-break: keep-all;
+    }
+
+    p,
+    li,
+    td,
+    th {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 42px;
+    }
+
+    .hero,
+    .section {
+      background: rgba(255, 253, 248, 0.94);
+      border: 1px solid rgba(222, 214, 201, 0.9);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 34px;
+      min-height: 320px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: #fffaf1;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 16px 0 0 var(--accent-2), 32px 0 0 var(--accent-3);
+      margin-right: 32px;
+    }
+
+    h1 {
+      margin-top: 18px;
+      max-width: 9em;
+      font-size: clamp(2.2rem, 5vw, 4.45rem);
+    }
+
+    .lead {
+      margin-top: 16px;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: clamp(1.42rem, 2.4vw, 2.1rem);
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+    }
+
+    .hero-panel {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .mini-card,
+    .card,
+    .key-card,
+    .step,
+    .note {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .mini-card {
+      padding: 18px;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 20px;
+    }
+
+    .card ul,
+    .step ol,
+    .note ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .card li,
+    .step li,
+    .note li {
+      margin: 7px 0;
+    }
+
+    .tool-name {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 4px 10px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 800;
+      background: var(--ink);
+    }
+
+    .tool-name.quick {
+      background: var(--accent-2);
+    }
+
+    .tool-name.magic {
+      background: var(--accent);
+    }
+
+    .tool-name.object {
+      background: #5c6070;
+    }
+
+    .key-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .key-card {
+      min-height: 116px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 4px 10px;
+      border: 1px solid #bbb0a0;
+      border-bottom-width: 3px;
+      border-radius: 6px;
+      background: linear-gradient(#fff, #f2eadf);
+      color: var(--ink);
+      font-family: inherit;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .key-card kbd {
+      margin-bottom: 10px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .compare th,
+    .compare td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare th {
+      width: 28%;
+      background: var(--soft);
+    }
+
+    .compare tr:last-child th,
+    .compare tr:last-child td {
+      border-bottom: none;
+    }
+
+    .step {
+      padding: 20px;
+      background: var(--soft-2);
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 18px;
+      background: #fff7e7;
+    }
+
+    .mask-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mask {
+      min-height: 118px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .mask .sample {
+      height: 36px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+    }
+
+    .sample.white {
+      background: #fff;
+    }
+
+    .sample.gray {
+      background: #9a9a9a;
+    }
+
+    .sample.black {
+      background: #1c1c1c;
+    }
+
+    .footer {
+      margin-top: 22px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid.two,
+      .grid.three,
+      .key-grid,
+      .mask-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 18px, 1120px);
+        padding-top: 18px;
+      }
+
+      .hero,
+      .section {
+        padding: 20px;
+      }
+
+      .compare,
+      .compare tbody,
+      .compare tr,
+      .compare th,
+      .compare td {
+        display: block;
+        width: 100%;
+      }
+
+      .compare th {
+        border-bottom: none;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .wrap {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .card,
+      .key-card,
+      .step,
+      .note,
+      .mask {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Adobe Photoshop Selection Handout</div>
+        <h1>선택 도구와 선택 영역 정리</h1>
+        <p class="lead">
+          Object Selection, Quick Selection, Magic Wand, Lasso의 차이와 선택 영역을 수정하는 방법,
+          자주 쓰는 단축키를 한 장으로 정리한 실습 노트입니다.
+        </p>
+      </div>
+
+      <div class="hero-panel" aria-label="핵심 요약">
+        <article class="mini-card">
+          <strong>색 기준 선택</strong>
+          Magic Wand, Color Range처럼 색상 차이를 기준으로 영역을 잡습니다.
+        </article>
+        <article class="mini-card">
+          <strong>개체 기준 선택</strong>
+          Object Selection처럼 사람, 물건, 배경 요소를 자동 인식해서 잡습니다.
+        </article>
+        <article class="mini-card">
+          <strong>직접 보정</strong>
+          Quick Selection, Lasso, Select and Mask로 부족한 경계와 털을 정리합니다.
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1. 선택 도구 4가지</h2>
+      <div class="grid two">
+        <article class="card">
+          <div class="tool-name object">Object Selection Tool</div>
+          <ul>
+            <li>개체를 자동으로 인식해서 선택합니다.</li>
+            <li>사람, 상품, 물건처럼 형태가 분명한 대상을 빠르게 잡을 때 좋습니다.</li>
+            <li>처음 큰 영역을 잡고 Quick Selection이나 Lasso로 보정하면 효율적입니다.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="tool-name quick">Quick Selection Tool</div>
+          <ul>
+            <li>색과 질감을 문지르듯 드래그해서 선택합니다.</li>
+            <li>브러쉬 크기는 <kbd>[</kbd>, <kbd>]</kbd>로 조절합니다.</li>
+            <li>부족한 부분은 <kbd>Shift</kbd>로 추가하고, 넘친 부분은 <kbd>Alt</kbd>로 뺍니다.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="tool-name magic">Magic Wand Tool</div>
+          <ul>
+            <li>클릭한 색상과 비슷한 영역을 선택합니다.</li>
+            <li>단색 배경이나 색 구분이 뚜렷한 이미지에 적합합니다.</li>
+            <li>색 차이가 복잡한 사진에서는 선택이 거칠 수 있습니다.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="tool-name">Lasso Tool</div>
+          <ul>
+            <li>직접 그려서 자유롭게 선택 영역을 만듭니다.</li>
+            <li>자동 선택이 잘 안 되는 작은 부분을 직접 보정할 때 사용합니다.</li>
+            <li>정교한 외곽선보다는 빠른 수정과 임시 선택에 알맞습니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. Shift와 Alt의 역할</h2>
+      <div class="grid two">
+        <article class="card">
+          <h3><kbd>Shift</kbd></h3>
+          <ul>
+            <li>선택 도구 사용 중: 선택 영역 추가, 다중 선택</li>
+            <li>자유 변형 사용 중: 정비율 유지</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3><kbd>Alt</kbd></h3>
+          <ul>
+            <li>선택 도구 사용 중: 선택 영역 빼기</li>
+            <li>자유 변형 사용 중: 가운데 기준으로 크기 조절</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. 자주 쓰는 단축키</h2>
+      <div class="key-grid">
+        <article class="key-card">
+          <kbd>Ctrl + D</kbd>
+          <p>선택 영역 해제</p>
+        </article>
+        <article class="key-card">
+          <kbd>Ctrl + J</kbd>
+          <p>선택한 영역을 새 레이어로 복제</p>
+        </article>
+        <article class="key-card">
+          <kbd>Ctrl + T</kbd>
+          <p>자유 변형</p>
+        </article>
+        <article class="key-card">
+          <kbd>Enter</kbd>
+          <p>변형 적용</p>
+        </article>
+        <article class="key-card">
+          <kbd>Ctrl + Shift + I</kbd>
+          <p>선택 영역 반전</p>
+        </article>
+        <article class="key-card">
+          <kbd>[</kbd>
+          <p>브러쉬 크기 축소</p>
+        </article>
+        <article class="key-card">
+          <kbd>]</kbd>
+          <p>브러쉬 크기 확대</p>
+        </article>
+        <article class="key-card">
+          <kbd>Caps Lock</kbd>
+          <p>브러쉬 커서 모양 변경</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. 선택 영역 수정</h2>
+      <table class="compare">
+        <tbody>
+          <tr>
+            <th>레이어 썸네일 선택</th>
+            <td><kbd>Ctrl</kbd>을 누른 채 레이어 썸네일을 클릭하면 그 레이어의 불투명한 부분이 그대로 선택 영역으로 잡힙니다.</td>
+          </tr>
+          <tr>
+            <th>Select &gt; Modify &gt; Expand</th>
+            <td>선택 영역을 바깥쪽으로 확대합니다.</td>
+          </tr>
+          <tr>
+            <th>Select &gt; Modify &gt; Contract</th>
+            <td>선택 영역을 안쪽으로 축소합니다.</td>
+          </tr>
+          <tr>
+            <th>Select &gt; Modify &gt; Feather</th>
+            <td>선택 영역의 가장자리를 부드럽게 흐립니다.</td>
+          </tr>
+          <tr>
+            <th>선택 영역 반전</th>
+            <td><kbd>Ctrl + Shift + I</kbd>로 선택된 영역과 선택되지 않은 영역을 반대로 바꿉니다.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <h3>털과 머리카락 정리</h3>
+        <ul>
+          <li><strong>Select &gt; Select and Mask</strong>를 사용합니다.</li>
+          <li>선택 도구 사용 중 옵션바의 <strong>Select and Mask</strong> 버튼으로도 들어갈 수 있습니다.</li>
+          <li>머리카락, 털, 복잡한 가장자리처럼 일반 선택 도구만으로 깔끔하게 잡기 어려운 부분을 보정합니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. Color Range 이해</h2>
+      <div class="mask-row">
+        <article class="mask">
+          <div class="sample white"></div>
+          <h3>흰색</h3>
+          <p>선택 영역으로 잡힙니다.</p>
+        </article>
+        <article class="mask">
+          <div class="sample gray"></div>
+          <h3>회색</h3>
+          <p>반투명하게 선택됩니다.</p>
+        </article>
+        <article class="mask">
+          <div class="sample black"></div>
+          <h3>검은색</h3>
+          <p>선택되지 않습니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. 실습 순서</h2>
+      <div class="step">
+        <ol>
+          <li>Object Selection Tool로 큰 개체를 먼저 선택합니다.</li>
+          <li>Quick Selection Tool로 부족한 부분을 추가합니다.</li>
+          <li><kbd>Alt</kbd>를 누른 채 넘친 선택 영역을 제거합니다.</li>
+          <li>Select and Mask로 털, 머리카락, 복잡한 가장자리를 정리합니다.</li>
+          <li><kbd>Ctrl + J</kbd>로 선택 영역을 새 레이어로 복제합니다.</li>
+          <li><kbd>Ctrl + T</kbd>로 크기와 위치를 조정하고 <kbd>Enter</kbd>로 적용합니다.</li>
+          <li>컬러와 브러쉬로 필요한 부분을 보정합니다.</li>
+        </ol>
+      </div>
+    </section>
+
+    <p class="footer">Photoshop 선택 도구 수업 노트</p>
+  </main>
+</body>
+</html>
