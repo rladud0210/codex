@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photoshop 색상 · 그라디언트 · 패턴 · 브러쉬 복습자료</title>
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --paper: #fffaf2;
+      --paper-2: #ffffff;
+      --ink: #20242c;
+      --muted: #636b78;
+      --line: rgba(32, 36, 44, 0.13);
+      --red: #d84f37;
+      --teal: #147f75;
+      --yellow: #f0b43f;
+      --blue: #345fbd;
+      --violet: #7852b8;
+      --shadow: 0 18px 44px rgba(54, 43, 31, 0.12);
+      --radius: 8px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.65;
+      background: linear-gradient(180deg, #efe4d7 0%, var(--bg) 45%, #fbf8f2 100%);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { line-height: 1.18; letter-spacing: 0; word-break: keep-all; }
+    p, li, span, a { word-break: keep-all; overflow-wrap: break-word; text-wrap: pretty; }
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    .hero, .section {
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      border: 1px solid rgba(20, 127, 117, 0.24);
+      border-radius: 999px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(20, 127, 117, 0.08);
+    }
+
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+    h1 { max-width: 780px; font-size: clamp(34px, 5vw, 62px); }
+    h2 { margin-bottom: 18px; font-size: clamp(24px, 3vw, 34px); }
+    h3 { font-size: 19px; }
+
+    .lead {
+      max-width: 720px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #26313d;
+      font-size: 14px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .hero-visual {
+      min-height: 320px;
+      display: grid;
+      align-content: end;
+      gap: 18px;
+      padding: 24px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      color: white;
+      background: linear-gradient(135deg, rgba(216, 79, 55, 0.96), rgba(240, 180, 63, 0.9) 34%, rgba(20, 127, 117, 0.92) 67%, rgba(52, 95, 189, 0.92));
+    }
+
+    .swatch-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .swatch {
+      aspect-ratio: 1;
+      min-height: 46px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 24px rgba(20, 24, 32, 0.18);
+    }
+
+    .swatch:nth-child(1) { background: #20242c; }
+    .swatch:nth-child(2) { background: #d84f37; }
+    .swatch:nth-child(3) { background: #f0b43f; }
+    .swatch:nth-child(4) { background: #147f75; }
+    .swatch:nth-child(5) { background: #345fbd; }
+
+    .gradient-strip {
+      height: 34px;
+      border: 2px solid rgba(255, 255, 255, 0.68);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #20242c, #d84f37 25%, #f0b43f 52%, #147f75 75%, #345fbd);
+      box-shadow: 0 14px 30px rgba(20, 24, 32, 0.24);
+    }
+
+    .visual-label {
+      width: fit-content;
+      max-width: 100%;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(15, 20, 28, 0.22);
+      backdrop-filter: blur(10px);
+    }
+
+    .section { margin-top: 22px; padding: 28px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+
+    .card, .shortcut, .step, .compare {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper-2);
+    }
+
+    .card { padding: 20px; }
+    .card p { margin-top: 8px; color: var(--muted); }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .label::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .shortcut-list { display: grid; gap: 12px; }
+
+    .shortcut {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+    }
+
+    .keys { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      min-height: 32px;
+      padding: 4px 9px;
+      border: 1px solid rgba(32, 36, 44, 0.18);
+      border-bottom-width: 3px;
+      border-radius: 6px;
+      color: #1f2933;
+      font: 800 14px/1 "Segoe UI", sans-serif;
+      background: #f6f7f8;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .plus { color: var(--muted); font-weight: 800; }
+    .shortcut strong { font-size: 17px; }
+    .steps { display: grid; gap: 12px; counter-reset: steps; }
+
+    .step {
+      position: relative;
+      min-height: 68px;
+      padding: 16px 18px 16px 66px;
+      background: #fffdf8;
+      counter-increment: steps;
+    }
+
+    .step::before {
+      content: counter(steps);
+      position: absolute;
+      left: 18px;
+      top: 16px;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      color: white;
+      font-weight: 900;
+      background: var(--teal);
+    }
+
+    .compare { overflow: hidden; background: var(--paper-2); }
+    .compare h3 { padding: 18px 20px; color: white; background: var(--ink); }
+    .compare.classic h3 { background: var(--red); }
+    .compare.gradient h3 { background: var(--blue); }
+    .compare ul, .card ul { margin: 0; padding: 18px 20px 20px 38px; }
+    .compare li, .card li { margin: 6px 0; }
+
+    .note {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 5px solid var(--yellow);
+      border-radius: var(--radius);
+      color: #3a3326;
+      background: #fff8df;
+    }
+
+    .pattern-box {
+      min-height: 148px;
+      margin-top: 16px;
+      border: 1px solid rgba(32, 36, 44, 0.14);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(45deg, rgba(216, 79, 55, 0.2) 25%, transparent 25% 75%, rgba(216, 79, 55, 0.2) 75%),
+        linear-gradient(45deg, rgba(20, 127, 117, 0.22) 25%, transparent 25% 75%, rgba(20, 127, 117, 0.22) 75%),
+        #fffdf8;
+      background-position: 0 0, 18px 18px;
+      background-size: 36px 36px;
+    }
+
+    .brush-scale {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      align-items: end;
+      min-height: 130px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+    }
+
+    .brush-dot { justify-self: center; border-radius: 50%; background: var(--violet); opacity: 0.86; }
+    .brush-dot:nth-child(1) { width: 18px; height: 18px; }
+    .brush-dot:nth-child(2) { width: 32px; height: 32px; }
+    .brush-dot:nth-child(3) { width: 52px; height: 52px; }
+    .brush-dot:nth-child(4) { width: 76px; height: 76px; }
+    .summary .card { min-height: 132px; }
+
+    footer {
+      padding: 26px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .hero, .grid, .summary { grid-template-columns: 1fr; }
+      .hero { padding: 24px; }
+      .hero-visual { min-height: 250px; }
+      .shortcut { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: min(calc(100% - 22px), var(--max)); padding-top: 18px; }
+      .hero, .section { padding: 20px; }
+      .nav a { width: 100%; justify-content: center; }
+      kbd { min-width: 30px; min-height: 30px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="title">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Photoshop review</div>
+        <h1 id="title">색상, 그라디언트, 패턴, 브러쉬 복습자료</h1>
+        <p class="lead">전경색과 배경색 채우기부터 그라디언트 방식 비교, 패턴 등록, 브러쉬 크기 단축키까지 한 장으로 정리한 수업 복습자료입니다.</p>
+        <nav class="nav" aria-label="복습 항목">
+          <a href="#color">색상</a>
+          <a href="#gradient">그라디언트</a>
+          <a href="#pattern">패턴</a>
+          <a href="#brush">브러쉬</a>
+        </nav>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="swatch-row">
+          <span class="swatch"></span><span class="swatch"></span><span class="swatch"></span><span class="swatch"></span><span class="swatch"></span>
+        </div>
+        <div class="gradient-strip"></div>
+        <div class="visual-label">foreground · background · gradient · pattern · brush</div>
+      </div>
+    </section>
+
+    <section class="section" id="color">
+      <h2>색상</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="label">Foreground</div>
+          <h3>전경색</h3>
+          <p>Foreground color. 칠하기, 브러쉬, 도형 등에서 앞에 놓인 기본 색상입니다.</p>
+        </article>
+        <article class="card">
+          <div class="label">Background</div>
+          <h3>배경색</h3>
+          <p>Background color. 선택 영역이나 레이어를 배경색 기준으로 채울 때 사용합니다.</p>
+        </article>
+      </div>
+      <div class="note"><strong>핵심:</strong> 전경색은 현재 작업의 주 색상, 배경색은 보조로 대기하는 색상이라고 생각하면 구분하기 쉽습니다.</div>
+    </section>
+
+    <section class="section" aria-labelledby="fill-title">
+      <h2 id="fill-title">색 채우기 단축키</h2>
+      <div class="shortcut-list">
+        <div class="shortcut">
+          <div class="keys"><kbd>Alt</kbd><span class="plus">+</span><kbd>Delete</kbd></div>
+          <strong>전경색 채우기</strong>
+        </div>
+        <div class="shortcut">
+          <div class="keys"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Delete</kbd></div>
+          <strong>배경색 채우기</strong>
+        </div>
+        <div class="shortcut">
+          <div class="keys"><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Delete</kbd></div>
+          <strong>투명한 부분 제외하고 전경색 채우기</strong>
+        </div>
+      </div>
+      <div class="note">
+        <strong>투명 픽셀 보호 채우기 순서</strong>
+        <div class="steps" style="margin-top: 12px;">
+          <div class="step">레이어를 선택합니다.</div>
+          <div class="step">컬러 피커를 열어서 원하는 색을 뽑습니다.</div>
+          <div class="step"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd>로 투명한 부분을 제외하고 전경색을 채웁니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gradient">
+      <h2>그라디언트</h2>
+      <div class="grid">
+        <article class="compare classic">
+          <h3>Classic</h3>
+          <ul>
+            <li>직관적입니다.</li>
+            <li>레이어를 추가합니다.</li>
+            <li>옵션을 변경한 후 드래그합니다.</li>
+          </ul>
+        </article>
+        <article class="compare gradient">
+          <h3>Gradient</h3>
+          <ul>
+            <li>수정이 편합니다.</li>
+            <li>Gradient Fill 레이어가 자동 생성됩니다.</li>
+            <li>드래그 후 수정할 수 있습니다.</li>
+            <li>변경한 옵션이 바로 적용됩니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="pattern">
+      <h2>패턴</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="label">Create</div>
+          <h3>Edit → Define Pattern</h3>
+          <p>반복해서 사용할 이미지나 선택 영역을 패턴으로 등록합니다.</p>
+        </article>
+        <article class="card">
+          <div class="label">Manage</div>
+          <h3>Pattern 패널</h3>
+          <p>등록한 패턴을 확인하고, 적용할 패턴을 선택합니다.</p>
+        </article>
+      </div>
+      <div class="pattern-box" aria-label="패턴 예시"></div>
+    </section>
+
+    <section class="section" id="brush">
+      <h2>브러쉬</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="label">Brush size</div>
+          <h3>크기 조절</h3>
+          <div class="shortcut-list" style="margin-top: 14px;">
+            <div class="shortcut">
+              <div class="keys"><kbd>[</kbd></div>
+              <strong>브러쉬 축소</strong>
+            </div>
+            <div class="shortcut">
+              <div class="keys"><kbd>]</kbd></div>
+              <strong>브러쉬 확대</strong>
+            </div>
+            <div class="shortcut">
+              <div class="keys"><kbd>Caps Lock</kbd></div>
+              <strong>브러쉬 커서 표시 전환</strong>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="label">Preview</div>
+          <h3>브러쉬 크기 변화</h3>
+          <div class="brush-scale" aria-hidden="true">
+            <span class="brush-dot"></span><span class="brush-dot"></span><span class="brush-dot"></span><span class="brush-dot"></span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="summary-title">
+      <h2 id="summary-title">마지막 체크</h2>
+      <div class="summary">
+        <article class="card"><h3>전경색</h3><p><kbd>Alt</kbd> + <kbd>Delete</kbd></p></article>
+        <article class="card"><h3>배경색</h3><p><kbd>Ctrl</kbd> + <kbd>Delete</kbd></p></article>
+        <article class="card"><h3>투명 보호</h3><p><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Delete</kbd></p></article>
+        <article class="card"><h3>브러쉬</h3><p><kbd>[</kbd> 축소 · <kbd>]</kbd> 확대</p></article>
+      </div>
+    </section>
+
+    <footer>Photoshop color · gradient · pattern · brush review</footer>
+  </main>
+</body>
+</html>
