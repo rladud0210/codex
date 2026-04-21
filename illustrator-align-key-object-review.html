@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 기준 개체 정렬 복습 자료</title>
+  <style>
+    :root {
+      --bg: #f4f1ec;
+      --paper: #fffaf2;
+      --white: #ffffff;
+      --ink: #20242c;
+      --muted: #626b76;
+      --line: rgba(32, 36, 44, 0.14);
+      --red: #d94b3d;
+      --teal: #157b73;
+      --gold: #d99a24;
+      --blue: #315fbd;
+      --shadow: 0 18px 42px rgba(45, 38, 30, 0.12);
+      --radius: 8px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.65;
+      background: linear-gradient(180deg, #ebe5dc 0%, var(--bg) 48%, #fbf8f2 100%);
+    }
+
+    p, li, span, th, td, a, button, input, textarea {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    .hero, .section {
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px;
+      background: var(--paper);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      border: 1px solid rgba(21, 123, 115, 0.24);
+      border-radius: 999px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(21, 123, 115, 0.08);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      font-size: clamp(34px, 5vw, 62px);
+    }
+
+    h2 { font-size: clamp(24px, 3vw, 34px); }
+    h3 { font-size: 19px; }
+
+    .lead {
+      max-width: 720px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav, .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .nav a, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 999px;
+      font-weight: 850;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.66);
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: 0;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 10px 24px rgba(32, 36, 44, 0.12);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(32, 36, 44, 0.16);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: rgba(21, 123, 115, 0.1);
+      box-shadow: none;
+    }
+
+    .hero-visual {
+      min-height: 320px;
+      display: grid;
+      align-items: center;
+      padding: 24px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(217, 75, 61, 0.94), rgba(217, 154, 36, 0.86) 43%, rgba(21, 123, 115, 0.88) 100%);
+    }
+
+    .align-board {
+      position: relative;
+      min-height: 248px;
+      border: 2px solid rgba(255, 255, 255, 0.58);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+      background-size: 28px 28px;
+      box-shadow: inset 0 0 0 1px rgba(25, 28, 36, 0.08), 0 20px 42px rgba(25, 28, 36, 0.22);
+    }
+
+    .shape {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      box-shadow: 0 14px 28px rgba(25, 28, 36, 0.22);
+    }
+
+    .shape.one {
+      left: 24px;
+      top: 42px;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .shape.two {
+      left: 128px;
+      top: 88px;
+      width: 92px;
+      height: 62px;
+      border-radius: 8px;
+      background: var(--red);
+    }
+
+    .shape.key-object {
+      right: 28px;
+      top: 66px;
+      width: 96px;
+      height: 96px;
+      border: 4px solid #fff;
+      border-radius: 8px;
+      background: #16202d;
+    }
+
+    .guide-line {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      top: 66px;
+      border-top: 3px dashed rgba(255, 255, 255, 0.78);
+    }
+
+    .visual-note {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 18px;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(19, 25, 34, 0.32);
+      backdrop-filter: blur(10px);
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 30px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      min-height: 100%;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+    }
+
+    .number {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 12px;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 900;
+      background: var(--ink);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 900;
+      background: rgba(21, 123, 115, 0.1);
+    }
+
+    .card p, .card ul { margin: 10px 0 0; color: var(--muted); }
+    .card ul, .checklist { padding-left: 20px; }
+    .card li + li, .checklist li + li { margin-top: 8px; }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding: 14px 14px 14px 52px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: var(--white);
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--teal);
+    }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--white);
+    }
+
+    .compare th, .compare td {
+      padding: 14px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare th {
+      color: #fff;
+      background: var(--ink);
+    }
+
+    .callout {
+      margin-top: 14px;
+      padding: 16px;
+      border-left: 5px solid var(--gold);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: rgba(217, 154, 36, 0.12);
+    }
+
+    .worksheet-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .question-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .question {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+    }
+
+    .question p {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .quiz-input, .quiz-textarea {
+      width: 100%;
+      border: 1px solid rgba(32, 36, 44, 0.18);
+      border-radius: var(--radius);
+      color: var(--ink);
+      font: inherit;
+      background: #fff;
+      outline: none;
+    }
+
+    .quiz-input {
+      min-height: 42px;
+      padding: 8px 10px;
+    }
+
+    .quiz-textarea {
+      min-height: 112px;
+      resize: vertical;
+      padding: 10px;
+    }
+
+    .quiz-input.correct {
+      border-color: rgba(21, 123, 115, 0.7);
+      background: rgba(21, 123, 115, 0.08);
+    }
+
+    .quiz-input.incorrect {
+      border-color: rgba(217, 75, 61, 0.75);
+      background: rgba(217, 75, 61, 0.08);
+    }
+
+    .feedback {
+      min-height: 22px;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .feedback.correct { color: var(--teal); }
+    .feedback.incorrect { color: var(--red); }
+
+    .answer {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border-left: 4px solid var(--teal);
+      color: var(--muted);
+      background: rgba(21, 123, 115, 0.08);
+    }
+
+    .answer.show { display: block; }
+
+    .score {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: var(--radius);
+      color: #fff;
+      font-weight: 900;
+      background: var(--ink);
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 24px;
+      margin: 0;
+    }
+
+    .checklist li::marker {
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 20px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--ink);
+    }
+
+    @media (max-width: 860px) {
+      .hero, .grid, .two, .worksheet-grid, .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .hero, .section { padding: 24px; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 10px; }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 18px;
+      }
+
+      .hero, .section { padding: 18px; }
+      .hero-visual { min-height: 260px; padding: 16px; }
+      .shape.one { left: 18px; width: 58px; height: 58px; }
+      .shape.two { left: 92px; width: 74px; }
+      .shape.key-object { right: 18px; width: 78px; height: 78px; }
+      .compare { font-size: 14px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { width: 100%; padding: 0; }
+      .hero, .section, .footer { box-shadow: none; break-inside: avoid; }
+      .nav, .actions { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Illustrator 수강생 복습 자료</div>
+        <h1>기준 개체 정렬</h1>
+        <p class="lead">여러 개체를 정렬할 때는 “무엇을 기준으로 맞출지”를 먼저 정합니다. 기준 개체를 지정하면 그 개체는 움직이지 않고, 나머지 개체만 기준에 맞춰 이동합니다.</p>
+        <nav class="nav" aria-label="복습 목차">
+          <a href="#key-object">기준 개체</a>
+          <a href="#spacing">분포 간격</a>
+          <a href="#tools">변형 도구</a>
+          <a href="#checklist">체크리스트</a>
+          <a href="#quiz">복습 문제</a>
+        </nav>
+        <div class="actions">
+          <button class="btn" type="button" onclick="window.print()">PDF 뽑기</button>
+          <button class="btn secondary" type="button" id="showAllAnswers">정답 보기</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="기준 개체 정렬 예시 그림">
+        <div class="align-board">
+          <div class="guide-line"></div>
+          <div class="shape one">A</div>
+          <div class="shape two">B</div>
+          <div class="shape key-object">기준</div>
+          <div class="visual-note">다중 선택 상태에서 기준으로 만들 개체를 한 번 더 클릭합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="key-object">
+      <div class="section-head">
+        <h2>기준 개체 정렬</h2>
+        <p>핵심 순서는 짧습니다. 먼저 모두 선택하고, 기준으로 만들고 싶은 개체를 한 번 더 클릭합니다.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="number">1</span>
+          <h3>다중 선택</h3>
+          <p>정렬할 개체를 모두 선택합니다. 선택 도구 단축키는 <strong>V</strong>입니다.</p>
+        </article>
+        <article class="card">
+          <span class="number">2</span>
+          <h3>한 번 더 클릭</h3>
+          <p>기준으로 만들고 싶은 개체를 <strong>한 번 더 클릭</strong>합니다. 더 진한 선택 테두리가 보이면 기준 개체입니다.</p>
+        </article>
+        <article class="card">
+          <span class="number">3</span>
+          <h3>정렬 실행</h3>
+          <p>Align 패널에서 원하는 정렬 버튼을 누릅니다. 기준 개체는 고정되고 나머지만 움직입니다.</p>
+        </article>
+      </div>
+      <div class="callout">
+        <strong>기억 문장:</strong> 전체 선택 → 기준 개체 한 번 더 클릭 → 정렬 버튼.
+      </div>
+    </section>
+
+    <section class="section" id="spacing">
+      <div class="section-head">
+        <h2>분포 간격</h2>
+        <p>간격 수치를 정확히 넣어 정리하려면 기준 개체가 필요합니다.</p>
+      </div>
+      <ol class="steps">
+        <li>간격을 맞출 여러 개체를 다중 선택합니다.</li>
+        <li>움직이지 않을 기준 개체를 한 번 더 클릭합니다.</li>
+        <li>Align 패널의 <strong>Distribute Spacing</strong> 영역에서 간격 수치를 입력합니다.</li>
+        <li>가로 간격이면 Horizontal Distribute Space, 세로 간격이면 Vertical Distribute Space를 누릅니다.</li>
+      </ol>
+      <div class="callout">
+        <strong>중요:</strong> 분포 간격에 수치를 입력해서 쓰는 기능은 기준 개체가 있어야 제대로 사용할 수 있습니다.
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="section-head">
+        <h2>반전 · 변형 · 잠금</h2>
+        <p>정렬 전에 건드리면 안 되는 개체는 잠그고, 반복 형태는 반전과 변형 도구를 함께 확인합니다.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">그룹 정렬</span>
+          <h3>그룹을 어떻게 묶을까?</h3>
+          <p>여러 개의 개체 정렬을 맞출 때는 의미 단위로 먼저 그룹을 묶습니다. 같이 움직여야 하는 요소끼리 묶고, 따로 정렬해야 하는 요소는 분리합니다.</p>
+        </article>
+        <article class="card">
+          <span class="tag">변형 도구</span>
+          <h3>반전과 변형</h3>
+          <p>반전 도구와 회전, 크기 조절 같은 변형 도구는 기준점이 중요합니다. 결과가 이상하면 기준점 위치를 먼저 확인합니다.</p>
+        </article>
+        <article class="card">
+          <span class="tag">잠금</span>
+          <h3>고정할 개체 보호</h3>
+          <p><strong>Ctrl 2</strong>로 잠금, <strong>Ctrl Alt 2</strong>로 잠금 해제합니다. 배경이나 기준 요소를 실수로 선택하지 않게 할 때 유용합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="checklist">
+      <div class="section-head">
+        <h2>체크리스트</h2>
+        <p>작업 전후로 아래 항목을 확인합니다.</p>
+      </div>
+      <ul class="checklist">
+        <li>여러 개의 개체 정렬을 맞출 때 그룹으로 묶을지 먼저 판단했다.</li>
+        <li>그룹은 같이 움직여야 하는 개체끼리 묶었다.</li>
+        <li>다중 선택 상태에서 기준 개체를 한 번 더 클릭했다.</li>
+        <li>분포 간격 수치를 쓰기 전에 기준 개체가 지정되어 있는지 확인했다.</li>
+        <li>정렬 전에 같이 움직여야 하는 개체와 따로 움직여야 하는 개체를 구분했다.</li>
+        <li>반전 도구와 변형 도구의 기준점 위치를 확인했다.</li>
+        <li>건드리면 안 되는 개체는 Ctrl 2로 잠갔다.</li>
+        <li>잠금 해제는 Ctrl Alt 2로 할 수 있다.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="quiz">
+      <div class="section-head">
+        <h2>복습 문제</h2>
+        <p>빈칸은 자동 채점하고, 서술형은 정답 보기로 예시 답안을 확인합니다.</p>
+      </div>
+      <div class="actions">
+        <button class="btn" type="button" id="checkAnswers">채점하기</button>
+        <button class="btn secondary" type="button" id="showAnswers">정답 보기</button>
+        <button class="btn secondary" type="button" id="resetAnswers">초기화</button>
+      </div>
+      <div class="worksheet-grid">
+        <article class="card">
+          <h3>빈칸 문제</h3>
+          <div class="question-list">
+            <div class="question" data-answer="v">
+              <p>1. 선택 도구의 단축키는?</p>
+              <input class="quiz-input" type="text" placeholder="정답 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="한번더클릭,한 번 더 클릭,다시클릭,재클릭">
+              <p>2. 다중 선택 후 기준 개체를 지정하려면 기준으로 만들 개체를 어떻게 해야 하는가?</p>
+              <input class="quiz-input" type="text" placeholder="정답 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="기준개체,keyobject,key object,align to key object">
+              <p>3. 분포 간격에 수치를 넣어 쓰려면 무엇이 있어야 하는가?</p>
+              <input class="quiz-input" type="text" placeholder="정답 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="ctrl2,ctrl+2,컨트롤2">
+              <p>4. 잠금 단축키는?</p>
+              <input class="quiz-input" type="text" placeholder="정답 입력">
+              <div class="feedback"></div>
+            </div>
+            <div class="question" data-answer="ctrlalt2,ctrl+alt+2,컨트롤알트2">
+              <p>5. 잠금 해제 단축키는?</p>
+              <input class="quiz-input" type="text" placeholder="정답 입력">
+              <div class="feedback"></div>
+            </div>
+          </div>
+          <div class="score" id="scoreBoard">점수: 아직 채점 전</div>
+        </article>
+
+        <article class="card">
+          <h3>서술형 문제</h3>
+          <div class="question-list">
+            <div class="question">
+              <p>1. 여러 개체를 그룹으로 묶은 후 정렬해야 하는 상황을 설명해보세요.</p>
+              <textarea class="quiz-textarea" placeholder="예시 상황 입력"></textarea>
+              <div class="answer">예시 답: 아이콘과 텍스트가 하나의 버튼처럼 같이 움직여야 할 때, 아이콘과 텍스트를 먼저 그룹으로 묶은 뒤 다른 요소와 정렬한다.</div>
+            </div>
+            <div class="question">
+              <p>2. 기준 개체 정렬 결과가 이상할 때 확인할 것 3가지를 적어보세요.</p>
+              <textarea class="quiz-textarea" placeholder="체크할 내용 입력"></textarea>
+              <div class="answer">예시 답: 기준 개체를 한 번 더 클릭했는지, Align to Key Object 상태인지, 아트보드 기준 정렬이 켜져 있지 않은지 확인한다.</div>
+            </div>
+            <div class="question">
+              <p>3. 정렬 전에 잠금 기능을 사용하면 좋은 상황을 적어보세요.</p>
+              <textarea class="quiz-textarea" placeholder="예시 상황 입력"></textarea>
+              <div class="answer">예시 답: 배경이나 이미 맞춰 둔 기준 요소처럼 움직이면 안 되는 개체가 있을 때 Ctrl 2로 잠근 뒤 나머지 개체를 정렬한다.</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <strong>오늘의 핵심:</strong> 기준 개체는 다중 선택 후 한 번 더 클릭해서 지정합니다. 분포 간격 수치 입력은 기준 개체가 있어야 안정적으로 사용할 수 있고, 정렬 전에는 그룹과 잠금 상태를 먼저 확인합니다.
+    </footer>
+  </main>
+
+  <script>
+    const quizItems = Array.from(document.querySelectorAll(".question[data-answer]"));
+    const scoreBoard = document.getElementById("scoreBoard");
+    const checkButton = document.getElementById("checkAnswers");
+    const showButton = document.getElementById("showAnswers");
+    const showAllButton = document.getElementById("showAllAnswers");
+    const resetButton = document.getElementById("resetAnswers");
+
+    function normalize(value) {
+      return value
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[＋]/g, "+")
+        .trim();
+    }
+
+    function answerMatches(input, answers) {
+      const value = normalize(input.value);
+      return answers.some((answer) => normalize(answer) === value);
+    }
+
+    function setFeedback(feedback, state, message) {
+      feedback.textContent = message;
+      feedback.classList.remove("correct", "incorrect");
+      feedback.classList.add(state);
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      quizItems.forEach((item) => {
+        const input = item.querySelector(".quiz-input");
+        const feedback = item.querySelector(".feedback");
+        const answers = (item.dataset.answer || "").split(",");
+        const isCorrect = answerMatches(input, answers);
+        input.classList.remove("correct", "incorrect");
+        input.classList.add(isCorrect ? "correct" : "incorrect");
+        setFeedback(feedback, isCorrect ? "correct" : "incorrect", isCorrect ? "정답입니다." : "다시 확인해보세요.");
+        if (isCorrect) score += 1;
+      });
+      scoreBoard.textContent = `점수: ${score} / ${quizItems.length}`;
+    }
+
+    function showAnswers() {
+      quizItems.forEach((item) => {
+        const input = item.querySelector(".quiz-input");
+        const feedback = item.querySelector(".feedback");
+        input.value = (item.dataset.answer || "").split(",")[0] || "";
+        input.classList.remove("incorrect");
+        input.classList.add("correct");
+        setFeedback(feedback, "correct", "정답을 표시했습니다.");
+      });
+      document.querySelectorAll(".answer").forEach((answer) => answer.classList.add("show"));
+      scoreBoard.textContent = `점수: ${quizItems.length} / ${quizItems.length}`;
+    }
+
+    function resetAnswers() {
+      document.querySelectorAll(".quiz-input").forEach((input) => {
+        input.value = "";
+        input.classList.remove("correct", "incorrect");
+      });
+      document.querySelectorAll(".quiz-textarea").forEach((textarea) => {
+        textarea.value = "";
+      });
+      document.querySelectorAll(".feedback").forEach((feedback) => {
+        feedback.textContent = "";
+        feedback.classList.remove("correct", "incorrect");
+      });
+      document.querySelectorAll(".answer").forEach((answer) => answer.classList.remove("show"));
+      scoreBoard.textContent = "점수: 아직 채점 전";
+    }
+
+    checkButton.addEventListener("click", checkAnswers);
+    showButton.addEventListener("click", showAnswers);
+    showAllButton.addEventListener("click", showAnswers);
+    resetButton.addEventListener("click", resetAnswers);
+  </script>
+</body>
+</html>
