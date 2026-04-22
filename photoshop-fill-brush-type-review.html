@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photoshop 채우기 · 브러시 · 타이포 복습자료</title>
+  <style>
+    :root {
+      --bg: #f5f1ea;
+      --paper: #fffdf8;
+      --ink: #22262f;
+      --muted: #66707c;
+      --line: rgba(34, 38, 47, 0.14);
+      --red: #d94b3d;
+      --green: #147a67;
+      --blue: #315fbd;
+      --gold: #e6a93f;
+      --plum: #7d4e91;
+      --shadow: 0 18px 46px rgba(48, 42, 34, 0.13);
+      --radius: 8px;
+      --max: 1140px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.65;
+      background: linear-gradient(180deg, #ece4d8 0%, var(--bg) 44%, #fbfaf6 100%);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 {
+      line-height: 1.18;
+      letter-spacing: 0;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    p, li, label, button, input, a, span {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 52px;
+    }
+
+    .hero, .section {
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      margin-bottom: 18px;
+      padding: 6px 11px;
+      border: 1px solid rgba(20, 122, 103, 0.25);
+      border-radius: 999px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 850;
+      background: rgba(20, 122, 103, 0.08);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    h1 { max-width: 760px; font-size: clamp(34px, 5vw, 60px); }
+    h2 { margin-bottom: 18px; font-size: clamp(24px, 3vw, 34px); }
+    h3 { font-size: 19px; }
+
+    .lead {
+      max-width: 760px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #27313c;
+      font-size: 14px;
+      font-weight: 850;
+      background: rgba(255, 255, 255, 0.76);
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(49, 95, 189, 0.35);
+      background: #ffffff;
+    }
+
+    .hero-panel {
+      min-height: 330px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+      padding: 24px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      color: white;
+      background: linear-gradient(135deg, rgba(34, 38, 47, 0.9), rgba(49, 95, 189, 0.82) 42%, rgba(20, 122, 103, 0.88));
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tool {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .canvas-demo {
+      position: relative;
+      min-height: 190px;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(45deg, rgba(255,255,255,0.18) 25%, transparent 25% 75%, rgba(255,255,255,0.18) 75%),
+        linear-gradient(45deg, rgba(255,255,255,0.18) 25%, transparent 25% 75%, rgba(255,255,255,0.18) 75%),
+        rgba(255, 255, 255, 0.08);
+      background-position: 0 0, 16px 16px;
+      background-size: 32px 32px;
+    }
+
+    .shape {
+      position: absolute;
+      left: 13%;
+      top: 22%;
+      width: 40%;
+      height: 54%;
+      border-radius: 8px 38px 8px 38px;
+      background: var(--red);
+      box-shadow: 0 18px 32px rgba(10, 18, 28, 0.22);
+    }
+
+    .type-box {
+      position: absolute;
+      right: 9%;
+      top: 20%;
+      width: 37%;
+      min-height: 44%;
+      padding: 13px;
+      border: 2px dashed rgba(255, 255, 255, 0.72);
+      border-radius: 8px;
+      color: white;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .panel-caption {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .triple {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card, .shortcut, .choice, .question, .resource {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+    }
+
+    .card { padding: 20px; }
+    .card p { margin-top: 8px; color: var(--muted); }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .label::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .shortcut-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .shortcut {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.38fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      padding: 14px 16px;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .shortcut:hover {
+      transform: translateY(-2px);
+      border-color: rgba(20, 122, 103, 0.35);
+      box-shadow: 0 12px 26px rgba(34, 38, 47, 0.08);
+    }
+
+    .keys {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      min-height: 32px;
+      padding: 4px 9px;
+      border: 1px solid rgba(34, 38, 47, 0.19);
+      border-bottom-width: 3px;
+      border-radius: 6px;
+      color: #1f2732;
+      font: 850 14px/1 "Segoe UI", sans-serif;
+      background: #f6f7f8;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+    }
+
+    .plus { color: var(--muted); font-weight: 900; }
+    .shortcut strong { font-size: 17px; }
+    .desc { color: var(--muted); }
+
+    .note {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 5px solid var(--gold);
+      border-radius: var(--radius);
+      color: #3a3326;
+      background: #fff7df;
+    }
+
+    .brush-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .brush-sample {
+      min-height: 128px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+    }
+
+    .soft-dot, .hard-dot {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: var(--plum);
+    }
+
+    .soft-dot {
+      background: radial-gradient(circle, rgba(125, 78, 145, 0.94) 0 38%, rgba(125, 78, 145, 0.54) 58%, rgba(125, 78, 145, 0) 76%);
+    }
+
+    .hard-dot { box-shadow: 0 0 0 1px rgba(34, 38, 47, 0.12); }
+
+    .caption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .type-compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .click-demo, .drag-demo {
+      min-height: 160px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+    }
+
+    .free-text {
+      display: inline-block;
+      margin-top: 34px;
+      color: var(--blue);
+      font-size: 32px;
+      font-weight: 900;
+      transform: rotate(-2deg);
+    }
+
+    .bounded-text {
+      min-height: 98px;
+      margin-top: 16px;
+      padding: 12px;
+      border: 2px dashed var(--blue);
+      border-radius: 8px;
+      color: var(--ink);
+      font-weight: 850;
+      background: white;
+    }
+
+    .resource-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .resource {
+      display: flex;
+      min-height: 94px;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px;
+      transition: transform 160ms ease, border-color 160ms ease;
+    }
+
+    .resource:hover {
+      transform: translateY(-2px);
+      border-color: rgba(49, 95, 189, 0.36);
+    }
+
+    .resource strong { font-size: 18px; }
+    .resource span { color: var(--muted); font-size: 14px; }
+
+    .worksheet-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .score {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border: 1px solid rgba(49, 95, 189, 0.24);
+      border-radius: 999px;
+      color: var(--blue);
+      font-weight: 900;
+      background: rgba(49, 95, 189, 0.08);
+    }
+
+    .questions {
+      display: grid;
+      gap: 14px;
+    }
+
+    .question {
+      padding: 18px;
+    }
+
+    .question p {
+      margin-bottom: 12px;
+      font-weight: 850;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      min-height: 46px;
+      padding: 11px 12px;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .choice:hover {
+      transform: translateY(-1px);
+      border-color: rgba(20, 122, 103, 0.35);
+      background: #fbfffd;
+    }
+
+    .choice input { margin-top: 5px; accent-color: var(--green); }
+
+    .answer-input {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink);
+      background: #fffdf8;
+      outline: none;
+    }
+
+    .answer-input:focus {
+      border-color: rgba(49, 95, 189, 0.55);
+      box-shadow: 0 0 0 4px rgba(49, 95, 189, 0.1);
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .is-correct { color: var(--green); }
+    .is-wrong { color: var(--red); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      min-height: 42px;
+      padding: 9px 15px;
+      border: 1px solid rgba(34, 38, 47, 0.18);
+      border-radius: 8px;
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+      background: var(--ink);
+      transition: transform 150ms ease, filter 150ms ease;
+    }
+
+    .btn.secondary {
+      color: var(--ink);
+      background: white;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+    }
+
+    .answer-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(20, 122, 103, 0.25);
+      border-radius: var(--radius);
+      color: #173d35;
+      background: rgba(20, 122, 103, 0.08);
+    }
+
+    .answer-box.show { display: block; }
+
+    footer {
+      padding: 26px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .grid, .triple, .type-compare, .resource-list {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding: 24px; }
+      .hero-panel { min-height: 280px; }
+      .shortcut { grid-template-columns: 1fr; }
+      .options { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(calc(100% - 22px), var(--max));
+        padding-top: 18px;
+      }
+      .hero, .section { padding: 20px; }
+      .nav a { width: 100%; }
+      .brush-preview { grid-template-columns: 1fr; }
+      kbd { min-width: 30px; min-height: 30px; font-size: 13px; }
+      .free-text { font-size: 28px; }
+    }
+
+    @media print {
+      body { background: white; }
+      .page { width: 100%; padding: 0; }
+      .hero, .section {
+        box-shadow: none;
+        border-color: #d8d8d8;
+        break-inside: avoid;
+      }
+      .nav, .actions { display: none; }
+      .section { margin-top: 12px; }
+      .answer-box { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="title">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Photoshop review sheet</div>
+        <h1 id="title">채우기, 브러시, 타이포 핵심 복습</h1>
+        <p class="lead">
+          전경색 채우기, 투명 픽셀을 제외한 채우기, 브러시 기본형, 선택 단축키,
+          문자 입력 방식과 폰트 사이트까지 한 장으로 정리한 수업용 복습자료입니다.
+        </p>
+        <nav class="nav" aria-label="복습 목차">
+          <a href="#fill">채우기 단축키</a>
+          <a href="#brush">브러시</a>
+          <a href="#select">선택</a>
+          <a href="#type">타이포</a>
+          <a href="#worksheet">복습 문제</a>
+        </nav>
+      </div>
+
+      <div class="hero-panel" aria-hidden="true">
+        <div class="toolbar">
+          <span class="tool">T</span>
+          <span class="tool">B</span>
+          <span class="tool">[</span>
+          <span class="tool">]</span>
+          <span class="tool">A</span>
+        </div>
+        <div class="canvas-demo">
+          <div class="shape"></div>
+          <div class="type-box">Click<br>or<br>Drag</div>
+        </div>
+        <div class="panel-caption">
+          <span>Alt + Delete</span>
+          <span>Alt + Shift + Delete</span>
+          <span>Ctrl + Enter</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fill">
+      <h2>채우기 단축키</h2>
+      <div class="shortcut-list">
+        <div class="shortcut">
+          <div class="keys"><kbd>Alt</kbd><span class="plus">+</span><kbd>Delete</kbd></div>
+          <div>
+            <strong>전경색 채우기</strong><br>
+            <span class="desc">현재 전경색으로 선택 영역이나 레이어를 빠르게 채웁니다.</span>
+          </div>
+        </div>
+        <div class="shortcut">
+          <div class="keys"><kbd>Alt</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>Delete</kbd></div>
+          <div>
+            <strong>투명한 부분 제외하고 전경색 채우기</strong><br>
+            <span class="desc">이미 칠해진 픽셀만 전경색으로 바꾸고, 투명 영역은 그대로 둡니다.</span>
+          </div>
+        </div>
+      </div>
+      <div class="note">
+        <strong>기억 포인트:</strong>
+        그냥 채우기는 전체 대상에 색을 넣고, <kbd>Shift</kbd>가 함께 들어가면 투명 픽셀을 보호한다고 정리하면 쉽습니다.
+      </div>
+    </section>
+
+    <section class="section" id="brush">
+      <h2>브러시 기본</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="label">Brush type</div>
+          <h3>Soft Round Brush / Hard Round Brush</h3>
+          <div class="brush-preview">
+            <div>
+              <div class="brush-sample"><span class="soft-dot"></span></div>
+              <div class="caption">Soft Round Brush: 가장자리가 부드럽게 퍼짐</div>
+            </div>
+            <div>
+              <div class="brush-sample"><span class="hard-dot"></span></div>
+              <div class="caption">Hard Round Brush: 가장자리가 선명함</div>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="label">Brush shortcut</div>
+          <h3>크기와 커서 표시</h3>
+          <div class="shortcut-list" style="margin-top: 14px;">
+            <div class="shortcut">
+              <div class="keys"><kbd>[</kbd></div>
+              <div><strong>브러시 크기 줄이기</strong></div>
+            </div>
+            <div class="shortcut">
+              <div class="keys"><kbd>]</kbd></div>
+              <div><strong>브러시 크기 키우기</strong></div>
+            </div>
+            <div class="shortcut">
+              <div class="keys"><kbd>Caps Lock</kbd></div>
+              <div><strong>브러시 커서 표시 전환</strong></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="select">
+      <h2>선택 영역 단축키</h2>
+      <div class="triple">
+        <article class="card">
+          <div class="label">Select all</div>
+          <h3><kbd>Ctrl</kbd> + <kbd>A</kbd></h3>
+          <p>전체 선택. 캔버스 또는 활성 레이어 기준으로 전체 영역을 잡을 때 사용합니다.</p>
+        </article>
+        <article class="card">
+          <div class="label">Deselect</div>
+          <h3><kbd>Ctrl</kbd> + <kbd>D</kbd></h3>
+          <p>선택 해제. 점선 선택 영역을 없애고 다음 작업으로 넘어갈 때 사용합니다.</p>
+        </article>
+        <article class="card">
+          <div class="label">Layer thumbnail</div>
+          <h3><kbd>Ctrl</kbd> + 썸네일 클릭</h3>
+          <p>레이어 썸네일의 모양 그대로 선택 영역을 만듭니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="type">
+      <h2>타이포 입력 방식</h2>
+      <div class="type-compare">
+        <article class="click-demo">
+          <div class="label">Click</div>
+          <h3>클릭해서 입력</h3>
+          <p>자유롭게 글자가 이어집니다. 간단하게 한두 줄만 쓸 때 적합합니다.</p>
+          <span class="free-text">자유 입력</span>
+        </article>
+        <article class="drag-demo">
+          <div class="label">Drag</div>
+          <h3>드래그해서 입력</h3>
+          <p>텍스트 박스 안에 작성됩니다. 정해진 공간 안에 넣을 때 적합합니다.</p>
+          <div class="bounded-text">정해진 박스 안에서 줄바꿈과 영역을 관리합니다.</div>
+        </article>
+      </div>
+      <div class="note">
+        <strong>문자 확정:</strong> 문자 입력을 끝낼 때는 <kbd>Ctrl</kbd> + <kbd>Enter</kbd>를 누릅니다.
+      </div>
+    </section>
+
+    <section class="section" id="fonts">
+      <h2>폰트 찾는 곳</h2>
+      <div class="resource-list">
+        <a class="resource" href="https://noonnu.cc/" target="_blank" rel="noreferrer">
+          <strong>눈누</strong>
+          <span>한글 무료 폰트 확인</span>
+        </a>
+        <a class="resource" href="https://www.dafont.com/" target="_blank" rel="noreferrer">
+          <strong>DaFont</strong>
+          <span>영문 장식 폰트 참고</span>
+        </a>
+        <a class="resource" href="https://fonts.google.com/" target="_blank" rel="noreferrer">
+          <strong>Google Fonts</strong>
+          <span>웹과 디자인용 폰트</span>
+        </a>
+        <a class="resource" href="https://fonts.adobe.com/" target="_blank" rel="noreferrer">
+          <strong>Adobe Fonts</strong>
+          <span>Adobe 계정 연동 폰트</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="worksheet-head">
+        <h2>복습 문제</h2>
+        <div class="score" id="score">아직 채점 전</div>
+      </div>
+      <div class="questions">
+        <article class="question" data-answer="alt-delete">
+          <p>1. 전경색으로 바로 채우는 단축키는?</p>
+          <div class="options">
+            <label class="choice"><input type="radio" name="q1" value="alt-delete"> Alt + Delete</label>
+            <label class="choice"><input type="radio" name="q1" value="ctrl-d"> Ctrl + D</label>
+            <label class="choice"><input type="radio" name="q1" value="capslock"> Caps Lock</label>
+            <label class="choice"><input type="radio" name="q1" value="ctrl-enter"> Ctrl + Enter</label>
+          </div>
+          <div class="feedback" aria-live="polite"></div>
+        </article>
+
+        <article class="question" data-answer="protect-transparent">
+          <p>2. 투명한 부분을 제외하고 전경색으로 채우려면?</p>
+          <div class="options">
+            <label class="choice"><input type="radio" name="q2" value="alt-delete"> Alt + Delete</label>
+            <label class="choice"><input type="radio" name="q2" value="protect-transparent"> Alt + Shift + Delete</label>
+            <label class="choice"><input type="radio" name="q2" value="ctrl-a"> Ctrl + A</label>
+            <label class="choice"><input type="radio" name="q2" value="bracket"> [ 또는 ]</label>
+          </div>
+          <div class="feedback" aria-live="polite"></div>
+        </article>
+
+        <article class="question" data-answer="drag">
+          <p>3. 정해진 공간 안에 문자를 넣어야 할 때 맞는 방식은?</p>
+          <div class="options">
+            <label class="choice"><input type="radio" name="q3" value="click"> 클릭해서 자유 입력</label>
+            <label class="choice"><input type="radio" name="q3" value="drag"> 드래그해서 텍스트 박스 생성</label>
+            <label class="choice"><input type="radio" name="q3" value="thumbnail"> Ctrl 누르고 썸네일 클릭</label>
+            <label class="choice"><input type="radio" name="q3" value="capslock"> Caps Lock 전환</label>
+          </div>
+          <div class="feedback" aria-live="polite"></div>
+        </article>
+
+        <article class="question" data-answer="ctrl-enter">
+          <p>4. 문자 입력을 확정하는 단축키를 입력하세요.</p>
+          <input class="answer-input" type="text" placeholder="예: Ctrl + Enter" aria-label="문자 확정 단축키">
+          <div class="feedback" aria-live="polite"></div>
+        </article>
+
+        <article class="question" data-answer="ctrl-thumbnail">
+          <p>5. 레이어 모양 그대로 선택 영역을 잡는 방법을 짧게 쓰세요.</p>
+          <input class="answer-input" type="text" placeholder="예: Ctrl 누른 채 레이어 썸네일 클릭" aria-label="레이어 모양 선택 방법">
+          <div class="feedback" aria-live="polite"></div>
+        </article>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="button" id="gradeBtn">채점하기</button>
+        <button class="btn secondary" type="button" id="resetBtn">초기화</button>
+        <button class="btn secondary" type="button" id="answerBtn">정답 보기</button>
+      </div>
+
+      <div class="answer-box" id="answerBox">
+        <strong>정답:</strong>
+        1번 Alt + Delete,
+        2번 Alt + Shift + Delete,
+        3번 드래그해서 텍스트 박스 생성,
+        4번 Ctrl + Enter,
+        5번 Ctrl을 누른 채 레이어 썸네일 클릭.
+      </div>
+    </section>
+
+    <footer>Photoshop fill · brush · type review handout</footer>
+  </main>
+
+  <script>
+    const gradeBtn = document.querySelector("#gradeBtn");
+    const resetBtn = document.querySelector("#resetBtn");
+    const answerBtn = document.querySelector("#answerBtn");
+    const score = document.querySelector("#score");
+    const answerBox = document.querySelector("#answerBox");
+    const questions = Array.from(document.querySelectorAll(".question"));
+
+    function normalize(value) {
+      return value.toLowerCase().replace(/\s+/g, "").replace(/[＋]/g, "+");
+    }
+
+    function textAnswerIsCorrect(key, value) {
+      const text = normalize(value);
+      if (key === "ctrl-enter") {
+        return text.includes("ctrl") && text.includes("enter");
+      }
+      if (key === "ctrl-thumbnail") {
+        const hasCtrl = text.includes("ctrl") || text.includes("컨트롤");
+        const hasThumbnail = text.includes("썸네일") || text.includes("thumbnail");
+        const hasClick = text.includes("클릭") || text.includes("click");
+        return hasCtrl && hasThumbnail && hasClick;
+      }
+      return false;
+    }
+
+    gradeBtn.addEventListener("click", () => {
+      let correct = 0;
+
+      questions.forEach((question) => {
+        const answer = question.dataset.answer;
+        const feedback = question.querySelector(".feedback");
+        const checked = question.querySelector("input[type='radio']:checked");
+        const textInput = question.querySelector(".answer-input");
+        let isCorrect = false;
+        let empty = false;
+
+        if (checked) {
+          isCorrect = checked.value === answer;
+        } else if (textInput) {
+          empty = textInput.value.trim() === "";
+          isCorrect = textAnswerIsCorrect(answer, textInput.value);
+        } else {
+          empty = true;
+        }
+
+        feedback.classList.remove("is-correct", "is-wrong");
+
+        if (empty && !checked) {
+          feedback.textContent = "아직 답을 입력하지 않았습니다.";
+          feedback.classList.add("is-wrong");
+          return;
+        }
+
+        if (isCorrect) {
+          correct += 1;
+          feedback.textContent = "정답입니다.";
+          feedback.classList.add("is-correct");
+        } else {
+          feedback.textContent = "다시 확인하세요.";
+          feedback.classList.add("is-wrong");
+        }
+      });
+
+      score.textContent = `${correct} / ${questions.length} 정답`;
+    });
+
+    resetBtn.addEventListener("click", () => {
+      document.querySelectorAll("input[type='radio']").forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll(".answer-input").forEach((input) => {
+        input.value = "";
+      });
+      document.querySelectorAll(".feedback").forEach((feedback) => {
+        feedback.textContent = "";
+        feedback.classList.remove("is-correct", "is-wrong");
+      });
+      score.textContent = "아직 채점 전";
+      answerBox.classList.remove("show");
+      answerBtn.textContent = "정답 보기";
+    });
+
+    answerBtn.addEventListener("click", () => {
+      answerBox.classList.toggle("show");
+      answerBtn.textContent = answerBox.classList.contains("show") ? "정답 숨기기" : "정답 보기";
+    });
+  </script>
+</body>
+</html>
