@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 패스파인더 · 확장 · 도형 구성 도구 복습</title>
+  <style>
+    :root {
+      --bg: #eef3f1;
+      --paper: #ffffff;
+      --ink: #17202a;
+      --muted: #5e6977;
+      --line: rgba(23, 32, 42, 0.13);
+      --teal: #118071;
+      --blue: #3267d6;
+      --red: #dc5749;
+      --yellow: #f2b94b;
+      --violet: #7657c8;
+      --soft-teal: rgba(17, 128, 113, 0.1);
+      --soft-blue: rgba(50, 103, 214, 0.1);
+      --soft-red: rgba(220, 87, 73, 0.11);
+      --soft-yellow: rgba(242, 185, 75, 0.18);
+      --shadow: 0 18px 46px rgba(22, 31, 42, 0.12);
+      --radius: 8px;
+      --max: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.65;
+      background:
+        linear-gradient(180deg, #dfeae7 0%, var(--bg) 42%, #f7f9f8 100%);
+    }
+
+    p, li, span, a, button, th, td {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 52px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 30px;
+      align-items: stretch;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      border: 1px solid rgba(17, 128, 113, 0.24);
+      border-radius: 999px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0;
+      background: var(--soft-teal);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 820px;
+      font-size: clamp(34px, 5vw, 62px);
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    h3 {
+      font-size: 19px;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav, .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .nav a, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 999px;
+      font-weight: 850;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .btn {
+      gap: 8px;
+      padding: 10px 15px;
+      border: 0;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 10px 24px rgba(23, 32, 42, 0.14);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(23, 32, 42, 0.18);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+
+    .hero-visual {
+      min-height: 324px;
+      display: grid;
+      align-items: center;
+      padding: 22px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+        linear-gradient(135deg, #1f6478 0%, #3267d6 34%, #7657c8 62%, #dc5749 100%);
+      background-size: 28px 28px, 28px 28px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+    }
+
+    .artboard {
+      position: relative;
+      min-height: 264px;
+      border: 2px solid rgba(255, 255, 255, 0.66);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.13);
+      box-shadow: 0 22px 44px rgba(12, 18, 28, 0.24);
+      overflow: hidden;
+    }
+
+    .art-shape {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 16px 30px rgba(12, 18, 28, 0.22);
+    }
+
+    .art-shape.circle {
+      left: 38px;
+      top: 48px;
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      background: var(--yellow);
+    }
+
+    .art-shape.square {
+      left: 116px;
+      top: 92px;
+      width: 124px;
+      height: 124px;
+      border: 4px solid rgba(255, 255, 255, 0.76);
+      border-radius: 10px;
+      background: var(--red);
+    }
+
+    .art-shape.hex {
+      right: 34px;
+      bottom: 34px;
+      width: 122px;
+      height: 104px;
+      clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+      background: var(--teal);
+    }
+
+    .cursor {
+      position: absolute;
+      right: 128px;
+      top: 56px;
+      width: 42px;
+      height: 54px;
+      filter: drop-shadow(0 8px 10px rgba(12, 18, 28, 0.3));
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      max-width: 680px;
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 850;
+      background: var(--soft-teal);
+      white-space: nowrap;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .tool-card, .note-card, .shortcut-card, .quiz-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .tool-card {
+      overflow: hidden;
+    }
+
+    .diagram {
+      min-height: 188px;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(23, 32, 42, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 42, 0.05) 1px, transparent 1px),
+        #f8fbfa;
+      background-size: 22px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .diagram svg {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+    }
+
+    .tool-body {
+      padding: 18px;
+    }
+
+    .tool-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .tool-title strong {
+      font-size: 20px;
+      line-height: 1.22;
+    }
+
+    .tool-title span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .tool-body p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 26px;
+      color: var(--ink);
+      font-weight: 760;
+    }
+
+    .check-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.48em;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: var(--teal);
+      box-shadow: inset 0 0 0 3px #d7efeb;
+    }
+
+    .expand-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .expand-board {
+      min-height: 360px;
+      display: grid;
+      align-items: center;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(23, 32, 42, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 32, 42, 0.05) 1px, transparent 1px),
+        #f7fbff;
+      background-size: 24px 24px;
+    }
+
+    .flow {
+      display: grid;
+      gap: 16px;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .flow-box {
+      min-height: 116px;
+      display: grid;
+      place-items: center;
+      padding: 14px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .flow-label {
+      margin-top: 8px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .arrow {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      font-weight: 900;
+      background: var(--blue);
+    }
+
+    .note-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .note-card {
+      padding: 18px;
+    }
+
+    .note-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .note-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .builder-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .builder-demo {
+      min-height: 352px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 24% 30%, rgba(242, 185, 75, 0.35), transparent 28%),
+        radial-gradient(circle at 64% 58%, rgba(50, 103, 214, 0.2), transparent 30%),
+        #f8fbfa;
+    }
+
+    .builder-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .action-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .action-list li {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .action-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      font-weight: 900;
+      background: var(--teal);
+    }
+
+    .action-list strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .action-list span {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .note-card.pathfinder {
+      background: linear-gradient(180deg, var(--soft-blue), #fff 82%);
+    }
+
+    .note-card.builder {
+      background: linear-gradient(180deg, var(--soft-yellow), #fff 82%);
+    }
+
+    .shortcut-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .shortcut-card {
+      min-height: 126px;
+      padding: 14px;
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      max-width: 100%;
+      min-height: 34px;
+      padding: 4px 10px;
+      border: 1px solid rgba(23, 32, 42, 0.22);
+      border-bottom-width: 3px;
+      border-radius: 7px;
+      color: var(--ink);
+      font: 850 15px/1 "Segoe UI", sans-serif;
+      background: #fff;
+      box-shadow: 0 6px 14px rgba(23, 32, 42, 0.08);
+    }
+
+    .shortcut-card span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: practice;
+    }
+
+    .practice-card {
+      min-height: 210px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(50, 103, 214, 0.1), transparent 56%),
+        #fff;
+      counter-increment: practice;
+    }
+
+    .practice-card::before {
+      content: "문제 " counter(practice);
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      margin-bottom: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--blue);
+    }
+
+    .practice-card p {
+      margin: 0;
+      font-weight: 850;
+    }
+
+    .practice-options {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0 0;
+      padding: 0;
+    }
+
+    .practice-options label {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 760;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.72);
+      transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+    }
+
+    .practice-options input {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      accent-color: var(--teal);
+    }
+
+    .practice-options label:has(input:checked) {
+      border-color: rgba(17, 128, 113, 0.58);
+      color: var(--ink);
+      background: var(--soft-teal);
+    }
+
+    .check-answer {
+      width: fit-content;
+      max-width: 100%;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 14px;
+      padding: 8px 12px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      font: inherit;
+      font-weight: 850;
+      cursor: pointer;
+      background: var(--ink);
+    }
+
+    .answer-panel {
+      margin-top: 10px;
+      padding: 12px;
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius);
+      color: var(--ink);
+      font-weight: 760;
+      background: var(--soft-teal);
+    }
+
+    .answer-panel[data-state="wrong"] {
+      border-left-color: var(--red);
+      background: var(--soft-red);
+    }
+
+    .answer-panel[data-state="empty"] {
+      border-left-color: var(--yellow);
+      background: var(--soft-yellow);
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: quiz;
+    }
+
+    .quiz-card {
+      min-height: 150px;
+      padding: 18px;
+      counter-increment: quiz;
+      background:
+        linear-gradient(135deg, rgba(17, 128, 113, 0.08), transparent 52%),
+        #fff;
+    }
+
+    .quiz-card::before {
+      content: "Q" counter(quiz);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 34px;
+      margin-bottom: 12px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--ink);
+    }
+
+    .quiz-card p {
+      margin: 0;
+      font-weight: 850;
+    }
+
+    .answer {
+      margin-top: 10px;
+      color: var(--teal);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .summary-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .summary-item span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .expand-layout,
+      .builder-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-grid,
+      .choice-grid,
+      .practice-grid,
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shortcut-grid,
+      .summary-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 22px), var(--max));
+        padding-top: 18px;
+      }
+
+      .hero, .section {
+        padding: 22px;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .tag {
+        margin-top: 12px;
+      }
+
+      .hero-visual {
+        min-height: 260px;
+        padding: 16px;
+      }
+
+      .artboard {
+        min-height: 226px;
+      }
+
+      .art-shape.circle {
+        left: 22px;
+        top: 48px;
+        width: 92px;
+        height: 92px;
+      }
+
+      .art-shape.square {
+        left: 86px;
+        top: 88px;
+        width: 98px;
+        height: 98px;
+      }
+
+      .art-shape.hex {
+        right: 18px;
+        bottom: 28px;
+        width: 96px;
+        height: 82px;
+      }
+
+      .cursor {
+        right: 88px;
+        top: 48px;
+      }
+
+      .flow-row {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        justify-self: center;
+        transform: rotate(90deg);
+      }
+
+      .shortcut-grid,
+      .summary-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero, .section {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      .nav, .actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Illustrator 복습 자료</div>
+        <h1>패스파인더 · 확장 · 도형 구성 도구</h1>
+        <p class="lead">겹친 도형을 합치고, 빼고, 나누는 핵심 기능을 상황별로 구분해서 복습합니다. 선택 범위와 결과 형태를 먼저 확인하는 습관이 제일 중요합니다.</p>
+        <nav class="nav" aria-label="페이지 목차">
+          <a href="#pathfinder">패스파인더</a>
+          <a href="#expand">확장</a>
+          <a href="#builder">도형 구성 도구</a>
+          <a href="#practice">중간 문제</a>
+          <a href="#choice">기능 선택 기준</a>
+          <a href="#shortcuts">단축키</a>
+          <a href="#quiz">복습 퀴즈</a>
+        </nav>
+        <div class="actions">
+          <button class="btn" type="button" onclick="window.print()" aria-label="인쇄하기">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M7 3h10v5H7V3Zm-2 7h14a3 3 0 0 1 3 3v5h-4v3H6v-3H2v-5a3 3 0 0 1 3-3Zm3 9h8v-5H8v5Zm11-5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z"/>
+            </svg>
+            인쇄
+          </button>
+          <a class="btn secondary" href="#shortcuts">단축키 확인</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="artboard">
+          <div class="art-shape circle">UNITE</div>
+          <div class="art-shape square">MINUS</div>
+          <div class="art-shape hex">BUILD</div>
+          <svg class="cursor" viewBox="0 0 46 58">
+            <path d="M5 4l32 30-16 2 9 16-8 4-9-17L2 50 5 4Z" fill="#fff"/>
+            <path d="M5 4l32 30-16 2 9 16-8 4-9-17L2 50 5 4Z" fill="none" stroke="#17202a" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pathfinder">
+      <div class="section-head">
+        <div>
+          <h2>Pathfinder 패스파인더</h2>
+          <p>여러 개체를 선택한 뒤 한 가지 계산 방식으로 결과를 만드는 기능입니다. 실행 후 결과가 자동으로 그룹처럼 묶이는 흐름을 기억합니다.</p>
+        </div>
+        <span class="tag">한 번에 하나의 기능</span>
+      </div>
+
+      <div class="tool-grid">
+        <article class="tool-card">
+          <div class="diagram">
+            <svg viewBox="0 0 260 150" role="img" aria-label="Unite 합치기 예시">
+              <circle cx="86" cy="75" r="46" fill="#f2b94b" opacity="0.9"/>
+              <rect x="92" y="39" width="82" height="72" rx="8" fill="#3267d6" opacity="0.88"/>
+              <path d="M86 29a46 46 0 0 0 0 92h88a8 8 0 0 0 8-8V37a8 8 0 0 0-8-8H86Z" transform="translate(0 8)" fill="#118071" opacity="0.22"/>
+              <path d="M190 75h40m-14-14 14 14-14 14" fill="none" stroke="#17202a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-title">
+              <strong>Unite</strong>
+              <span>합치기</span>
+            </div>
+            <p>겹친 여러 도형을 하나의 닫힌 면으로 합칩니다.</p>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="diagram">
+            <svg viewBox="0 0 260 150" role="img" aria-label="Minus Front 빼기 예시">
+              <rect x="58" y="38" width="110" height="82" rx="10" fill="#dc5749"/>
+              <circle cx="140" cy="74" r="42" fill="#3267d6" opacity="0.88"/>
+              <path d="M58 38h70a42 42 0 0 0 0 82H58a10 10 0 0 1-10-10V48a10 10 0 0 1 10-10Z" transform="translate(0 0)" fill="#dc5749" opacity="0.22"/>
+              <path d="M190 75h40m-14-14 14 14-14 14" fill="none" stroke="#17202a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-title">
+              <strong>Minus Front</strong>
+              <span>빼기</span>
+            </div>
+            <p>앞면 개체를 기준으로 뒤쪽 도형에서 겹친 부분을 제외합니다.</p>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="diagram">
+            <svg viewBox="0 0 260 150" role="img" aria-label="Divide 나누기 예시">
+              <circle cx="92" cy="75" r="46" fill="#f2b94b" opacity="0.9"/>
+              <rect x="88" y="38" width="90" height="74" rx="8" fill="#7657c8" opacity="0.84"/>
+              <path d="M88 38v74M92 29v92M132 38v74M178 38v74" stroke="#17202a" stroke-width="3" stroke-dasharray="7 6"/>
+              <path d="M190 75h40m-14-14 14 14-14 14" fill="none" stroke="#17202a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <div class="tool-title">
+              <strong>Divide</strong>
+              <span>나누기</span>
+            </div>
+            <p>겹치는 경계를 기준으로 조각을 나눕니다. 필요 없는 조각은 선택해서 정리합니다.</p>
+          </div>
+        </article>
+      </div>
+
+      <ul class="check-list">
+        <li>선택을 정확하게 해야 원하는 결과가 나옵니다.</li>
+        <li>실행 후 개체가 자동으로 그룹처럼 묶이는 흐름을 기억합니다.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="expand">
+      <div class="section-head">
+        <div>
+          <h2>Expand 확장</h2>
+          <p>겉으로 보이는 선, 효과, 모양을 실제 편집 가능한 면과 패스로 바꾸는 과정입니다.</p>
+        </div>
+        <span class="tag">보이는 모양을 실제 형태로</span>
+      </div>
+
+      <div class="expand-layout">
+        <div class="expand-board">
+          <div class="flow">
+            <div>
+              <div class="flow-row">
+                <div>
+                  <div class="flow-box">
+                    <svg viewBox="0 0 170 82" width="170" height="82" aria-hidden="true">
+                      <path d="M22 54 C54 8, 110 8, 146 54" fill="none" stroke="#3267d6" stroke-width="14" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="flow-label">선 · 열린 패스</div>
+                </div>
+                <div class="arrow">→</div>
+                <div>
+                  <div class="flow-box">
+                    <svg viewBox="0 0 170 82" width="170" height="82" aria-hidden="true">
+                      <path d="M22 54 C54 8, 110 8, 146 54 L139 65 C108 26, 57 26, 29 65Z" fill="#3267d6"/>
+                      <path d="M22 54 C54 8, 110 8, 146 54 L139 65 C108 26, 57 26, 29 65Z" fill="none" stroke="#17202a" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <div class="flow-label">면 · 닫힌 패스</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="flow-row">
+                <div>
+                  <div class="flow-box">
+                    <svg viewBox="0 0 170 82" width="170" height="82" aria-hidden="true">
+                      <rect x="38" y="18" width="78" height="44" rx="8" fill="#f2b94b"/>
+                      <rect x="54" y="26" width="78" height="44" rx="8" fill="#dc5749" opacity="0.68"/>
+                    </svg>
+                  </div>
+                  <div class="flow-label">효과가 적용된 모양</div>
+                </div>
+                <div class="arrow">→</div>
+                <div>
+                  <div class="flow-box">
+                    <svg viewBox="0 0 170 82" width="170" height="82" aria-hidden="true">
+                      <rect x="38" y="18" width="78" height="44" rx="8" fill="#f2b94b" stroke="#17202a" stroke-width="2"/>
+                      <rect x="54" y="26" width="78" height="44" rx="8" fill="#dc5749" opacity="0.68" stroke="#17202a" stroke-width="2"/>
+                      <circle cx="38" cy="18" r="4" fill="#17202a"/>
+                      <circle cx="116" cy="62" r="4" fill="#17202a"/>
+                    </svg>
+                  </div>
+                  <div class="flow-label">선과 면으로 확정</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-stack">
+          <article class="note-card">
+            <strong>선 → 면</strong>
+            <p>열린 패스처럼 보이던 선을 실제 두께가 있는 닫힌 패스로 바꿉니다.</p>
+          </article>
+          <article class="note-card">
+            <strong>효과 → 선, 면</strong>
+            <p>효과로만 보이던 모양을 실제 편집 가능한 개체로 확정합니다.</p>
+          </article>
+          <article class="note-card">
+            <strong>Ctrl + Y</strong>
+            <p>윤곽선 모드에서 실제 패스 상태를 확인합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="builder">
+      <div class="section-head">
+        <div>
+          <h2>Shape Builder 도형 구성 도구</h2>
+          <p>선택된 도형 안에서 필요한 부분을 직접 더하고, 빼고, 나눠서 빠르게 모양을 정리합니다.</p>
+        </div>
+        <span class="tag">여러 기능을 한 번에 판단</span>
+      </div>
+
+      <div class="builder-layout">
+        <div class="builder-demo">
+          <svg class="builder-svg" viewBox="0 0 420 270" role="img" aria-label="도형 구성 도구 사용 예시">
+            <rect x="76" y="66" width="142" height="120" rx="16" fill="#3267d6" opacity="0.82"/>
+            <circle cx="212" cy="132" r="72" fill="#f2b94b" opacity="0.82"/>
+            <path d="M125 204 L206 64 L292 204Z" fill="#dc5749" opacity="0.76"/>
+            <path d="M76 66h142v120H76zM140 132h144M212 60v150M125 204 206 64 292 204Z" fill="none" stroke="#17202a" stroke-width="2" stroke-dasharray="7 6"/>
+            <path d="M78 225 C122 204, 168 184, 214 162" fill="none" stroke="#118071" stroke-width="12" stroke-linecap="round"/>
+            <path d="M280 78l38 36-19 2 11 21-10 5-11-21-13 14 4-57Z" fill="#fff" stroke="#17202a" stroke-width="4" stroke-linejoin="round"/>
+            <text x="84" y="244" fill="#118071" font-size="18" font-weight="900">드래그해서 더하기</text>
+          </svg>
+        </div>
+
+        <ul class="action-list">
+          <li>
+            <span class="action-mark">+</span>
+            <span><strong>더하기</strong>드래그해서 이어 붙입니다.</span>
+          </li>
+          <li>
+            <span class="action-mark" style="background: var(--red);">−</span>
+            <span><strong>빼기</strong>Alt 클릭 또는 Alt 드래그로 제거합니다.</span>
+          </li>
+          <li>
+            <span class="action-mark" style="background: var(--blue);">÷</span>
+            <span><strong>나누기</strong>필요한 영역을 클릭해서 독립된 조각으로 만듭니다.</span>
+          </li>
+          <li>
+            <span class="action-mark" style="background: var(--violet);">!</span>
+            <span><strong>선택 먼저</strong>편집할 모양을 정확하게 선택해야 도구가 작동합니다.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="section-head">
+        <div>
+          <h2>중간 문제</h2>
+          <p>설명을 읽은 뒤 바로 풀어보는 확인 문제입니다. 답을 고른 다음 정답 확인을 눌러보세요.</p>
+        </div>
+        <span class="tag">정답 확인</span>
+      </div>
+
+      <div class="practice-grid">
+        <article class="practice-card" data-answer="A" data-correct="정답: A. Pathfinder - Unite. 여러 도형을 하나의 닫힌 면으로 합칠 때 사용합니다.">
+          <p>두 도형을 완전히 하나의 면으로 만들고 싶습니다. 어떤 기능을 쓰나요?</p>
+          <div class="practice-options" role="radiogroup" aria-label="문제 1 보기">
+            <label><input type="radio" name="practice-1" value="A"> A. Pathfinder - Unite</label>
+            <label><input type="radio" name="practice-1" value="B"> B. Shape Builder - Alt 클릭</label>
+            <label><input type="radio" name="practice-1" value="C"> C. Ctrl + Y</label>
+          </div>
+          <button class="check-answer" type="button">정답 확인</button>
+          <div class="answer-panel" aria-live="polite" hidden></div>
+        </article>
+
+        <article class="practice-card" data-answer="B" data-correct="정답: B. Minus Front. 앞면 개체를 제외해서 뒤쪽 도형을 잘라냅니다.">
+          <p>앞에 있는 도형 모양만큼 뒤쪽 도형을 빼야 합니다. 가장 알맞은 패스파인더 기능은?</p>
+          <div class="practice-options" role="radiogroup" aria-label="문제 2 보기">
+            <label><input type="radio" name="practice-2" value="A"> A. Divide</label>
+            <label><input type="radio" name="practice-2" value="B"> B. Minus Front</label>
+            <label><input type="radio" name="practice-2" value="C"> C. Expand</label>
+          </div>
+          <button class="check-answer" type="button">정답 확인</button>
+          <div class="answer-panel" aria-live="polite" hidden></div>
+        </article>
+
+        <article class="practice-card" data-answer="A" data-correct="정답: A. Expand. 선을 실제 두께가 있는 닫힌 패스와 면으로 바꿉니다.">
+          <p>선 두께가 있는 열린 패스를 실제 면으로 바꾸고 싶습니다. 어떤 과정을 거쳐야 하나요?</p>
+          <div class="practice-options" role="radiogroup" aria-label="문제 3 보기">
+            <label><input type="radio" name="practice-3" value="A"> A. Expand</label>
+            <label><input type="radio" name="practice-3" value="B"> B. Ctrl + R</label>
+            <label><input type="radio" name="practice-3" value="C"> C. Pathfinder - Unite</label>
+          </div>
+          <button class="check-answer" type="button">정답 확인</button>
+          <div class="answer-panel" aria-live="polite" hidden></div>
+        </article>
+
+        <article class="practice-card" data-answer="A" data-correct="정답: A. Shape Builder. 드래그로 더하고 Alt 클릭 또는 Alt 드래그로 빼면서 영역별로 편집합니다.">
+          <p>같은 도형 묶음 안에서 어떤 부분은 더하고, 어떤 부분은 빼야 합니다. 더 적합한 도구는?</p>
+          <div class="practice-options" role="radiogroup" aria-label="문제 4 보기">
+            <label><input type="radio" name="practice-4" value="A"> A. Shape Builder</label>
+            <label><input type="radio" name="practice-4" value="B"> B. Ctrl + 5</label>
+            <label><input type="radio" name="practice-4" value="C"> C. Ctrl + ;</label>
+          </div>
+          <button class="check-answer" type="button">정답 확인</button>
+          <div class="answer-panel" aria-live="polite" hidden></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="choice">
+      <div class="section-head">
+        <div>
+          <h2>기능 선택 기준</h2>
+          <p>작업 목적을 먼저 말로 정리하면 도구 선택이 쉬워집니다.</p>
+        </div>
+        <span class="tag">상황별 선택</span>
+      </div>
+
+      <div class="choice-grid">
+        <article class="note-card pathfinder">
+          <strong>한 번에 하나의 기능을 써야 할 때</strong>
+          <p>패스파인더를 사용합니다. 합치기, 앞면 제외, 나누기처럼 결과가 명확한 계산에 적합합니다.</p>
+        </article>
+        <article class="note-card builder">
+          <strong>한 번에 여러 가지 기능을 쓸 때</strong>
+          <p>도형 구성 도구를 사용합니다. 영역별로 더하고 빼는 판단을 동시에 할 수 있습니다.</p>
+        </article>
+        <article class="note-card builder">
+          <strong>바깥쪽 개체를 잘라낼 때</strong>
+          <p>도형 구성 도구로 필요한 안쪽만 남기고 바깥쪽 조각을 제거합니다.</p>
+        </article>
+      </div>
+
+      <div class="summary-strip">
+        <div class="summary-item"><strong>선택</strong><span>편집할 개체를 먼저 정확하게 선택</span></div>
+        <div class="summary-item"><strong>계산</strong><span>패스파인더는 한 가지 결과에 집중</span></div>
+        <div class="summary-item"><strong>직접 편집</strong><span>도형 구성 도구는 영역별 판단</span></div>
+        <div class="summary-item"><strong>확인</strong><span>Ctrl + Y로 실제 패스 점검</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="shortcuts">
+      <div class="section-head">
+        <div>
+          <h2>단축키</h2>
+          <p>보기 상태를 빠르게 바꾸면 선택 실수와 패스 상태를 확인하기 쉽습니다.</p>
+        </div>
+        <span class="tag">보기 · 가이드</span>
+      </div>
+
+      <div class="shortcut-grid">
+        <article class="shortcut-card">
+          <kbd>Ctrl + Y</kbd>
+          <span>윤곽선 모드</span>
+        </article>
+        <article class="shortcut-card">
+          <kbd>Ctrl + R</kbd>
+          <span>눈금자 켜기 / 끄기</span>
+        </article>
+        <article class="shortcut-card">
+          <kbd>Ctrl + ;</kbd>
+          <span>가이드 숨기기 / 보이기</span>
+        </article>
+        <article class="shortcut-card">
+          <kbd>Ctrl + '</kbd>
+          <span>격자 켜기 / 끄기</span>
+        </article>
+        <article class="shortcut-card">
+          <kbd>Ctrl + 5</kbd>
+          <span>가이드 만들기</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="quiz">
+      <div class="section-head">
+        <div>
+          <h2>복습 퀴즈</h2>
+          <p>작업 전 도구 선택을 스스로 점검합니다.</p>
+        </div>
+        <span class="tag">마지막 체크</span>
+      </div>
+
+      <div class="quiz-grid">
+        <article class="quiz-card">
+          <p>겹친 도형을 한 덩어리로 만들 때 쓰는 패스파인더 기능은?</p>
+          <div class="answer">정답: Unite 합치기</div>
+        </article>
+        <article class="quiz-card">
+          <p>앞에 있는 도형 모양만큼 뒤 도형을 빼고 싶을 때는?</p>
+          <div class="answer">정답: Minus Front 앞면 제외</div>
+        </article>
+        <article class="quiz-card">
+          <p>영역별로 더하고 빼기를 동시에 판단해야 할 때는?</p>
+          <div class="answer">정답: Shape Builder 도형 구성 도구</div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.querySelectorAll(".practice-card").forEach((card) => {
+      const button = card.querySelector(".check-answer");
+      const panel = card.querySelector(".answer-panel");
+
+      button.addEventListener("click", () => {
+        const selected = card.querySelector("input[type='radio']:checked");
+
+        if (!selected) {
+          panel.hidden = false;
+          panel.dataset.state = "empty";
+          panel.textContent = "보기를 먼저 선택한 다음 정답을 확인하세요.";
+          return;
+        }
+
+        const isCorrect = selected.value === card.dataset.answer;
+        panel.hidden = false;
+        panel.dataset.state = isCorrect ? "correct" : "wrong";
+        panel.textContent = `${isCorrect ? "맞았습니다." : "다시 확인하세요."} ${card.dataset.correct}`;
+      });
+    });
+  </script>
+</body>
+</html>
