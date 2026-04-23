@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 눈금자 · 가이드 · 펜툴 복습 자료</title>
+  <style>
+    :root {
+      --bg: #f1f4f0;
+      --paper: #fffdfa;
+      --ink: #17191f;
+      --muted: #636b78;
+      --line: rgba(23, 25, 31, 0.13);
+      --green: #0f7d68;
+      --blue: #315fd1;
+      --red: #dd5147;
+      --yellow: #f0b441;
+      --violet: #7257bf;
+      --soft-green: rgba(15, 125, 104, 0.1);
+      --soft-blue: rgba(49, 95, 209, 0.1);
+      --soft-red: rgba(221, 81, 71, 0.1);
+      --soft-yellow: rgba(240, 180, 65, 0.18);
+      --shadow: 0 22px 54px rgba(32, 36, 46, 0.12);
+      --radius: 8px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.65;
+      background:
+        linear-gradient(rgba(23, 25, 31, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 25, 31, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, #dce8e1 0%, var(--bg) 42%, #fbfaf7 100%);
+      background-size: 28px 28px, 28px 28px, auto;
+    }
+
+    body, button, input, textarea, select {
+      font: inherit;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1, h2, h3, .keep {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: balance;
+      letter-spacing: 0;
+    }
+
+    p, li, label, button, input, textarea, select, a {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 58px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 250, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      margin-bottom: 18px;
+      padding: 6px 11px;
+      border: 1px solid rgba(15, 125, 104, 0.24);
+      border-radius: 999px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 850;
+      background: var(--soft-green);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    h1 {
+      margin-bottom: 16px;
+      font-size: clamp(35px, 5vw, 64px);
+      line-height: 1.12;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: clamp(24px, 3vw, 35px);
+      line-height: 1.18;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+      line-height: 1.22;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav,
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .nav a,
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 999px;
+      font-weight: 850;
+    }
+
+    .nav a {
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.78);
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .nav a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(15, 125, 104, 0.36);
+      color: var(--green);
+    }
+
+    .btn {
+      gap: 8px;
+      padding: 10px 16px;
+      border: 0;
+      color: white;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 13px 28px rgba(23, 25, 31, 0.16);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(23, 25, 31, 0.2);
+    }
+
+    .btn.secondary {
+      color: var(--green);
+      background: var(--soft-green);
+      box-shadow: none;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    .hero-visual {
+      min-height: 340px;
+      display: grid;
+      align-items: center;
+      padding: 22px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(135deg, #124f6a 0%, #315fd1 38%, #7257bf 66%, #dd5147 100%);
+      background-size: 26px 26px, 26px 26px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+    }
+
+    .artboard {
+      position: relative;
+      min-height: 280px;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 24px 46px rgba(10, 14, 22, 0.24);
+      overflow: hidden;
+    }
+
+    .ruler-x,
+    .ruler-y {
+      position: absolute;
+      background: rgba(255, 253, 250, 0.92);
+    }
+
+    .ruler-x {
+      top: 0;
+      left: 28px;
+      right: 0;
+      height: 28px;
+      background-image: repeating-linear-gradient(90deg, transparent 0 13px, rgba(23, 25, 31, 0.45) 13px 14px);
+    }
+
+    .ruler-y {
+      top: 28px;
+      left: 0;
+      bottom: 0;
+      width: 28px;
+      background-image: repeating-linear-gradient(180deg, transparent 0 13px, rgba(23, 25, 31, 0.45) 13px 14px);
+    }
+
+    .corner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 253, 250, 0.98);
+    }
+
+    .guide {
+      position: absolute;
+      background: rgba(104, 224, 255, 0.82);
+      box-shadow: 0 0 0 1px rgba(49, 95, 209, 0.42);
+    }
+
+    .guide.v1 {
+      top: 28px;
+      bottom: 0;
+      left: 42%;
+      width: 2px;
+    }
+
+    .guide.v2 {
+      top: 28px;
+      bottom: 0;
+      left: 68%;
+      width: 2px;
+    }
+
+    .guide.h1 {
+      left: 28px;
+      right: 0;
+      top: 38%;
+      height: 2px;
+    }
+
+    .shape.big {
+      position: absolute;
+      left: 82px;
+      top: 84px;
+      width: 170px;
+      height: 122px;
+      border-radius: 6px;
+      background: rgba(240, 180, 65, 0.9);
+      box-shadow: 0 16px 30px rgba(10, 14, 22, 0.18);
+    }
+
+    .shape.small-a,
+    .shape.small-b {
+      position: absolute;
+      width: 76px;
+      height: 52px;
+      border-radius: 5px;
+      background: rgba(221, 81, 71, 0.88);
+      box-shadow: 0 16px 30px rgba(10, 14, 22, 0.18);
+    }
+
+    .shape.small-a {
+      left: 62px;
+      top: 118px;
+    }
+
+    .shape.small-b {
+      left: 198px;
+      top: 48px;
+    }
+
+    .shape.circle {
+      position: absolute;
+      right: 48px;
+      bottom: 44px;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(15, 125, 104, 0.9);
+      box-shadow: 0 16px 30px rgba(10, 14, 22, 0.18);
+    }
+
+    .pen-path {
+      position: absolute;
+      right: 46px;
+      top: 58px;
+      width: 160px;
+      height: 92px;
+      overflow: visible;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 250, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      max-width: 750px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 850;
+      white-space: nowrap;
+      background: var(--soft-green);
+    }
+
+    .shortcut-grid,
+    .check-grid,
+    .pen-grid,
+    .quiz-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .shortcut-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .check-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      counter-reset: check;
+    }
+
+    .pen-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      counter-reset: pen;
+    }
+
+    .card,
+    .shortcut-card,
+    .quiz-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+    }
+
+    .shortcut-card {
+      min-height: 142px;
+      padding: 18px;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .shortcut-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(49, 95, 209, 0.28);
+      box-shadow: 0 14px 28px rgba(23, 25, 31, 0.1);
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      max-width: 100%;
+      min-height: 36px;
+      padding: 5px 11px;
+      border: 1px solid rgba(23, 25, 31, 0.22);
+      border-bottom-width: 3px;
+      border-radius: 7px;
+      color: var(--ink);
+      font: 850 15px/1 "Segoe UI", sans-serif;
+      background: #fff;
+      box-shadow: 0 7px 14px rgba(23, 25, 31, 0.08);
+    }
+
+    .shortcut-card strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .shortcut-card span,
+    .muted {
+      color: var(--muted);
+    }
+
+    .check-card,
+    .pen-card {
+      position: relative;
+      min-height: 172px;
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .check-card::before,
+    .pen-card::before {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      margin-bottom: 12px;
+      border-radius: 50%;
+      color: white;
+      font-weight: 900;
+      background: var(--ink);
+    }
+
+    .check-card {
+      counter-increment: check;
+      background:
+        linear-gradient(135deg, rgba(49, 95, 209, 0.1), transparent 56%),
+        white;
+    }
+
+    .check-card::before {
+      content: counter(check);
+    }
+
+    .pen-card {
+      counter-increment: pen;
+      background:
+        linear-gradient(135deg, rgba(15, 125, 104, 0.1), transparent 58%),
+        white;
+    }
+
+    .pen-card::before {
+      content: counter(pen);
+      background: var(--green);
+    }
+
+    .check-card p,
+    .pen-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .label {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: white;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--ink);
+      box-shadow: 0 8px 16px rgba(23, 25, 31, 0.14);
+    }
+
+    .label.big-label {
+      left: 25%;
+      top: 24%;
+    }
+
+    .label.small-label {
+      right: 9%;
+      top: 6%;
+      background: var(--red);
+    }
+
+    .label.circle-label {
+      right: 8%;
+      bottom: 5%;
+      background: var(--green);
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid rgba(23, 25, 31, 0.2);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: #fff;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    input[type="text"],
+    select {
+      min-height: 44px;
+      padding: 9px 11px;
+    }
+
+    textarea {
+      min-height: 88px;
+      padding: 11px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 0;
+      border-color: rgba(15, 125, 104, 0.72);
+      box-shadow: 0 0 0 4px rgba(15, 125, 104, 0.12);
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 11px 12px;
+      border-left: 4px solid var(--green);
+      border-radius: var(--radius);
+      color: var(--ink);
+      font-weight: 760;
+      background: var(--soft-green);
+    }
+
+    .feedback[data-state="wrong"] {
+      border-left-color: var(--red);
+      background: var(--soft-red);
+    }
+
+    .feedback[data-state="empty"] {
+      border-left-color: var(--yellow);
+      background: var(--soft-yellow);
+    }
+
+    .feedback[data-state="info"] {
+      border-left-color: var(--blue);
+      background: var(--soft-blue);
+    }
+
+    .quiz-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      counter-reset: quiz;
+    }
+
+    .quiz-card {
+      min-height: 220px;
+      padding: 18px;
+      counter-increment: quiz;
+      background:
+        linear-gradient(135deg, rgba(49, 95, 209, 0.08), transparent 55%),
+        white;
+    }
+
+    .quiz-card::before {
+      content: "문제 " counter(quiz);
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      margin-bottom: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--blue);
+    }
+
+    .quiz-card p {
+      margin-bottom: 12px;
+      font-weight: 850;
+    }
+
+    .options {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .options label {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 760;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.78);
+      transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+    }
+
+    .options input {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      accent-color: var(--green);
+    }
+
+    .options label:has(input:checked) {
+      border-color: rgba(15, 125, 104, 0.58);
+      color: var(--ink);
+      background: var(--soft-green);
+    }
+
+    .quiz-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .score {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: var(--green);
+      font-weight: 900;
+      background: var(--soft-green);
+    }
+
+    .answer-key {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid rgba(15, 125, 104, 0.18);
+      border-radius: var(--radius);
+      background: var(--soft-green);
+    }
+
+    .answer-key h3 {
+      margin-bottom: 8px;
+    }
+
+    .answer-key ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .answer-key li + li {
+      margin-top: 5px;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .summary-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .summary-item span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .shortcut-grid,
+      .check-grid,
+      .pen-grid,
+      .quiz-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .summary-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 22px), var(--max));
+        padding-top: 18px;
+      }
+
+      .hero,
+      .section {
+        padding: 22px;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .tag {
+        margin-top: 12px;
+        white-space: normal;
+      }
+
+      .hero-visual {
+        min-height: 280px;
+        padding: 16px;
+      }
+
+      .artboard {
+        min-height: 238px;
+      }
+
+      .shape.big {
+        left: 64px;
+        top: 82px;
+        width: 132px;
+        height: 94px;
+      }
+
+      .shape.small-a {
+        left: 48px;
+        top: 116px;
+        width: 62px;
+        height: 42px;
+      }
+
+      .shape.small-b {
+        left: 148px;
+        top: 48px;
+        width: 62px;
+        height: 42px;
+      }
+
+      .shape.circle {
+        right: 28px;
+        bottom: 38px;
+        width: 74px;
+        height: 74px;
+      }
+
+      .pen-path {
+        right: 18px;
+        top: 54px;
+        width: 124px;
+      }
+
+      .shortcut-grid,
+      .check-grid,
+      .pen-grid,
+      .quiz-grid,
+      .summary-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .quiz-actions .btn,
+      .quiz-actions .score {
+        width: 100%;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      .nav,
+      .actions,
+      .quiz-actions {
+        display: none;
+      }
+
+      .hero-visual,
+      input,
+      textarea,
+      select {
+        border-color: #555;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Illustrator 복습 자료</div>
+        <h1>눈금자, 가이드, 펜툴 핵심 복습</h1>
+        <p class="lead">단축키를 외우는 데서 끝내지 말고, 모양을 만들기 전 원래 기본 형태와 선택해야 할 부분을 먼저 판단하는 연습 자료입니다.</p>
+        <nav class="nav" aria-label="페이지 목차">
+          <a href="#shortcuts">단축키</a>
+          <a href="#checklist">체크리스트</a>
+          <a href="#pen-tool">펜툴</a>
+          <a href="#quiz">복습 문제</a>
+          <a href="#answer-key">정답</a>
+        </nav>
+        <div class="actions">
+          <button class="btn" type="button" onclick="window.print()" aria-label="PDF로 저장 또는 인쇄">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M7 3h10v5H7V3Zm-2 7h14a3 3 0 0 1 3 3v5h-4v3H6v-3H2v-5a3 3 0 0 1 3-3Zm3 9h8v-5H8v5Zm11-5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z"/>
+            </svg>
+            PDF 저장 / 인쇄
+          </button>
+          <a class="btn secondary" href="#quiz">복습 문제 풀기</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="artboard">
+          <div class="corner"></div>
+          <div class="ruler-x"></div>
+          <div class="ruler-y"></div>
+          <div class="guide v1"></div>
+          <div class="guide v2"></div>
+          <div class="guide h1"></div>
+          <div class="shape big"></div>
+          <div class="shape small-a"></div>
+          <div class="shape small-b"></div>
+          <div class="shape circle"></div>
+          <svg class="pen-path" viewBox="0 0 180 110">
+            <path d="M14 84 C36 20, 82 18, 108 48 S145 92, 166 24" fill="none" stroke="#fffdfa" stroke-width="8" stroke-linecap="round"/>
+            <path d="M14 84 C36 20, 82 18, 108 48 S145 92, 166 24" fill="none" stroke="#17191f" stroke-width="2" stroke-linecap="round"/>
+            <g fill="#fffdfa" stroke="#17191f" stroke-width="3">
+              <circle cx="14" cy="84" r="5"/>
+              <circle cx="108" cy="48" r="5"/>
+              <circle cx="166" cy="24" r="5"/>
+            </g>
+            <path d="M108 48 L136 77" stroke="#fffdfa" stroke-width="2"/>
+            <path d="M108 48 L79 21" stroke="#fffdfa" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shortcuts">
+      <div class="section-head">
+        <div>
+          <h2>단축키 먼저 정리</h2>
+          <p>눈금자는 기준을 만들기 위한 시작점이고, 가이드는 실제 배치 기준선입니다. 만든 가이드는 보이기와 숨기기를 자주 오가며 작업합니다.</p>
+        </div>
+        <span class="tag">보기 · 가이드</span>
+      </div>
+
+      <div class="shortcut-grid">
+        <article class="shortcut-card">
+          <kbd>Ctrl + R</kbd>
+          <strong>눈금자 켜기 / 끄기</strong>
+          <span>상단과 왼쪽 기준자를 보여 주거나 숨깁니다.</span>
+        </article>
+        <article class="shortcut-card">
+          <kbd>Ctrl + ;</kbd>
+          <strong>가이드 켜기 / 끄기</strong>
+          <span>화면의 가이드 표시만 숨기거나 다시 보여 줍니다.</span>
+        </article>
+        <article class="shortcut-card">
+          <kbd>Ctrl + 5</kbd>
+          <strong>가이드 만들기</strong>
+          <span>선택한 선이나 도형을 가이드로 바꿉니다.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="checklist">
+      <div class="section-head">
+        <div>
+          <h2>모양 만들기 전 체크리스트</h2>
+          <p>완성된 모양만 보고 바로 따라 그리기보다, 어떤 기본 도형에서 시작했는지 역으로 분석합니다.</p>
+        </div>
+        <span class="tag">분석 순서</span>
+      </div>
+
+      <div class="check-grid">
+        <article class="card check-card">
+          <h3>기본 형태 확인</h3>
+          <p>모양이 편집되기 전 기본 형태가 무엇이었는지 먼저 봅니다.</p>
+        </article>
+        <article class="card check-card">
+          <h3>필요 기능 선택</h3>
+          <p>저 모양을 만들려면 패스파인더, 도형 구성 도구, 펜툴 중 무엇을 써야 하는지 판단합니다.</p>
+        </article>
+        <article class="card check-card">
+          <h3>선택 부분 결정</h3>
+          <p>어떤 부분을 선택해야 원하는 부분이 남고, 어떤 부분이 잘릴지 확인합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="pen-tool">
+      <div class="section-head">
+        <div>
+          <h2>펜툴 복습</h2>
+          <p>펜툴은 예쁘게 끌어당기는 도구가 아니라, 정확한 위치에 앵커포인트를 찍고 방향선을 통제하는 도구입니다.</p>
+        </div>
+        <span class="tag">앵커포인트 · 핸들</span>
+      </div>
+
+      <div class="pen-grid">
+        <article class="card pen-card">
+          <h3>정확한 위치</h3>
+          <p>앵커포인트를 곡률이 시작하는 부분과 끝나는 부분에 찍습니다.</p>
+        </article>
+        <article class="card pen-card">
+          <h3>직선으로 먼저 보기</h3>
+          <p>처음부터 곡선이라고 생각하지 말고, 큰 직선 흐름으로 구조를 먼저 봅니다.</p>
+        </article>
+        <article class="card pen-card">
+          <h3>핸들 유지</h3>
+          <p>곡선을 그리는 와중에 특별한 꺾임이 없다면 핸들을 끊지 않습니다.</p>
+        </article>
+        <article class="card pen-card">
+          <h3>최소 개수</h3>
+          <p>앵커포인트 개수는 최소한으로 사용하고, 방향선은 항상 진행 방향으로 뻗게 둡니다.</p>
+        </article>
+      </div>
+
+      <div class="summary-strip">
+        <div class="summary-item"><strong>찍는 위치</strong><span>곡률 시작점과 끝점</span></div>
+        <div class="summary-item"><strong>생각 순서</strong><span>직선 구조를 먼저 확인</span></div>
+        <div class="summary-item"><strong>핸들</strong><span>곡선 중간에 함부로 끊지 않기</span></div>
+        <div class="summary-item"><strong>방향선</strong><span>항상 진행 방향으로 뻗기</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="quiz">
+      <div class="section-head">
+        <div>
+          <h2>복습 문제</h2>
+          <p>답을 직접 선택하거나 입력한 뒤 채점합니다. 틀린 문제는 바로 피드백을 보고 다시 확인하세요.</p>
+        </div>
+        <span class="tag">정답 입력 · 채점</span>
+      </div>
+
+      <div class="quiz-grid">
+        <article class="quiz-card" data-type="radio" data-answer="b" data-message="Ctrl + R은 눈금자 켜기/끄기입니다.">
+          <p>눈금자를 켜고 끄는 단축키는?</p>
+          <div class="options">
+            <label><input type="radio" name="q1" value="a"> Ctrl + ;</label>
+            <label><input type="radio" name="q1" value="b"> Ctrl + R</label>
+            <label><input type="radio" name="q1" value="c"> Ctrl + 5</label>
+          </div>
+          <div class="feedback" hidden></div>
+        </article>
+
+        <article class="quiz-card" data-type="radio" data-answer="c" data-message="Ctrl + 5는 선택한 선이나 도형을 가이드로 만드는 단축키입니다.">
+          <p>선택한 선이나 도형을 가이드로 만들 때 쓰는 단축키는?</p>
+          <div class="options">
+            <label><input type="radio" name="q2" value="a"> Ctrl + R</label>
+            <label><input type="radio" name="q2" value="b"> Ctrl + ;</label>
+            <label><input type="radio" name="q2" value="c"> Ctrl + 5</label>
+          </div>
+          <div class="feedback" hidden></div>
+        </article>
+
+        <article class="quiz-card" data-type="text" data-answer="ctrl;" data-alt="ctrl+;" data-message="Ctrl + ; 는 가이드를 보이거나 숨깁니다.">
+          <p>가이드를 켜고 끄는 단축키를 입력하세요.</p>
+          <input type="text" placeholder="예: Ctrl + ;">
+          <div class="feedback" hidden></div>
+        </article>
+
+        <article class="quiz-card" data-type="text" data-answer="앵커포인트" data-alt="앵커 포인트" data-message="펜툴에서는 앵커포인트를 정확한 위치에 찍는 것이 핵심입니다.">
+          <p>펜툴에서 정확한 위치에 찍어야 하는 점의 이름은?</p>
+          <input type="text" placeholder="정답 입력">
+          <div class="feedback" hidden></div>
+        </article>
+
+        <article class="quiz-card" data-type="radio" data-answer="a" data-message="곡선이 시작하는 부분과 끝나는 부분을 찾아 앵커포인트를 둡니다.">
+          <p>펜툴로 곡선을 그릴 때 앵커포인트 위치로 가장 적절한 것은?</p>
+          <div class="options">
+            <label><input type="radio" name="q5" value="a"> 곡률이 시작하고 끝나는 부분</label>
+            <label><input type="radio" name="q5" value="b"> 곡선 중간마다 촘촘히 많은 부분</label>
+            <label><input type="radio" name="q5" value="c"> 아무 위치나 클릭한 부분</label>
+          </div>
+          <div class="feedback" hidden></div>
+        </article>
+
+        <article class="quiz-card" data-type="checkbox" data-answer="a,c,d" data-message="기본 형태, 필요한 기능, 선택할 부분을 먼저 확인합니다.">
+          <p>모양을 만들기 전 체크할 항목을 모두 고르세요.</p>
+          <div class="options">
+            <label><input type="checkbox" value="a"> 기본 형태가 무엇이었는지</label>
+            <label><input type="checkbox" value="b"> 색상을 무조건 먼저 정했는지</label>
+            <label><input type="checkbox" value="c"> 어떤 기능을 써야 하는지</label>
+            <label><input type="checkbox" value="d"> 어떤 부분을 선택해야 하는지</label>
+          </div>
+          <div class="feedback" hidden></div>
+        </article>
+      </div>
+
+      <div class="quiz-actions">
+        <button class="btn" type="button" id="grade-quiz">채점하기</button>
+        <button class="btn secondary" type="button" id="reset-quiz">초기화</button>
+        <span class="score" id="score">점수: - / 6</span>
+      </div>
+    </section>
+
+    <section class="section" id="answer-key">
+      <div class="section-head">
+        <div>
+          <h2>정답 및 핵심 문장</h2>
+          <p>수업 후 빠르게 다시 볼 수 있는 최종 정리입니다.</p>
+        </div>
+        <span class="tag">마지막 확인</span>
+      </div>
+
+      <div class="answer-key">
+        <h3>정답</h3>
+        <ul>
+          <li>Ctrl + R: 눈금자 켜기 / 끄기</li>
+          <li>Ctrl + ; : 가이드 켜기 / 끄기</li>
+          <li>Ctrl + 5: 가이드 만들기</li>
+          <li>펜툴: 곡률 시작점과 끝점에 앵커포인트를 찍고, 핸들은 진행 방향으로 유지</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const normalize = (value) => value
+      .toLowerCase()
+      .replace(/\s/g, "")
+      .replace(/＋/g, "+")
+      .replace(/;/g, ";")
+      .trim();
+
+    const setFeedback = (el, state, text) => {
+      el.hidden = false;
+      el.dataset.state = state;
+      el.textContent = text;
+    };
+
+    const quizCards = Array.from(document.querySelectorAll(".quiz-card"));
+    const scoreEl = document.getElementById("score");
+
+    document.getElementById("grade-quiz").addEventListener("click", () => {
+      let score = 0;
+
+      quizCards.forEach((card) => {
+        const type = card.dataset.type;
+        const feedback = card.querySelector(".feedback");
+        let selected = "";
+
+        if (type === "radio") {
+          const checked = card.querySelector("input[type='radio']:checked");
+          selected = checked ? checked.value : "";
+        }
+
+        if (type === "checkbox") {
+          selected = Array.from(card.querySelectorAll("input[type='checkbox']:checked"))
+            .map((input) => input.value)
+            .sort()
+            .join(",");
+        }
+
+        if (type === "text") {
+          selected = normalize(card.querySelector("input[type='text']").value);
+        }
+
+        const answer = normalize(card.dataset.answer || "");
+        const alt = normalize(card.dataset.alt || "");
+
+        if (!selected) {
+          setFeedback(feedback, "empty", "답을 먼저 입력하거나 선택하세요.");
+          return;
+        }
+
+        const isCorrect = normalize(selected) === answer || (alt && normalize(selected) === alt);
+
+        if (isCorrect) {
+          score += 1;
+          setFeedback(feedback, "correct", `정답입니다. ${card.dataset.message}`);
+        } else {
+          setFeedback(feedback, "wrong", `다시 확인하세요. ${card.dataset.message}`);
+        }
+      });
+
+      scoreEl.textContent = `점수: ${score} / ${quizCards.length}`;
+    });
+
+    document.getElementById("reset-quiz").addEventListener("click", () => {
+      document.querySelectorAll("#quiz input").forEach((input) => {
+        if (input.type === "radio" || input.type === "checkbox") {
+          input.checked = false;
+        } else {
+          input.value = "";
+        }
+      });
+
+      document.querySelectorAll("#quiz .feedback").forEach((feedback) => {
+        feedback.hidden = true;
+        feedback.textContent = "";
+        feedback.removeAttribute("data-state");
+      });
+
+      scoreEl.textContent = `점수: - / ${quizCards.length}`;
+    });
+  </script>
+</body>
+</html>
