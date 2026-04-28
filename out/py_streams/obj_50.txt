@@ -1,0 +1,92 @@
+/CIDInit /ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo
+<< /Registry (Adobe)
+/Ordering (UCS) /Supplement 0 >> def
+/CMapName /Adobe-Identity-UCS def
+/CMapType 2 def
+1 begincodespacerange
+<0000> <FFFF>
+endcodespacerange
+78 beginbfchar
+<0001> <0020>
+<0002> <0021>
+<0A03> <C694>
+<0A0B> <C6B0>
+<0C16> <D0DD>
+<0618> <B370>
+<0D1C> <D658>
+<0020> <003F>
+<0923> <C2B5>
+<0926> <C2DC>
+<0927> <C2DD>
+<092A> <C2E4>
+<0730> <B974>
+<0B30> <CC28>
+<0733> <B97C>
+<0A35> <C73C>
+<0A37> <C740>
+<0A38> <C744>
+<0C39> <D1A4>
+<073B> <B9AC>
+<043E> <AC00>
+<0C3E> <D1B5>
+<043F> <AC01>
+<0641> <B450>
+<0944> <C368>
+<0A44> <C758>
+<0A49> <C774>
+<094B> <C37C>
+<0A4B> <C778>
+<074F> <B9DE>
+<0752> <B9E4>
+<0A53> <C788>
+<065A> <B4E0>
+<0A5C> <C798>
+<0C5F> <D2B8>
+<0561> <B098>
+<0B61> <CD08>
+<0A62> <C7A5>
+<046A> <AC83>
+<0973> <C4F0>
+<0776> <BA74>
+<0678> <B54C>
+<0B79> <CD9C>
+<077D> <BAA8>
+<0A7F> <C815>
+<0989> <C548>
+<048A> <ACE0>
+<088E> <C0AC>
+<0497> <ACFC>
+<0799> <BB38>
+<089A> <C0C1>
+<089D> <C0C9>
+<09A0> <C57C>
+<08A4> <C0DD>
+<0CA8> <D3EC>
+<08B2> <C11C>
+<08B6> <C120>
+<07B7> <BBF8>
+<0ABA> <C911>
+<08BF> <C131>
+<09C0> <C5D0>
+<09C8> <C5EC>
+<09CB> <C5F0>
+<0AD1> <C9C0>
+<07D3> <BC30>
+<0AD3> <C9C4>
+<05D7> <B294>
+<08D7> <C18C>
+<0CD9> <D544>
+<04DD> <AE30>
+<0CDE> <D558>
+<09DF> <C624>
+<0CE0> <D55C>
+<0CE7> <D574>
+<09EC> <C640>
+<05EE> <B2E4>
+<06F0> <B824>
+<06FD> <B85C>
+endbfchar
+endcmap CMapName currentdict /CMap defineresource pop end end

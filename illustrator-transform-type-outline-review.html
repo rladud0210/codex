@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 변형 · 왜곡 · 문자 윤곽선 복습</title>
+  <style>
+    :root {
+      --bg: #f4efe8;
+      --paper: rgba(255, 255, 255, 0.94);
+      --ink: #1f252b;
+      --muted: #66707b;
+      --line: rgba(31, 37, 43, 0.12);
+      --orange: #d86a32;
+      --teal: #167a78;
+      --blue: #2e66d2;
+      --red: #d74f45;
+      --gold: #f3b548;
+      --soft-orange: rgba(216, 106, 50, 0.12);
+      --soft-teal: rgba(22, 122, 120, 0.11);
+      --soft-blue: rgba(46, 102, 210, 0.1);
+      --soft-red: rgba(215, 79, 69, 0.1);
+      --shadow: 0 18px 50px rgba(35, 38, 42, 0.12);
+      --radius: 10px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(243, 181, 72, 0.24), transparent 28%),
+        linear-gradient(180deg, #efe5d7 0%, var(--bg) 48%, #faf8f4 100%);
+    }
+
+    p, li, span, a, button, th, td {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code {
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.95em;
+      background: rgba(31, 37, 43, 0.07);
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 54px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 28px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 7px 11px;
+      border: 1px solid rgba(216, 106, 50, 0.24);
+      border-radius: 999px;
+      color: var(--orange);
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--soft-orange);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 62px);
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav, .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .nav a, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: 0;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 10px 24px rgba(31, 37, 43, 0.16);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(31, 37, 43, 0.2);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .hero-visual {
+      min-height: 330px;
+      padding: 22px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+        linear-gradient(135deg, #cf6336 0%, #f3b548 30%, #2e66d2 68%, #167a78 100%);
+      background-size: 28px 28px, 28px 28px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+    }
+
+    .artboard {
+      position: relative;
+      min-height: 286px;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 22px 44px rgba(18, 21, 25, 0.24);
+      overflow: hidden;
+    }
+
+    .panel {
+      position: absolute;
+      border-radius: 10px;
+      box-shadow: 0 14px 28px rgba(17, 20, 25, 0.22);
+    }
+
+    .panel.left {
+      left: 28px;
+      top: 34px;
+      width: 128px;
+      height: 128px;
+      border: 4px solid rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .panel.center {
+      left: 150px;
+      top: 82px;
+      width: 146px;
+      height: 110px;
+      background: rgba(243, 181, 72, 0.95);
+      clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+    }
+
+    .panel.right {
+      right: 22px;
+      top: 54px;
+      width: 156px;
+      height: 116px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      background: rgba(46, 102, 210, 0.92);
+      transform: skew(-18deg);
+    }
+
+    .panel.right span {
+      transform: skew(18deg);
+    }
+
+    .guide-line {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .guide-line.top {
+      top: 182px;
+    }
+
+    .guide-line.bottom {
+      top: 218px;
+    }
+
+    .label {
+      position: absolute;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      background: rgba(31, 37, 43, 0.45);
+      backdrop-filter: blur(3px);
+    }
+
+    .label.one {
+      left: 32px;
+      bottom: 26px;
+    }
+
+    .label.two {
+      right: 24px;
+      bottom: 26px;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .tag {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--teal);
+      background: var(--soft-teal);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-5 {
+      grid-column: span 5;
+    }
+
+    .span-6 {
+      grid-column: span 6;
+    }
+
+    .span-7 {
+      grid-column: span 7;
+    }
+
+    .span-8 {
+      grid-column: span 8;
+    }
+
+    .callout {
+      padding: 18px 20px;
+      border-left: 5px solid var(--red);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--soft-red);
+    }
+
+    .callout strong {
+      color: var(--red);
+    }
+
+    ul, ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+    }
+
+    .steps li {
+      position: relative;
+      padding: 0 0 0 54px;
+      min-height: 38px;
+    }
+
+    .steps li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 900;
+      background: var(--blue);
+    }
+
+    .steps li + li {
+      margin-top: 16px;
+    }
+
+    .shortcut-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .shortcut {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(244, 239, 232, 0.48);
+    }
+
+    .shortcut b {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .shortcut code {
+      font-size: 14px;
+      font-weight: 700;
+      background: #fff;
+    }
+
+    .review-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .review-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .review-item input {
+      width: 18px;
+      height: 18px;
+      margin-top: 4px;
+      accent-color: var(--teal);
+    }
+
+    .review-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-4,
+      .span-5,
+      .span-6,
+      .span-7,
+      .span-8 {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 18px), var(--max));
+        padding-top: 18px;
+      }
+
+      .hero,
+      .section {
+        padding: 22px;
+      }
+
+      .shortcut {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .card {
+        box-shadow: none;
+      }
+
+      .actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">
+          <span class="dot"></span>
+          Illustrator Review Sheet
+        </div>
+        <h1>변형, 왜곡, 문자 윤곽선 만들기 복습</h1>
+        <p class="lead">
+          사다리꼴 변형부터 문자 확정, 대소문자 변경, 포인트 텍스트와 영역 텍스트 전환,
+          그리고 <strong>윤곽선 만들기</strong>까지 한 번에 정리한 수강생 복습 자료입니다.
+        </p>
+        <div class="nav">
+          <a href="#transform">변형</a>
+          <a href="#type">텍스트</a>
+          <a href="#outline">윤곽선</a>
+          <a href="#shortcuts">단축키</a>
+          <a href="#practice">복습 체크</a>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="window.print()">인쇄하기</button>
+          <button class="btn secondary" onclick="toggleAll()">체크 전체 전환</button>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="artboard">
+          <div class="panel left"></div>
+          <div class="panel center"></div>
+          <div class="panel right"><span>TEXT</span></div>
+          <div class="guide-line top"></div>
+          <div class="guide-line bottom"></div>
+          <div class="label one">사다리꼴</div>
+          <div class="label two">Perspective</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="transform">
+      <div class="section-head">
+        <div>
+          <h2>1. 변형과 왜곡</h2>
+          <p>도형이나 텍스트를 원근감 있게 바꾸는 기본 흐름을 먼저 익힙니다.</p>
+        </div>
+        <span class="tag">핵심 순서</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-7">
+          <h3>사다리꼴 만들기 흐름</h3>
+          <ol class="steps">
+            <li><strong>Free Transform</strong>을 선택합니다.</li>
+            <li>상단 또는 옵션에서 <strong>Perspective</strong>를 사용합니다.</li>
+            <li>모서리를 드래그해서 위아래 폭이 다른 형태로 바꿉니다.</li>
+            <li>직사각형이 사다리꼴처럼 보이면 원근감이 적용된 것입니다.</li>
+          </ol>
+        </article>
+
+        <article class="card span-5">
+          <h3>왜곡 포인트</h3>
+          <ul>
+            <li>변형은 모양만 바꾸는 것이 아니라 <strong>시선 방향</strong>을 만드는 작업입니다.</li>
+            <li>Perspective는 평면을 기울여 보이게 할 때 유용합니다.</li>
+            <li>텍스트에도 적용할 수 있지만, 수정 단계인지 확정 단계인지 먼저 판단해야 합니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="type">
+      <div class="section-head">
+        <div>
+          <h2>2. 텍스트 기본 정리</h2>
+          <p>문자 입력 상태와 문자 객체 상태를 구분해야 이후 작업이 꼬이지 않습니다.</p>
+        </div>
+        <span class="tag">Type 메뉴</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-4">
+          <h3>텍스트 작성 후 확정</h3>
+          <ul>
+            <li>텍스트를 입력한 뒤 <code>Ctrl + Enter</code>로 문자 입력을 확정합니다.</li>
+            <li>확정 전에는 입력 중인 상태이고, 확정 후에는 객체처럼 선택할 수 있습니다.</li>
+          </ul>
+        </article>
+
+        <article class="card span-4">
+          <h3>대문자 변경</h3>
+          <ul>
+            <li><code>Type &gt; Change Case</code> 메뉴를 사용합니다.</li>
+            <li>영문 제목 정리나 표기 통일이 필요할 때 빠르게 처리할 수 있습니다.</li>
+          </ul>
+        </article>
+
+        <article class="card span-4">
+          <h3>텍스트 종류 전환</h3>
+          <ul>
+            <li>드래그로 만들면 영역 텍스트, 클릭으로 만들면 포인트 텍스트가 됩니다.</li>
+            <li><code>Type &gt; Convert to Point Text</code></li>
+            <li><code>Type &gt; Convert to Area Text</code></li>
+          </ul>
+        </article>
+
+        <article class="card span-8">
+          <h3>헷갈리기 쉬운 구분</h3>
+          <div class="callout">
+            <strong>드래그 → 클릭 / 클릭 → 드래그</strong>가 아니라,
+            이미 만든 텍스트 객체의 형식을 <strong>Point Text</strong>와 <strong>Area Text</strong> 사이에서 변환하는 개념입니다.
+          </div>
+        </article>
+
+        <article class="card span-4">
+          <h3>복습 질문</h3>
+          <ul>
+            <li>지금 선택한 텍스트는 입력 중인가?</li>
+            <li>포인트 텍스트인가, 영역 텍스트인가?</li>
+            <li>변형 전에 수정 가능한 상태를 유지해야 하는가?</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="outline">
+      <div class="section-head">
+        <div>
+          <h2>3. 도형화: 윤곽선 만들기</h2>
+          <p>이번 페이지에서 가장 중요한 부분입니다. 별표가 많은 이유가 있습니다.</p>
+        </div>
+        <span class="tag">★★★★★</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-6">
+          <h3>윤곽선 만들기</h3>
+          <ul>
+            <li><code>Type &gt; Create Outlines</code></li>
+            <li>단축키: <code>Ctrl + Shift + O</code></li>
+            <li>의미: 글자를 더 이상 문자로 보지 않고 <strong>도형(Path)</strong>으로 바꿉니다.</li>
+            <li>수업 표현으로는 글자를 <strong>'깬다'</strong>고 기억하면 됩니다.</li>
+          </ul>
+        </article>
+
+        <article class="card span-6">
+          <h3>왜 중요할까</h3>
+          <ul>
+            <li>문자 상태에서는 자유로운 패스 편집이 제한됩니다.</li>
+            <li>왜곡, 합치기, 나누기, 쉐이프 가공을 하려면 도형 상태가 더 유리합니다.</li>
+            <li>출력 환경에 폰트가 없어도 글자 모양을 유지하기 좋습니다.</li>
+          </ul>
+        </article>
+
+        <article class="card span-8">
+          <h3>반드시 기억</h3>
+          <div class="callout">
+            <p><strong>글자는 글자인 상태로는 패스 편집을 자유롭게 하기 어렵습니다.</strong></p>
+            <p>도형처럼 다루려면 <strong>윤곽선 만들기</strong>를 해야 합니다.</p>
+            <p><strong>Fill 컬러가 채워져 있다고 해서 선은 아닙니다.</strong> 채워진 면과 실제 Stroke는 구분해서 봐야 합니다.</p>
+          </div>
+        </article>
+
+        <article class="card span-4">
+          <h3>교재 메모</h3>
+          <ul>
+            <li><strong>264p</strong> 내용과 함께 다시 확인</li>
+            <li>문자 상태와 윤곽선 상태를 비교해서 보기</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="shortcuts">
+      <div class="section-head">
+        <div>
+          <h2>4. 단축키와 실무 연결</h2>
+          <p>도형화 이후에는 복제, 잠금, 패스 조합이 자주 이어집니다.</p>
+        </div>
+        <span class="tag">빠른 작업</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-5">
+          <h3>자주 쓰는 단축키</h3>
+          <div class="shortcut-list">
+            <div class="shortcut">
+              <b>복사</b>
+              <code>Ctrl + C</code>
+            </div>
+            <div class="shortcut">
+              <b>잠금</b>
+              <code>Ctrl + 2</code>
+            </div>
+            <div class="shortcut">
+              <b>제자리에 붙여넣기</b>
+              <code>Ctrl + F</code>
+            </div>
+            <div class="shortcut">
+              <b>잠금 해제</b>
+              <code>Ctrl + Alt + 2</code>
+            </div>
+          </div>
+        </article>
+
+        <article class="card span-7">
+          <h3>함께 묶어서 기억할 도구</h3>
+          <ul>
+            <li><strong>Pathfinder</strong>: 여러 도형을 합치거나 빼고 나눌 때 사용</li>
+            <li><strong>Shape Builder</strong>: 드래그 기반으로 직관적으로 영역을 합치거나 제거</li>
+            <li><strong>Offset Path</strong>: 기존 패스를 기준으로 안쪽 또는 바깥쪽에 새 경로 생성</li>
+          </ul>
+          <div class="footer-note">
+            윤곽선으로 만든 텍스트는 위 도구들과 연결해서 로고형 타이포, 배지, 스티커 형태 작업으로 자주 이어집니다.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="practice">
+      <div class="section-head">
+        <div>
+          <h2>5. 복습 체크리스트</h2>
+          <p>수업 직후 3분 복습용입니다. 직접 체크하면서 기억을 고정하세요.</p>
+        </div>
+        <span class="tag">셀프 테스트</span>
+      </div>
+
+      <div class="review-list">
+        <label class="review-item">
+          <input type="checkbox">
+          <span>
+            <strong>Free Transform에서 Perspective를 사용할 수 있다.</strong>
+            사다리꼴 형태를 만들며 원근감을 줄 수 있다.
+          </span>
+        </label>
+
+        <label class="review-item">
+          <input type="checkbox">
+          <span>
+            <strong><code>Ctrl + Enter</code>의 의미를 안다.</strong>
+            문자 입력 상태를 끝내고 객체 선택 상태로 전환한다.
+          </span>
+        </label>
+
+        <label class="review-item">
+          <input type="checkbox">
+          <span>
+            <strong><code>Type &gt; Change Case</code> 위치를 기억한다.</strong>
+            대문자 변환 메뉴를 찾을 수 있다.
+          </span>
+        </label>
+
+        <label class="review-item">
+          <input type="checkbox">
+          <span>
+            <strong>Point Text와 Area Text 차이를 설명할 수 있다.</strong>
+            클릭 생성과 드래그 생성의 차이를 알고, 메뉴로 상호 변환할 수 있다.
+          </span>
+        </label>
+
+        <label class="review-item">
+          <input type="checkbox">
+          <span>
+            <strong><code>Ctrl + Shift + O</code>를 외웠다.</strong>
+            글자를 도형으로 바꾸는 윤곽선 만들기 단축키다.
+          </span>
+        </label>
+
+        <label class="review-item">
+          <input type="checkbox">
+          <span>
+            <strong>Fill과 Stroke를 구분한다.</strong>
+            색이 채워져 있어도 선이 있는 것은 아니라는 점을 이해한다.
+          </span>
+        </label>
+
+        <label class="review-item">
+          <input type="checkbox">
+          <span>
+            <strong>복사, 잠금, 제자리 복제, 잠금 해제를 이어서 사용할 수 있다.</strong>
+            실습 중 선택 방해 없이 작업을 진행할 수 있다.
+          </span>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function toggleAll() {
+      const checks = [...document.querySelectorAll('.review-item input')];
+      const shouldCheck = checks.some((input) => !input.checked);
+      checks.forEach((input) => {
+        input.checked = shouldCheck;
+      });
+    }
+  </script>
+</body>
+</html>
