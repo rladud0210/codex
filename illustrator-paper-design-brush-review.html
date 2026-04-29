@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator Paper Design Brush Review</title>
+  <style>
+    :root {
+      --bg: #f5efe6;
+      --paper: rgba(255, 252, 247, 0.96);
+      --card: #ffffff;
+      --ink: #1d242b;
+      --muted: #62707d;
+      --line: rgba(29, 36, 43, 0.12);
+      --orange: #d16837;
+      --teal: #137a73;
+      --blue: #2e68d1;
+      --gold: #f0b34a;
+      --red: #cf5148;
+      --soft-orange: rgba(209, 104, 55, 0.11);
+      --soft-teal: rgba(19, 122, 115, 0.11);
+      --soft-blue: rgba(46, 104, 209, 0.1);
+      --soft-gold: rgba(240, 179, 74, 0.16);
+      --soft-red: rgba(207, 81, 72, 0.1);
+      --shadow: 0 20px 54px rgba(26, 31, 36, 0.12);
+      --radius: 10px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(240, 179, 74, 0.2), transparent 24%),
+        linear-gradient(180deg, #ede2d2 0%, var(--bg) 42%, #faf8f4 100%);
+    }
+
+    p, li, span, a, button, label, input, textarea, th, td {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.95em;
+      background: rgba(29, 36, 43, 0.07);
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 7px 11px;
+      border: 1px solid rgba(209, 104, 55, 0.24);
+      border-radius: 999px;
+      color: var(--orange);
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--soft-orange);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 60px);
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav, .actions, .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav {
+      margin-top: 22px;
+    }
+
+    .actions {
+      margin-top: 18px;
+    }
+
+    .hero-pills {
+      margin-top: 20px;
+    }
+
+    .nav a, .pill, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .nav a, .pill {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 14px;
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+      border-color: rgba(29, 36, 43, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .pill {
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: 0;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 10px 24px rgba(29, 36, 43, 0.16);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(29, 36, 43, 0.2);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .hero-visual {
+      min-height: 336px;
+      padding: 22px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(135deg, #d16837 0%, #f0b34a 32%, #2e68d1 68%, #137a73 100%);
+      background-size: 26px 26px, 26px 26px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    .artboard {
+      position: relative;
+      min-height: 290px;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 22px 44px rgba(18, 21, 25, 0.24);
+      overflow: hidden;
+    }
+
+    .shape, .tag, .brush-strip span {
+      position: absolute;
+      box-shadow: 0 16px 28px rgba(12, 18, 24, 0.22);
+    }
+
+    .shape.paper {
+      left: 22px;
+      top: 34px;
+      width: 138px;
+      height: 132px;
+      border: 4px solid rgba(255, 255, 255, 0.76);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .shape.cut {
+      left: 126px;
+      top: 86px;
+      width: 152px;
+      height: 96px;
+      background: rgba(240, 179, 74, 0.95);
+      clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+    }
+
+    .shape.word {
+      right: 26px;
+      top: 52px;
+      width: 156px;
+      height: 108px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      background: rgba(46, 104, 209, 0.94);
+      transform: skew(-14deg);
+    }
+
+    .shape.word span {
+      transform: skew(14deg);
+    }
+
+    .shape.line-a, .shape.line-b {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .shape.line-a {
+      left: 42px;
+      bottom: 82px;
+      width: 138px;
+      transform: rotate(-12deg);
+    }
+
+    .shape.line-b {
+      right: 34px;
+      bottom: 56px;
+      width: 118px;
+      transform: rotate(22deg);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .tag.divide {
+      left: 28px;
+      bottom: 24px;
+      background: rgba(207, 81, 72, 0.92);
+    }
+
+    .tag.offset {
+      left: 156px;
+      bottom: 28px;
+      background: rgba(19, 122, 115, 0.92);
+    }
+
+    .tag.brush {
+      right: 24px;
+      bottom: 22px;
+      background: rgba(29, 36, 43, 0.92);
+    }
+
+    .brush-strip {
+      position: absolute;
+      inset: auto 24px 114px auto;
+      width: 162px;
+      height: 54px;
+    }
+
+    .brush-strip span {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .brush-strip span:nth-child(1) {
+      left: 0;
+      top: 8px;
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .brush-strip span:nth-child(2) {
+      left: 34px;
+      top: 0;
+      width: 46px;
+      height: 46px;
+      background: rgba(240, 179, 74, 0.92);
+    }
+
+    .brush-strip span:nth-child(3) {
+      left: 82px;
+      top: 10px;
+      background: rgba(46, 104, 209, 0.92);
+    }
+
+    .brush-strip span:nth-child(4) {
+      left: 118px;
+      top: 4px;
+      width: 32px;
+      height: 32px;
+      background: rgba(19, 122, 115, 0.9);
+    }
+
+    main {
+      display: grid;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    section {
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .summary-grid, .compare-grid, .brush-grid, .quiz-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .compare-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .brush-grid {
+      grid-template-columns: 1.2fr 1fr;
+    }
+
+    .quiz-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      height: 100%;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(29, 36, 43, 0.22);
+      box-shadow: 0 14px 28px rgba(24, 29, 35, 0.1);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .badge.orange {
+      color: var(--orange);
+      background: var(--soft-orange);
+    }
+
+    .badge.teal {
+      color: var(--teal);
+      background: var(--soft-teal);
+    }
+
+    .badge.blue {
+      color: var(--blue);
+      background: var(--soft-blue);
+    }
+
+    .badge.gold {
+      color: #8c5b00;
+      background: var(--soft-gold);
+    }
+
+    .card h3 {
+      margin-top: 14px;
+    }
+
+    .card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .step-list, .check-list, .mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step-list li, .check-list li, .mini-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .step-no, .check-dot {
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      margin-top: 1px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .step-no.orange, .check-dot.orange {
+      background: var(--orange);
+    }
+
+    .step-no.teal, .check-dot.teal {
+      background: var(--teal);
+    }
+
+    .step-no.blue, .check-dot.blue {
+      background: var(--blue);
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--card);
+    }
+
+    .compare-table th, .compare-table td {
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .compare-table th {
+      width: 24%;
+      background: rgba(29, 36, 43, 0.04);
+      font-size: 14px;
+    }
+
+    .compare-table tr:last-child th,
+    .compare-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .brush-types {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .brush-item {
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+    }
+
+    .brush-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .memory-box {
+      padding: 22px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(19, 122, 115, 0.08) 0%, rgba(19, 122, 115, 0.02) 100%);
+      border: 1px solid rgba(19, 122, 115, 0.18);
+    }
+
+    .memory-box p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--orange);
+      border-radius: 0 10px 10px 0;
+      background: rgba(209, 104, 55, 0.08);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .question-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+
+    .question-card h3 {
+      font-size: 19px;
+    }
+
+    .question-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .question-card label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 700;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+      border-color: rgba(29, 36, 43, 0.22);
+      background: rgba(29, 36, 43, 0.03);
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 13px 14px;
+      border: 1px solid rgba(29, 36, 43, 0.18);
+      border-radius: 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(46, 104, 209, 0.64);
+      box-shadow: 0 0 0 4px rgba(46, 104, 209, 0.12);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      min-height: 26px;
+      font-weight: 800;
+    }
+
+    .feedback.correct {
+      color: var(--teal);
+    }
+
+    .feedback.incorrect {
+      color: var(--red);
+    }
+
+    .score-board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-top: 22px;
+      padding: 20px 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(29, 36, 43, 0.1);
+      background: rgba(29, 36, 43, 0.04);
+    }
+
+    .score-board strong {
+      font-size: 20px;
+    }
+
+    .answer-sheet {
+      display: none;
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(46, 104, 209, 0.18);
+      background: rgba(46, 104, 209, 0.08);
+    }
+
+    .answer-sheet.open {
+      display: block;
+    }
+
+    .answer-sheet ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .summary-grid,
+      .compare-grid,
+      .brush-grid,
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding: 20px 0 34px;
+      }
+
+      .hero,
+      section {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 10vw, 44px);
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+
+      .shape.word {
+        right: 18px;
+        width: 126px;
+        height: 92px;
+        font-size: 22px;
+      }
+
+      .tag.offset {
+        left: 116px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      section,
+      .card,
+      .question-card {
+        box-shadow: none;
+      }
+
+      .btn,
+      .nav,
+      .actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Kim Ddolbok Illustrator Review</div>
+        <h1>paper · design · 브러쉬 복습자료</h1>
+        <p class="lead">
+          종이 느낌 텍스트, 디자인 텍스트, 브러쉬 등록 흐름을 한 번에 정리한 수강생용 복습 페이지입니다.
+          작업 순서를 짧게 끊어 외우고, 아래 확인 문제로 바로 점검할 수 있게 구성했습니다.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">텍스트 외곽선 변환</span>
+          <span class="pill">패스파인더와 쉐입 빌더</span>
+          <span class="pill">브러쉬 종류 구분</span>
+        </div>
+        <nav class="nav">
+          <a href="#paper-design">텍스트 정리</a>
+          <a href="#brush">브러쉬 정리</a>
+          <a href="#worksheet">확인 문제</a>
+        </nav>
+        <div class="actions">
+          <button class="btn" type="button" onclick="window.print()">인쇄하기</button>
+          <button class="btn secondary" type="button" onclick="document.getElementById('worksheet').scrollIntoView({ behavior: 'smooth' });">문제 풀기</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="artboard">
+          <div class="shape paper"></div>
+          <div class="shape cut"></div>
+          <div class="shape word"><span>TEXT</span></div>
+          <div class="shape line-a"></div>
+          <div class="shape line-b"></div>
+          <div class="brush-strip">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="tag divide">Divide</div>
+          <div class="tag offset">Offset Path</div>
+          <div class="tag brush">Brush</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="paper-design">
+        <div class="section-head">
+          <div>
+            <h2>1. paper / design 텍스트 정리</h2>
+            <p>두 작업 모두 <code>Ctrl + Shift + O</code>로 외곽선을 만든 뒤, 선과 도형 편집 도구를 조합하는 흐름입니다.</p>
+          </div>
+          <span class="badge gold">수업 핵심 순서 암기</span>
+        </div>
+
+        <div class="summary-grid">
+          <article class="card">
+            <span class="badge orange">paper 텍스트</span>
+            <h3>잘라낸 종이처럼 겹치는 느낌 만들기</h3>
+            <ul class="step-list">
+              <li><span class="step-no orange">1</span><div>문자를 입력한 뒤 <code>Ctrl + Shift + O</code>로 외곽선으로 바꿉니다.</div></li>
+              <li><span class="step-no orange">2</span><div><code>Ctrl + C</code> 복사 후 <code>Ctrl + F</code> 앞에 붙여넣기, 필요한 경우 <code>Ctrl + 2</code> 잠금으로 기준형을 고정합니다.</div></li>
+              <li><span class="step-no orange">3</span><div>선 도구로 절개선이나 분리선을 추가합니다.</div></li>
+              <li><span class="step-no orange">4</span><div><strong>Pathfinder Divide</strong>로 면을 나누고, 조각을 분리합니다.</div></li>
+              <li><span class="step-no orange">5</span><div><strong>Shape Builder</strong>로 필요한 부분만 합치거나 삭제합니다.</div></li>
+              <li><span class="step-no orange">6</span><div><strong>Shear</strong>로 기울기를 주어 종이 조각이 눕는 느낌을 정리합니다.</div></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge teal">design 텍스트</span>
+            <h3>테두리와 확장으로 깔끔한 디자인 글자 만들기</h3>
+            <ul class="step-list">
+              <li><span class="step-no teal">1</span><div>문자를 입력하고 <code>Ctrl + Shift + O</code>로 외곽선 처리합니다.</div></li>
+              <li><span class="step-no teal">2</span><div>선 도구를 사용해 구조선이나 분리 기준을 추가합니다.</div></li>
+              <li><span class="step-no teal">3</span><div><strong>Pathfinder</strong>로 형태를 합치거나 나누어 기본 실루엣을 정리합니다.</div></li>
+              <li><span class="step-no teal">4</span><div><strong>Stroke</strong>로 외곽선 두께를 주어 형태를 또렷하게 만듭니다.</div></li>
+              <li><span class="step-no teal">5</span><div><strong>Offset Path</strong>로 안쪽 또는 바깥쪽 여백을 확장해 입체적인 레이어를 만듭니다.</div></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="compare-grid" style="margin-top: 18px;">
+          <div class="card">
+            <span class="badge blue">공통점</span>
+            <ul class="check-list">
+              <li><span class="check-dot blue">•</span><div>둘 다 문자 상태에서 바로 끝내지 않고, 외곽선으로 바꾼 뒤 도형처럼 다룹니다.</div></li>
+              <li><span class="check-dot blue">•</span><div>선 도구가 기준선을 만드는 출발점 역할을 합니다.</div></li>
+              <li><span class="check-dot blue">•</span><div>패스파인더 계열 기능으로 면을 정리해야 다음 단계가 깔끔합니다.</div></li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="badge gold">차이점</span>
+            <table class="compare-table">
+              <tr>
+                <th>구분</th>
+                <td>paper는 조각난 면과 기울기 표현이 중요하고, design은 선 두께와 외곽 확장이 중요합니다.</td>
+              </tr>
+              <tr>
+                <th>핵심 도구</th>
+                <td>paper: <strong>Divide / Shape Builder / Shear</strong><br>design: <strong>Pathfinder / Stroke / Offset Path</strong></td>
+              </tr>
+              <tr>
+                <th>결과 느낌</th>
+                <td>paper는 찢기거나 접힌 종이 느낌, design은 정리된 로고형 타이포 느낌으로 마무리됩니다.</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="callout">메모: 사용자 메모에 적힌 <code>devide</code>, <code>shpae builder</code>는 실제 도구 이름으로는 <strong>Divide</strong>, <strong>Shape Builder</strong>입니다.</div>
+      </section>
+
+      <section id="brush">
+        <div class="section-head">
+          <div>
+            <h2>2. 브러쉬 정리</h2>
+            <p>브러쉬는 도형 자체에 바로 찍는 개념이 아니라, <strong>패스가 포함된 상태</strong>에서 <strong>패스에 적용</strong>하는 흐름으로 이해하면 정리가 쉽습니다.</p>
+          </div>
+          <span class="badge teal">패스 기반 도구</span>
+        </div>
+
+        <div class="brush-grid">
+          <article class="card">
+            <span class="badge orange">기본 흐름</span>
+            <h3>브러쉬 등록 순서</h3>
+            <ul class="step-list">
+              <li><span class="step-no orange">1</span><div>브러쉬로 만들 모양이나 패턴 오브젝트를 준비합니다.</div></li>
+              <li><span class="step-no orange">2</span><div>패스가 있는 선 또는 도형에 적용할 전제라는 점을 확인합니다.</div></li>
+              <li><span class="step-no orange">3</span><div>브러쉬 패널에서 새 브러쉬를 만들어 등록합니다.</div></li>
+              <li><span class="step-no orange">4</span><div>등록된 브러쉬를 선택하고, 원하는 패스에 적용합니다.</div></li>
+            </ul>
+
+            <div class="callout">한 줄 암기: <strong>패스 포함 → 브러쉬 등록 → 패스에 적용</strong></div>
+          </article>
+
+          <aside class="memory-box">
+            <span class="badge blue">빠른 기억법</span>
+            <h3 style="margin-top: 14px;">브러쉬 종류 구분</h3>
+            <p><strong>Art Brush</strong>는 준비한 모양 그 자체가 패스를 따라 늘어나며 적용됩니다.</p>
+            <p><strong>Scatter Brush</strong>는 작은 모양이 흩뿌려지듯 분산됩니다. 예시: 점, 잎, 별가루.</p>
+            <p><strong>Pattern Brush</strong>는 모양이 반복되며 이어집니다. 예시: 프레임, 테두리, 반복 장식.</p>
+          </aside>
+        </div>
+
+        <div class="brush-types">
+          <div class="brush-item">
+            <strong>Art</strong>
+            모양 그 자체를 브러쉬로 사용합니다. 한 개의 오브젝트가 패스를 따라 늘어나거나 휘어지면서 적용됩니다.
+          </div>
+          <div class="brush-item">
+            <strong>Scatter</strong>
+            분산 효과가 핵심입니다. 같은 모양이 흩뿌려지는 인상을 만들 때 사용합니다.
+          </div>
+          <div class="brush-item">
+            <strong>Pattern</strong>
+            반복 효과가 핵심입니다. 프레임처럼 일정한 모양이 이어져야 할 때 적합합니다.
+          </div>
+        </div>
+      </section>
+
+      <section id="worksheet">
+        <div class="section-head">
+          <div>
+            <h2>3. 확인 문제</h2>
+            <p>직접 선택하거나 입력한 뒤 채점해 보세요. 정답 보기는 마지막에 따로 열 수 있습니다.</p>
+          </div>
+          <span class="badge orange">실제 풀이 가능</span>
+        </div>
+
+        <div class="quiz-grid">
+          <article class="question-card" data-question="q1">
+            <span class="badge gold">문제 1</span>
+            <h3>paper 텍스트 작업에서 종이 조각처럼 면을 나누는 핵심 도구는?</h3>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="q1" value="wrong"> Offset Path</label>
+              <label class="option"><input type="radio" name="q1" value="correct"> Pathfinder Divide</label>
+              <label class="option"><input type="radio" name="q1" value="wrong"> Stroke</label>
+            </div>
+            <div class="feedback" id="feedback-q1"></div>
+          </article>
+
+          <article class="question-card" data-question="q2">
+            <span class="badge gold">문제 2</span>
+            <h3>문자를 도형처럼 편집하려면 먼저 어떤 단축키를 써야 하나요?</h3>
+            <label for="q2-input">정답 입력</label>
+            <input id="q2-input" type="text" placeholder="예: Ctrl + Shift + O">
+            <div class="feedback" id="feedback-q2"></div>
+          </article>
+
+          <article class="question-card" data-question="q3">
+            <span class="badge gold">문제 3</span>
+            <h3>브러쉬 설명으로 맞는 것을 모두 고르세요.</h3>
+            <div class="option-list">
+              <label class="option"><input type="checkbox" name="q3" value="a"> 브러쉬는 패스에 적용하는 흐름으로 이해한다.</label>
+              <label class="option"><input type="checkbox" name="q3" value="b"> Scatter Brush는 반복 프레임용으로만 쓴다.</label>
+              <label class="option"><input type="checkbox" name="q3" value="c"> Art Brush는 모양 그 자체를 브러쉬로 쓴다.</label>
+              <label class="option"><input type="checkbox" name="q3" value="d"> Pattern Brush는 반복 장식에 적합하다.</label>
+            </div>
+            <div class="feedback" id="feedback-q3"></div>
+          </article>
+
+          <article class="question-card" data-question="q4">
+            <span class="badge gold">문제 4</span>
+            <h3>design 텍스트 작업에서 외곽을 한 겹 더 확장할 때 쓰는 기능은?</h3>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="q4" value="wrong"> Shear</label>
+              <label class="option"><input type="radio" name="q4" value="wrong"> Shape Builder</label>
+              <label class="option"><input type="radio" name="q4" value="correct"> Offset Path</label>
+            </div>
+            <div class="feedback" id="feedback-q4"></div>
+          </article>
+
+          <article class="question-card" style="grid-column: 1 / -1;" data-question="q5">
+            <span class="badge gold">문제 5</span>
+            <h3>짧은 서술형</h3>
+            <p>아래 칸에 <strong>paper 텍스트</strong> 또는 <strong>브러쉬 등록 과정</strong> 중 하나를 순서대로 적어 보세요.</p>
+            <textarea id="q5-input" placeholder="예: 문자 입력 → Ctrl + Shift + O → 선 추가 → Divide ..."></textarea>
+            <div class="feedback" id="feedback-q5">서술형은 자동 채점 대신 핵심어 포함 여부를 확인합니다.</div>
+          </article>
+        </div>
+
+        <div class="score-board">
+          <div>
+            <strong id="score-text">점수: 0 / 4</strong>
+            <div class="footer-note">객관식과 단답형 4문항만 자동 채점됩니다.</div>
+          </div>
+          <div class="actions" style="margin-top: 0;">
+            <button class="btn" type="button" id="grade-btn">채점하기</button>
+            <button class="btn secondary" type="button" id="reset-btn">초기화</button>
+            <button class="btn secondary" type="button" id="toggle-answer-btn">정답 보기</button>
+          </div>
+        </div>
+
+        <div class="answer-sheet" id="answer-sheet">
+          <span class="badge blue">예시 정답</span>
+          <ul>
+            <li>문제 1: Pathfinder Divide</li>
+            <li>문제 2: Ctrl + Shift + O</li>
+            <li>문제 3: a, c, d</li>
+            <li>문제 4: Offset Path</li>
+            <li>문제 5 예시 1: 문자 입력 → Ctrl + Shift + O → 복사/앞에 붙여넣기 → 선 추가 → Divide → Shape Builder → Shear</li>
+            <li>문제 5 예시 2: 모양 준비 → 브러쉬 만들기 → 브러쉬 패널에 등록 → 패스에 적용</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const scoreText = document.getElementById("score-text");
+    const gradeBtn = document.getElementById("grade-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const toggleAnswerBtn = document.getElementById("toggle-answer-btn");
+    const answerSheet = document.getElementById("answer-sheet");
+
+    function normalize(value) {
+      return value.toLowerCase().replace(/\s+/g, "").replace(/[+\-]/g, "");
+    }
+
+    function setFeedback(id, message, isCorrect) {
+      const el = document.getElementById(id);
+      el.textContent = message;
+      el.className = "feedback " + (isCorrect ? "correct" : "incorrect");
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === "correct") {
+        score += 1;
+        setFeedback("feedback-q1", "정답입니다. Divide로 면을 나눕니다.", true);
+      } else {
+        setFeedback("feedback-q1", "다시 확인하세요. paper 텍스트는 Divide가 핵심입니다.", false);
+      }
+
+      const q2Value = normalize(document.getElementById("q2-input").value);
+      const q2Correct = q2Value === "ctrlshifto";
+      if (q2Correct) {
+        score += 1;
+        setFeedback("feedback-q2", "정답입니다. 외곽선 변환 단축키입니다.", true);
+      } else {
+        setFeedback("feedback-q2", "정답은 Ctrl + Shift + O 입니다.", false);
+      }
+
+      const q3Checked = Array.from(document.querySelectorAll('input[name="q3"]:checked')).map((input) => input.value).sort().join(",");
+      const q3Correct = q3Checked === "a,c,d";
+      if (q3Correct) {
+        score += 1;
+        setFeedback("feedback-q3", "정답입니다. Scatter는 분산, Pattern은 반복입니다.", true);
+      } else {
+        setFeedback("feedback-q3", "정답은 1, 3, 4번째 선택지입니다.", false);
+      }
+
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      if (q4 && q4.value === "correct") {
+        score += 1;
+        setFeedback("feedback-q4", "정답입니다. Offset Path로 외곽을 확장합니다.", true);
+      } else {
+        setFeedback("feedback-q4", "다시 확인하세요. design 텍스트 확장은 Offset Path입니다.", false);
+      }
+
+      const q5Value = document.getElementById("q5-input").value.trim();
+      if (q5Value.length > 0) {
+        const normalized = q5Value.toLowerCase();
+        const hasPaperFlow = ["ctrl", "shift", "o", "divide"].every((word) => normalized.includes(word));
+        const hasBrushFlow = ["브러쉬", "등록", "패스"].every((word) => q5Value.includes(word));
+
+        if (hasPaperFlow || hasBrushFlow) {
+          document.getElementById("feedback-q5").textContent = "핵심어가 잘 들어갔습니다. 순서도 함께 점검하세요.";
+          document.getElementById("feedback-q5").className = "feedback correct";
+        } else {
+          document.getElementById("feedback-q5").textContent = "핵심어가 부족합니다. Ctrl + Shift + O, Divide 또는 브러쉬 등록, 패스 적용을 포함해 보세요.";
+          document.getElementById("feedback-q5").className = "feedback incorrect";
+        }
+      }
+
+      scoreText.textContent = "점수: " + score + " / 4";
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach((input) => {
+        input.checked = false;
+      });
+
+      document.getElementById("q2-input").value = "";
+      document.getElementById("q5-input").value = "";
+      scoreText.textContent = "점수: 0 / 4";
+
+      ["feedback-q1", "feedback-q2", "feedback-q3", "feedback-q4"].forEach((id) => {
+        const el = document.getElementById(id);
+        el.textContent = "";
+        el.className = "feedback";
+      });
+
+      const q5 = document.getElementById("feedback-q5");
+      q5.textContent = "서술형은 자동 채점 대신 핵심어 포함 여부를 확인합니다.";
+      q5.className = "feedback";
+    }
+
+    gradeBtn.addEventListener("click", gradeQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+    toggleAnswerBtn.addEventListener("click", () => {
+      answerSheet.classList.toggle("open");
+      toggleAnswerBtn.textContent = answerSheet.classList.contains("open") ? "정답 숨기기" : "정답 보기";
+    });
+  </script>
+</body>
+</html>
