@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 클리핑마스크 · 컴파운드패스 · Transparency 복습자료</title>
+  <style>
+    :root {
+      --bg: #f2eee7;
+      --paper: rgba(255, 251, 246, 0.96);
+      --card: #ffffff;
+      --ink: #1f252c;
+      --muted: #66717d;
+      --line: rgba(31, 37, 44, 0.12);
+      --orange: #dd6b3f;
+      --teal: #157a72;
+      --blue: #2f68d3;
+      --gold: #efb24a;
+      --red: #cf5048;
+      --soft-orange: rgba(221, 107, 63, 0.11);
+      --soft-teal: rgba(21, 122, 114, 0.11);
+      --soft-blue: rgba(47, 104, 211, 0.1);
+      --soft-gold: rgba(239, 178, 74, 0.15);
+      --soft-red: rgba(207, 80, 72, 0.1);
+      --shadow: 0 20px 54px rgba(28, 34, 40, 0.12);
+      --radius: 10px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(239, 178, 74, 0.18), transparent 24%),
+        linear-gradient(180deg, #e7dfd4 0%, var(--bg) 44%, #faf8f5 100%);
+    }
+
+    p, li, span, a, button, label, input, textarea, th, td, strong {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code, kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 4px 9px;
+      border: 1px solid rgba(31, 37, 44, 0.16);
+      border-bottom-width: 3px;
+      border-radius: 8px;
+      color: var(--ink);
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.95em;
+      font-weight: 800;
+      background: #fff;
+      box-shadow: 0 6px 12px rgba(31, 37, 44, 0.06);
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 7px 11px;
+      border: 1px solid rgba(21, 122, 114, 0.24);
+      border-radius: 999px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--soft-teal);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 60px);
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-pills, .nav, .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-pills {
+      margin-top: 20px;
+    }
+
+    .nav {
+      margin-top: 22px;
+    }
+
+    .actions {
+      margin-top: 18px;
+    }
+
+    .pill, .nav a, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .pill, .nav a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .pill {
+      font-size: 13px;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 14px;
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+      border-color: rgba(31, 37, 44, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: 0;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 10px 24px rgba(31, 37, 44, 0.16);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(31, 37, 44, 0.2);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .hero-visual {
+      min-height: 340px;
+      padding: 22px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(135deg, #dd6b3f 0%, #efb24a 33%, #2f68d3 67%, #157a72 100%);
+      background-size: 26px 26px, 26px 26px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    .artboard {
+      position: relative;
+      min-height: 292px;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 22px 44px rgba(18, 21, 25, 0.24);
+      overflow: hidden;
+    }
+
+    .frame {
+      position: absolute;
+      left: 34px;
+      top: 34px;
+      width: 170px;
+      height: 120px;
+      border: 8px solid rgba(255, 255, 255, 0.88);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 12px 24px rgba(18, 21, 25, 0.18);
+    }
+
+    .photo {
+      position: absolute;
+      left: 58px;
+      top: 60px;
+      width: 168px;
+      height: 118px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.55), transparent 24%),
+        linear-gradient(135deg, #2f68d3, #157a72);
+      transform: rotate(-8deg);
+    }
+
+    .holes {
+      position: absolute;
+      right: 34px;
+      top: 38px;
+      width: 164px;
+      height: 132px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 12px 24px rgba(18, 21, 25, 0.18);
+    }
+
+    .holes::before,
+    .holes::after {
+      content: "";
+      position: absolute;
+      top: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(47, 104, 211, 0.85);
+      box-shadow: 0 50px 0 rgba(207, 80, 72, 0.88);
+    }
+
+    .holes::before {
+      left: 22px;
+    }
+
+    .holes::after {
+      right: 22px;
+    }
+
+    .mask-strip {
+      position: absolute;
+      left: 32px;
+      bottom: 30px;
+      right: 32px;
+      height: 56px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background: linear-gradient(90deg, #111 0%, #6a6a6a 45%, #fff 100%);
+      box-shadow: 0 12px 24px rgba(18, 21, 25, 0.18);
+    }
+
+    .mask-strip span {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    main {
+      display: grid;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    section {
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .badge.orange {
+      color: var(--orange);
+      background: var(--soft-orange);
+    }
+
+    .badge.teal {
+      color: var(--teal);
+      background: var(--soft-teal);
+    }
+
+    .badge.blue {
+      color: var(--blue);
+      background: var(--soft-blue);
+    }
+
+    .badge.gold {
+      color: #8a5b04;
+      background: var(--soft-gold);
+    }
+
+    .grid, .compare-grid, .mode-grid, .shortcut-grid, .quiz-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .compare-grid,
+    .quiz-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mode-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .shortcut-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card, .question-card {
+      height: 100%;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover, .question-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(31, 37, 44, 0.22);
+      box-shadow: 0 14px 28px rgba(24, 29, 35, 0.1);
+    }
+
+    .card h3, .question-card h3 {
+      margin-top: 14px;
+    }
+
+    .card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .step-list, .check-list, .mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step-list li, .check-list li, .mini-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .step-no, .check-dot {
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      margin-top: 1px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .step-no.orange, .check-dot.orange {
+      background: var(--orange);
+    }
+
+    .step-no.teal, .check-dot.teal {
+      background: var(--teal);
+    }
+
+    .step-no.blue, .check-dot.blue {
+      background: var(--blue);
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--orange);
+      border-radius: 0 10px 10px 0;
+      background: rgba(221, 107, 63, 0.08);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--card);
+    }
+
+    .compare-table th, .compare-table td {
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .compare-table th {
+      width: 26%;
+      background: rgba(31, 37, 44, 0.04);
+      font-size: 14px;
+    }
+
+    .compare-table tr:last-child th,
+    .compare-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .mode-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #fff 0%, #fbfbfb 100%);
+    }
+
+    .mode-card strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 18px;
+    }
+
+    .mode-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .mode-result {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    .mode-result.light {
+      color: #fff;
+      background: linear-gradient(90deg, #20242a, #6c7480);
+    }
+
+    .mode-result.dark {
+      color: #20242a;
+      background: linear-gradient(90deg, #fff, #cfd6df);
+    }
+
+    .mode-result.mix {
+      color: #fff;
+      background: linear-gradient(90deg, #9bc3ff, #ffd77a, #ef6d5f);
+    }
+
+    .shortcut-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .shortcut-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .question-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .option-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+      border-color: rgba(31, 37, 44, 0.22);
+      background: rgba(31, 37, 44, 0.03);
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 13px 14px;
+      border: 1px solid rgba(31, 37, 44, 0.18);
+      border-radius: 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(47, 104, 211, 0.64);
+      box-shadow: 0 0 0 4px rgba(47, 104, 211, 0.12);
+    }
+
+    textarea {
+      min-height: 148px;
+      resize: vertical;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      min-height: 26px;
+      font-weight: 800;
+    }
+
+    .feedback.correct {
+      color: var(--teal);
+    }
+
+    .feedback.incorrect {
+      color: var(--red);
+    }
+
+    .score-board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-top: 22px;
+      padding: 20px 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(31, 37, 44, 0.1);
+      background: rgba(31, 37, 44, 0.04);
+    }
+
+    .score-board strong {
+      font-size: 20px;
+    }
+
+    .answer-sheet {
+      display: none;
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(47, 104, 211, 0.18);
+      background: rgba(47, 104, 211, 0.08);
+    }
+
+    .answer-sheet.open {
+      display: block;
+    }
+
+    .answer-sheet ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid,
+      .compare-grid,
+      .mode-grid,
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shortcut-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding: 20px 0 34px;
+      }
+
+      .hero,
+      section {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 10vw, 44px);
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shortcut-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      section,
+      .card,
+      .question-card {
+        box-shadow: none;
+      }
+
+      .btn,
+      .nav,
+      .actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Kim Ddolbok Illustrator Review</div>
+        <h1>클리핑마스크 · 컴파운드패스 · Transparency 복습자료</h1>
+        <p class="lead">
+          클리핑마스크, 컴파운드패스, 불투명 마스크와 블렌딩모드까지 한 번에 정리한 수강생용 복습 페이지입니다.
+          기능 차이, 사용 조건, 단축키, 실전 용도를 같이 묶어서 다시 확인할 수 있게 구성했습니다.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">클리핑마스크 = 액자에 그림 끼우기</span>
+          <span class="pill">컴파운드패스 = 떨어진 도형 묶기</span>
+          <span class="pill">Transparency = 가리기 · 섞기 · 비치기</span>
+        </div>
+        <nav class="nav">
+          <a href="#clip">클리핑마스크</a>
+          <a href="#compound">컴파운드패스</a>
+          <a href="#transparency">Transparency</a>
+          <a href="#blend">블렌딩모드</a>
+          <a href="#shortcuts">단축키</a>
+          <a href="#worksheet">복습문제</a>
+        </nav>
+        <div class="actions">
+          <button class="btn" type="button" onclick="window.print()">인쇄하기</button>
+          <button class="btn secondary" type="button" onclick="document.getElementById('worksheet').scrollIntoView({ behavior: 'smooth' });">문제 풀기</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="artboard">
+          <div class="photo"></div>
+          <div class="frame"></div>
+          <div class="holes"></div>
+          <div class="mask-strip"><span>BLACK → HIDDEN / GRAY → SEMI / WHITE → SHOW</span></div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="clip">
+        <div class="section-head">
+          <div>
+            <h2>1. 클리핑마스크</h2>
+            <p>쉽게 말하면 <strong>'액자' 안에 '그림'을 끼워 넣는 기능</strong>입니다. 보이는 범위를 액자가 결정합니다.</p>
+          </div>
+          <span class="badge orange">가장 자주 쓰는 마스킹</span>
+        </div>
+
+        <div class="compare-grid">
+          <article class="card">
+            <span class="badge teal">핵심 개념</span>
+            <h3>액자가 위, 그림이 아래</h3>
+            <ul class="step-list">
+              <li><span class="step-no teal">1</span><div>클리핑할 <strong>그림 개체</strong>를 먼저 놓습니다.</div></li>
+              <li><span class="step-no teal">2</span><div>그 위에 보이는 범위를 결정할 <strong>액자 도형</strong>을 올립니다.</div></li>
+              <li><span class="step-no teal">3</span><div>둘 다 선택한 뒤 <kbd>Ctrl + 7</kbd>로 클리핑마스크를 만듭니다.</div></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge gold">주의</span>
+            <h3>액자는 하나만 가능</h3>
+            <ul class="check-list">
+              <li><span class="check-dot orange">!</span><div><strong>'액자' 개체가 위에 있어야</strong> 합니다.</div></li>
+              <li><span class="check-dot orange">!</span><div>클리핑 기준이 되는 <strong>액자는 하나만</strong> 사용할 수 있습니다.</div></li>
+              <li><span class="check-dot orange">!</span><div>그림을 자르는 것이 아니라 <strong>보이는 범위만 가리는 것</strong>입니다.</div></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="callout">
+          기억 문장: <strong>그림 아래, 액자 위</strong>. 순서가 틀리면 원하는 결과가 나오지 않습니다.
+        </div>
+      </section>
+
+      <section id="compound">
+        <div class="section-head">
+          <div>
+            <h2>2. 컴파운드패스</h2>
+            <p>거리가 떨어져 있는 여러 개의 개체를 하나의 경로처럼 묶어 다루는 기능입니다.</p>
+          </div>
+          <span class="badge blue">구멍 구조 만들기</span>
+        </div>
+
+        <div class="compare-grid">
+          <article class="card">
+            <span class="badge blue">핵심 개념</span>
+            <h3>떨어진 도형을 한 세트로</h3>
+            <p>여러 개의 도형을 하나의 형태로 인식시켜, 안쪽이 뚫린 글자나 여러 구멍이 있는 모양을 만들 때 자주 사용합니다.</p>
+            <ul class="mini-list">
+              <li><span class="check-dot blue">1</span><div>여러 개의 도형을 하나처럼 선택하고 움직이기 좋습니다.</div></li>
+              <li><span class="check-dot blue">2</span><div>구멍이 있는 형태를 만들 때 특히 중요합니다.</div></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge gold">핵심 체크</span>
+            <h3>원본 훼손 없음</h3>
+            <ul class="check-list">
+              <li><span class="check-dot teal">O</span><div>원본을 칼로 잘라서 합치는 개념이 아니라 <strong>경로 구조를 다시 묶는 방식</strong>입니다.</div></li>
+              <li><span class="check-dot teal">O</span><div>복잡한 내부 공간을 하나의 개체처럼 다뤄야 할 때 유리합니다.</div></li>
+              <li><span class="check-dot teal">O</span><div>단축키는 <kbd>Ctrl + 8</kbd>입니다.</div></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="transparency">
+        <div class="section-head">
+          <div>
+            <h2>3. Transparency</h2>
+            <p>투명도 관련 기능은 단순히 흐리게 보이는 것만이 아니라, 가리기와 섞기까지 포함합니다.</p>
+          </div>
+          <span class="badge teal">가리기와 비치기</span>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <span class="badge orange">불투명 마스크</span>
+            <h3>이미지의 일부를 가리는 기능</h3>
+            <p>포토샵의 <strong>레이어 마스크</strong>와 비슷한 개념입니다. 흰색, 회색, 검은색의 명도를 읽어 보이는 정도를 결정합니다.</p>
+            <ul class="step-list">
+              <li><span class="step-no orange">1</span><div><strong>검은색</strong>: 가려짐</div></li>
+              <li><span class="step-no orange">2</span><div><strong>회색</strong>: 반투명</div></li>
+              <li><span class="step-no orange">3</span><div><strong>하얀색</strong>: 유지됨</div></li>
+            </ul>
+            <div class="callout">중요: 원본을 직접 지우는 방식이 아니라서 <strong>원본 훼손이 없습니다.</strong></div>
+          </article>
+
+          <article class="card">
+            <span class="badge teal">Opacity 불투명도</span>
+            <h3>개체가 얼마나 비쳐 보일지 조절</h3>
+            <p>그룹을 어떻게 잡고 적용하느냐에 따라 결과가 달라집니다.</p>
+            <ul class="check-list">
+              <li><span class="check-dot teal">A</span><div>개별 개체에 따로 적용하면 <strong>겹친 부분의 색이 서로 비쳐 보일 수 있습니다.</strong></div></li>
+              <li><span class="check-dot teal">B</span><div>그룹 전체에 한 번에 적용하면 <strong>묶인 상태로 같이 투명해집니다.</strong></div></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge blue">정리</span>
+            <h3>Opacity vs 불투명 마스크</h3>
+            <table class="compare-table">
+              <tr>
+                <th>Opacity</th>
+                <td>개체 전체의 투명도를 숫자로 조절</td>
+              </tr>
+              <tr>
+                <th>불투명 마스크</th>
+                <td>검정, 회색, 흰색의 명도로 부분별 투명도를 조절</td>
+              </tr>
+              <tr>
+                <th>공통점</th>
+                <td>둘 다 원본을 직접 지우지 않고 보이는 정도를 조절</td>
+              </tr>
+            </table>
+          </article>
+        </div>
+      </section>
+
+      <section id="blend">
+        <div class="section-head">
+          <div>
+            <h2>4. 블렌딩모드</h2>
+            <p>상단 개체와 하단 개체를 어떤 방식으로 섞을지 정하는 기능입니다. 위에 놓인 개체의 색 성질이 매우 중요합니다.</p>
+          </div>
+          <span class="badge gold">실무에서 많이 씀</span>
+        </div>
+
+        <div class="mode-grid">
+          <article class="mode-card">
+            <span class="badge orange">Multiply</span>
+            <strong>하얀색 없앰</strong>
+            <p>하얀색에 가까울수록 투명해집니다. 질감 올리기, 흰 배경 제거에 자주 씁니다.</p>
+            <div class="mode-result light">질감 · 배경제거</div>
+          </article>
+
+          <article class="mode-card">
+            <span class="badge blue">Screen</span>
+            <strong>검은색 없앰</strong>
+            <p>검은색에 가까울수록 투명해집니다. 어두운 배경을 날리고 빛 요소를 살릴 때 유용합니다.</p>
+            <div class="mode-result dark">검정 배경 제거</div>
+          </article>
+
+          <article class="mode-card">
+            <span class="badge teal">Color Dodge</span>
+            <strong>검은색 없앰 + 대비 강해짐</strong>
+            <p>빛이 터지는 느낌, 번쩍이는 하이라이트, 광원 효과를 줄 때 좋습니다.</p>
+            <div class="mode-result mix">빛 표현</div>
+          </article>
+
+          <article class="mode-card">
+            <span class="badge gold">Overlay</span>
+            <strong>회색 계열 약화</strong>
+            <p>밝은 것은 더 밝게, 어두운 것은 더 어둡게 보여서 하이라이트와 그림자 표현에 적합합니다.</p>
+            <div class="mode-result mix">입체감 강화</div>
+          </article>
+
+          <article class="mode-card">
+            <span class="badge teal">Color</span>
+            <strong>색만 남김</strong>
+            <p>밝기나 명암은 유지하고 색감만 덮어 입히는 느낌이라 색 보정에 적합합니다.</p>
+            <div class="mode-result mix">색 보정</div>
+          </article>
+
+          <article class="mode-card">
+            <span class="badge blue">기억 포인트</span>
+            <strong>위 개체 기준으로 생각</strong>
+            <p>블렌딩모드는 대부분 <strong>상단 개체의 색</strong>이 어떻게 작동하는지 이해하면 훨씬 쉽게 외울 수 있습니다.</p>
+            <div class="mode-result dark">위 색을 먼저 본다</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="shortcuts">
+        <div class="section-head">
+          <div>
+            <h2>5. 단축키</h2>
+            <p>수업 중 자주 쓰는 핵심 키만 모았습니다. 기능과 함께 묶어 외우는 편이 빠릅니다.</p>
+          </div>
+          <span class="badge blue">반드시 암기</span>
+        </div>
+
+        <div class="shortcut-grid">
+          <article class="shortcut-card">
+            <kbd>Ctrl + 7</kbd>
+            <p>클리핑마스크 만들기</p>
+          </article>
+          <article class="shortcut-card">
+            <kbd>Ctrl + 8</kbd>
+            <p>컴파운드패스 만들기</p>
+          </article>
+          <article class="shortcut-card">
+            <kbd>Ctrl + Shift + [</kbd>
+            <p>맨 뒤로 보내기</p>
+          </article>
+          <article class="shortcut-card">
+            <kbd>Ctrl + [</kbd>
+            <p>한 칸만 뒤로</p>
+          </article>
+          <article class="shortcut-card">
+            <kbd>Ctrl + Shift + ]</kbd>
+            <p>맨 앞으로 가져오기</p>
+          </article>
+          <article class="shortcut-card">
+            <kbd>Ctrl + ]</kbd>
+            <p>한 칸만 앞으로</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="worksheet">
+        <div class="section-head">
+          <div>
+            <h2>6. 복습문제</h2>
+            <p>직접 선택하거나 입력한 뒤 채점해 보세요. 마지막 서술형은 자동 점수에는 포함하지 않지만, 수업 내용을 말로 정리하는 연습용입니다.</p>
+          </div>
+          <span class="badge orange">실제 풀이 가능</span>
+        </div>
+
+        <div class="quiz-grid">
+          <article class="question-card" data-question="q1">
+            <span class="badge gold">문제 1</span>
+            <h3>클리핑마스크에서 '액자' 역할을 하는 개체는 어디에 있어야 하나요?</h3>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="q1" value="wrong"> 그림 개체 아래</label>
+              <label class="option"><input type="radio" name="q1" value="correct"> 그림 개체 위</label>
+              <label class="option"><input type="radio" name="q1" value="wrong"> 어느 위치든 상관없음</label>
+            </div>
+            <div class="feedback" id="feedback-q1"></div>
+          </article>
+
+          <article class="question-card" data-question="q2">
+            <span class="badge gold">문제 2</span>
+            <h3>컴파운드패스 단축키를 입력하세요.</h3>
+            <label for="q2-input">정답 입력</label>
+            <input id="q2-input" type="text" placeholder="예: Ctrl + 8">
+            <div class="feedback" id="feedback-q2"></div>
+          </article>
+
+          <article class="question-card" data-question="q3">
+            <span class="badge gold">문제 3</span>
+            <h3>불투명 마스크에서 맞는 설명을 모두 고르세요.</h3>
+            <div class="option-list">
+              <label class="option"><input type="checkbox" name="q3" value="a"> 검은색은 가려진다.</label>
+              <label class="option"><input type="checkbox" name="q3" value="b"> 회색은 완전히 보인다.</label>
+              <label class="option"><input type="checkbox" name="q3" value="c"> 하얀색은 유지된다.</label>
+              <label class="option"><input type="checkbox" name="q3" value="d"> 명도를 인식한다.</label>
+            </div>
+            <div class="feedback" id="feedback-q3"></div>
+          </article>
+
+          <article class="question-card" data-question="q4">
+            <span class="badge gold">문제 4</span>
+            <h3>하얀색에 가까울수록 투명해져서 질감이나 흰 배경 제거에 자주 쓰는 블렌딩모드는?</h3>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="q4" value="correct"> Multiply</label>
+              <label class="option"><input type="radio" name="q4" value="wrong"> Screen</label>
+              <label class="option"><input type="radio" name="q4" value="wrong"> Color</label>
+            </div>
+            <div class="feedback" id="feedback-q4"></div>
+          </article>
+
+          <article class="question-card" data-question="q5">
+            <span class="badge gold">문제 5</span>
+            <h3>검은색에 가까울수록 투명해져서 어두운 배경 제거에 유리한 블렌딩모드는?</h3>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="q5" value="wrong"> Overlay</label>
+              <label class="option"><input type="radio" name="q5" value="correct"> Screen</label>
+              <label class="option"><input type="radio" name="q5" value="wrong"> Color Dodge</label>
+            </div>
+            <div class="feedback" id="feedback-q5"></div>
+          </article>
+
+          <article class="question-card" data-question="q6">
+            <span class="badge gold">문제 6</span>
+            <h3>앞뒤 순서를 바꾸는 단축키 중 '맨 앞으로 가져오기'를 입력하세요.</h3>
+            <label for="q6-input">정답 입력</label>
+            <input id="q6-input" type="text" placeholder="예: Ctrl + Shift + ]">
+            <div class="feedback" id="feedback-q6"></div>
+          </article>
+
+          <article class="question-card" style="grid-column: 1 / -1;" data-question="q7">
+            <span class="badge gold">문제 7</span>
+            <h3>서술형</h3>
+            <p>클리핑마스크와 불투명 마스크의 차이를 한두 문장으로 적어보세요.</p>
+            <textarea id="q7-input" placeholder="예: 클리핑마스크는 위 도형으로 보이는 범위를 자르고, 불투명 마스크는 검정/회색/흰색 명도로 부분별 투명도를 조절한다."></textarea>
+            <div class="feedback" id="feedback-q7">서술형은 자동 점수에 포함되지 않습니다. 핵심 단어를 넣어 스스로 정리해 보세요.</div>
+          </article>
+        </div>
+
+        <div class="score-board">
+          <div>
+            <strong id="score-text">점수: 0 / 6</strong>
+            <div class="footer-note">객관식과 단답형 6문항만 자동 채점됩니다.</div>
+          </div>
+          <div class="actions" style="margin-top: 0;">
+            <button class="btn" type="button" id="grade-btn">채점하기</button>
+            <button class="btn secondary" type="button" id="reset-btn">초기화</button>
+            <button class="btn secondary" type="button" id="toggle-answer-btn">정답 보기</button>
+          </div>
+        </div>
+
+        <div class="answer-sheet" id="answer-sheet">
+          <span class="badge blue">정답 모음</span>
+          <ul>
+            <li>문제 1: 그림 개체 위</li>
+            <li>문제 2: Ctrl + 8</li>
+            <li>문제 3: a, c, d</li>
+            <li>문제 4: Multiply</li>
+            <li>문제 5: Screen</li>
+            <li>문제 6: Ctrl + Shift + ]</li>
+            <li>문제 7 예시: 클리핑마스크는 액자 도형으로 보이는 범위를 정하고, 불투명 마스크는 검정·회색·흰색 명도로 부분별 투명도를 조절한다.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const scoreText = document.getElementById("score-text");
+    const gradeBtn = document.getElementById("grade-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const toggleAnswerBtn = document.getElementById("toggle-answer-btn");
+    const answerSheet = document.getElementById("answer-sheet");
+
+    function normalize(value) {
+      return value
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[+\-]/g, "")
+        .replace(/]/g, "")
+        .trim();
+    }
+
+    function setFeedback(id, message, isCorrect) {
+      const el = document.getElementById(id);
+      el.textContent = message;
+      el.className = "feedback " + (isCorrect ? "correct" : "incorrect");
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === "correct") {
+        score += 1;
+        setFeedback("feedback-q1", "정답입니다. 액자 개체가 그림 위에 있어야 합니다.", true);
+      } else {
+        setFeedback("feedback-q1", "다시 확인하세요. 클리핑마스크는 액자가 위에 있어야 합니다.", false);
+      }
+
+      const q2 = normalize(document.getElementById("q2-input").value);
+      if (q2 === "ctrl8") {
+        score += 1;
+        setFeedback("feedback-q2", "정답입니다. 컴파운드패스는 Ctrl + 8입니다.", true);
+      } else {
+        setFeedback("feedback-q2", "정답은 Ctrl + 8입니다.", false);
+      }
+
+      const q3 = Array.from(document.querySelectorAll('input[name="q3"]:checked')).map((input) => input.value).sort().join(",");
+      if (q3 === "a,c,d") {
+        score += 1;
+        setFeedback("feedback-q3", "정답입니다. 검정은 가려지고, 흰색은 유지되며, 명도를 인식합니다.", true);
+      } else {
+        setFeedback("feedback-q3", "정답은 1, 3, 4번 선택입니다.", false);
+      }
+
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      if (q4 && q4.value === "correct") {
+        score += 1;
+        setFeedback("feedback-q4", "정답입니다. Multiply는 하얀색 계열이 날아갑니다.", true);
+      } else {
+        setFeedback("feedback-q4", "정답은 Multiply입니다.", false);
+      }
+
+      const q5 = document.querySelector('input[name="q5"]:checked');
+      if (q5 && q5.value === "correct") {
+        score += 1;
+        setFeedback("feedback-q5", "정답입니다. Screen은 검은색 계열이 사라집니다.", true);
+      } else {
+        setFeedback("feedback-q5", "정답은 Screen입니다.", false);
+      }
+
+      const q6 = normalize(document.getElementById("q6-input").value);
+      if (q6 === "ctrlshift") {
+        score += 1;
+        setFeedback("feedback-q6", "정답입니다. Ctrl + Shift + ]는 맨 앞으로 가져오기입니다.", true);
+      } else {
+        setFeedback("feedback-q6", "정답은 Ctrl + Shift + ]입니다.", false);
+      }
+
+      scoreText.textContent = "점수: " + score + " / 6";
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach((input) => {
+        input.checked = false;
+      });
+
+      document.getElementById("q2-input").value = "";
+      document.getElementById("q6-input").value = "";
+      document.getElementById("q7-input").value = "";
+
+      scoreText.textContent = "점수: 0 / 6";
+
+      ["feedback-q1", "feedback-q2", "feedback-q3", "feedback-q4", "feedback-q5", "feedback-q6"].forEach((id) => {
+        const el = document.getElementById(id);
+        el.textContent = "";
+        el.className = "feedback";
+      });
+
+      const q7 = document.getElementById("feedback-q7");
+      q7.textContent = "서술형은 자동 점수에 포함되지 않습니다. 핵심 단어를 넣어 스스로 정리해 보세요.";
+      q7.className = "feedback";
+    }
+
+    gradeBtn.addEventListener("click", gradeQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+    toggleAnswerBtn.addEventListener("click", () => {
+      answerSheet.classList.toggle("open");
+      toggleAnswerBtn.textContent = answerSheet.classList.contains("open") ? "정답 숨기기" : "정답 보기";
+    });
+  </script>
+</body>
+</html>
