@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>포토샵 레이어 마스크 · 블렌딩 모드 복습자료</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --paper: rgba(255, 251, 245, 0.96);
+      --ink: #1c2430;
+      --muted: #606b79;
+      --line: rgba(28, 36, 48, 0.12);
+      --accent: #d65d37;
+      --accent-2: #0f7a74;
+      --accent-3: #245dc4;
+      --soft-orange: #f7d8c3;
+      --soft-blue: #dce8ff;
+      --soft-green: #d8efe9;
+      --shadow: 0 24px 60px rgba(96, 70, 36, 0.14);
+      --radius: 28px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.6;
+      word-break: keep-all;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(214, 93, 55, 0.16), transparent 18%),
+        radial-gradient(circle at 92% 10%, rgba(36, 93, 196, 0.12), transparent 18%),
+        linear-gradient(180deg, #efe4d5 0%, #f7f2ea 44%, #fffdf9 100%);
+    }
+
+    h1, h2, h3, p, ul, ol { margin: 0; }
+    button, input, textarea { font: inherit; }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .hero,
+    .section {
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 28px;
+      padding: 34px;
+      align-items: stretch;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 14px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(214, 93, 55, 0.18);
+      background: rgba(214, 93, 55, 0.08);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 16px 0 0 var(--accent-2), 32px 0 0 var(--accent-3);
+      margin-right: 28px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      margin-top: 18px;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .hero-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .hero-actions a:hover,
+    .hero-actions a:focus-visible,
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(36, 93, 196, 0.28);
+      background: #fff;
+      outline: none;
+    }
+
+    .hero-card {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+      padding: 22px;
+      border-radius: 24px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.18), transparent 24%),
+        linear-gradient(145deg, #1d2430 0%, #13455b 36%, #245dc4 72%, #f0a967 100%);
+    }
+
+    .window {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dots i {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ff6b5f;
+    }
+
+    .dots i:nth-child(2) { background: #ffd25e; }
+    .dots i:nth-child(3) { background: #5fd27d; }
+
+    .mask-demo {
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background:
+        linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25% 75%, rgba(255,255,255,0.08) 75%),
+        linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25% 75%, rgba(255,255,255,0.08) 75%),
+        rgba(255, 255, 255, 0.06);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+    }
+
+    .photo {
+      position: absolute;
+      inset: 18px;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0)),
+        linear-gradient(135deg, #f49f6b 0%, #f4d0a9 26%, #4f8cb9 26%, #7cb6da 56%, #205f78 56%, #163a49 100%);
+    }
+
+    .subject {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      width: 140px;
+      height: 180px;
+      border-radius: 70px 70px 30px 30px;
+      background: linear-gradient(180deg, #233243 0%, #0e1623 100%);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.28);
+    }
+
+    .subject::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -42px;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: #f5b78b;
+      transform: translateX(-50%);
+      box-shadow: inset 0 -10px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .mask-sheet {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      width: 150px;
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(17, 25, 36, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(8px);
+    }
+
+    .mask-bar {
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #050505 0%, #7c7c7c 48%, #ffffff 100%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .mask-tags {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-header p {
+      max-width: 620px;
+      color: var(--muted);
+    }
+
+    .grid-3,
+    .grid-2 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card,
+    .worksheet-card {
+      padding: 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .card h3,
+    .worksheet-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .card p,
+    .card li,
+    .worksheet-card p,
+    .worksheet-card li,
+    .feedback,
+    .scoreboard {
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .keybox {
+      padding: 16px 18px;
+      border-radius: 20px;
+      margin-top: 14px;
+      font-weight: 700;
+    }
+
+    .keybox.dark { background: #171717; color: #fff; }
+    .keybox.gray { background: linear-gradient(90deg, #808080, #b5b5b5); color: #fff; }
+    .keybox.light { background: #fff; color: #273142; border: 1px solid var(--line); }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .flow-step {
+      position: relative;
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(246, 240, 231, 0.95));
+      border: 1px solid var(--line);
+    }
+
+    .flow-step strong {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .mode-card {
+      padding: 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      min-height: 240px;
+      background: rgba(255, 255, 255, 0.8);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(45, 69, 110, 0.12);
+    }
+
+    .mode-name {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .multiply { background: var(--soft-orange); color: #8c3b19; }
+    .screen { background: var(--soft-blue); color: #1c4d98; }
+    .overlay { background: var(--soft-green); color: #14645e; }
+
+    .mode-visual {
+      display: grid;
+      place-items: center;
+      height: 92px;
+      margin: 14px 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .mode-visual.multiply-demo {
+      background: linear-gradient(90deg, #fff 0%, #f0d9cb 50%, #9d5f3d 100%);
+    }
+
+    .mode-visual.screen-demo {
+      background: linear-gradient(90deg, #090909 0%, #325073 50%, #d8ecff 100%);
+    }
+
+    .mode-visual.overlay-demo {
+      background: linear-gradient(90deg, #444 0%, #777 50%, #d1d1d1 100%);
+    }
+
+    .mode-visual span {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      color: #1b2430;
+      font-weight: 800;
+    }
+
+    .example-board {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .example-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .example-item strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .brush-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .brush-swatch {
+      position: relative;
+      min-height: 240px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), transparent 30%),
+        linear-gradient(160deg, #ffffff 0%, #b6b6b6 48%, #151515 100%);
+    }
+
+    .brush-stamp {
+      position: absolute;
+      inset: 24px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 25% 30%, rgba(0,0,0,0.08) 0 14%, transparent 15%),
+        radial-gradient(circle at 52% 38%, rgba(0,0,0,0.22) 0 16%, transparent 17%),
+        radial-gradient(circle at 73% 60%, rgba(0,0,0,0.82) 0 18%, transparent 19%),
+        radial-gradient(circle at 34% 72%, rgba(0,0,0,0.55) 0 11%, transparent 12%);
+      mix-blend-mode: multiply;
+    }
+
+    .list {
+      padding-left: 18px;
+    }
+
+    .list li + li {
+      margin-top: 8px;
+    }
+
+    .tip-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tip {
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(245, 239, 229, 0.96));
+      border: 1px solid var(--line);
+    }
+
+    .tip strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-3);
+    }
+
+    .question {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(28, 36, 48, 0.08);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .question + .question {
+      margin-top: 14px;
+    }
+
+    .question h4 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .choices {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .choice input {
+      margin-top: 4px;
+      accent-color: var(--accent-3);
+    }
+
+    .input-line,
+    .textarea-line {
+      margin-top: 12px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .worksheet-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .button {
+      min-height: 46px;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, #1b2737, #245dc4);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    .feedback.ok { color: #0f7a74; font-weight: 700; }
+    .feedback.no { color: #c44c3e; font-weight: 700; }
+    .feedback.show { color: #245dc4; font-weight: 700; }
+
+    .scoreboard {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(36, 93, 196, 0.08);
+      border: 1px solid rgba(36, 93, 196, 0.12);
+      font-weight: 700;
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid-3,
+      .grid-2,
+      .flow,
+      .brush-stage,
+      .tip-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(calc(100% - 20px), var(--max)); padding-top: 18px; }
+      .hero, .section { padding: 20px; border-radius: 24px; }
+      .hero-card { min-height: auto; }
+      h1 { font-size: clamp(30px, 11vw, 48px); }
+      .lead { font-size: 16px; }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .card,
+      .worksheet-card,
+      .question,
+      .mode-card,
+      .tip,
+      .flow-step {
+        box-shadow: none;
+        backdrop-filter: none;
+        break-inside: avoid;
+      }
+
+      .button,
+      .hero-actions {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">PHOTOSHOP REVIEW SHEET</div>
+        <h1>레이어 마스크와 블렌딩 모드</h1>
+        <p class="lead">
+          이미지의 일부를 지우거나 살리고, 배경을 자연스럽게 합성하고, 브러시에 밝기 정보를 반영하는 수업 핵심을 한 번에 정리한 복습자료입니다.
+          원본을 직접 깎지 않는 편집 흐름을 기준으로 기억하세요.
+        </p>
+        <div class="hero-actions">
+          <a href="#mask">레이어 마스크</a>
+          <a href="#blend">블렌딩 모드</a>
+          <a href="#brush">이미지 브러시 등록</a>
+          <a href="#worksheet">복습 문제</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="window">
+          <span>Layer Mask / Blend Mode</span>
+          <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+        <div class="mask-demo" aria-hidden="true">
+          <div class="photo"></div>
+          <div class="subject"></div>
+          <div class="mask-sheet">
+            <div class="mask-bar"></div>
+            <div class="mask-tags">
+              <span>검은색: 지워짐</span>
+              <span>회색: 반투명</span>
+              <span>하얀색: 복구 / 유지</span>
+            </div>
+          </div>
+        </div>
+        <p>
+          핵심 문장: <strong>레이어 마스크는 원본 훼손 없이</strong> 보이게 할 부분과 숨길 부분을 제어한다.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="mask">
+      <div class="section-header">
+        <div>
+          <h2>1. 레이어 마스크</h2>
+          <p>지우개처럼 보이지만 실제 픽셀을 지우는 것이 아니라, 보이는 정도를 마스크 값으로 기록하는 기능입니다.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="card">
+          <h3>무엇을 하는 기능인가?</h3>
+          <p>이미지의 일부분을 숨기거나 다시 드러낼 수 있습니다. 작업 중 수정이 생겨도 다시 칠해서 복구할 수 있습니다.</p>
+          <div class="pill-row">
+            <span class="pill">원본 훼손 없음</span>
+            <span class="pill">수정 가능</span>
+            <span class="pill">부분 편집 가능</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>명도 인식 규칙</h3>
+          <div class="keybox dark">검은색: 지워짐 / 숨겨짐</div>
+          <div class="keybox gray">회색: 반투명 / 부분적으로 보임</div>
+          <div class="keybox light">하얀색: 복구됨 / 그대로 유지됨</div>
+        </article>
+        <article class="card">
+          <h3>기억해야 할 관점</h3>
+          <p>마스크는 “픽셀 삭제”가 아니라 “보이는 범위 제어”입니다. 검정 브러시로 가리고, 흰 브러시로 다시 살립니다.</p>
+          <ul class="list">
+            <li>검정으로 칠하면 숨김</li>
+            <li>흰색으로 칠하면 복구</li>
+            <li>회색은 투명도 조절</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="flow">
+        <article class="flow-step">
+          <strong>STEP 1</strong>
+          <h3>선택 영역 만들기</h3>
+          <p>빠른 선택 도구, 펜 도구, 올가미 도구 등으로 남길 부분 또는 제거할 부분의 선택 영역을 먼저 잡습니다.</p>
+        </article>
+        <article class="flow-step">
+          <strong>STEP 2</strong>
+          <h3>레이어 마스크 추가</h3>
+          <p>선택 영역이 잡힌 상태에서 레이어 마스크를 적용하면 선택 상태를 기준으로 보이는 영역과 숨겨지는 영역이 나뉩니다.</p>
+        </article>
+        <article class="flow-step">
+          <strong>STEP 3</strong>
+          <h3>배경제거로 연결</h3>
+          <p>선택 영역 외의 부분이 숨겨지므로 배경 제거 작업에 바로 활용할 수 있습니다.</p>
+        </article>
+      </div>
+
+      <div class="example-board">
+        <div class="example-item">
+          <strong>수업 포인트</strong>
+          선택 영역이 잡혀 있는 상태에서 레이어 마스크를 만들면, 선택 영역 외의 부분이 숨겨져 배경제거 효과를 얻을 수 있습니다.
+        </div>
+        <div class="example-item">
+          <strong>실무 감각</strong>
+          지우개보다 마스크를 먼저 쓰면 수정 요청이 들어왔을 때 다시 선택하거나 되돌리기 훨씬 쉽습니다.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="blend">
+      <div class="section-header">
+        <div>
+          <h2>2. 블렌딩 모드</h2>
+          <p>레이어가 아래 레이어와 섞이는 방식을 바꿔 주는 기능입니다. 밝고 어두운 정보에 따라 투명하게 보이는 기준이 달라집니다.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="mode-card">
+          <div class="mode-name multiply">Multiply</div>
+          <p>하얀색에 가까울수록 투명해지고, 어두운 색은 더 남습니다. 흰 배경 제거 느낌으로 자주 사용합니다.</p>
+          <div class="mode-visual multiply-demo"><span>밝을수록 사라짐</span></div>
+          <ul class="list">
+            <li>밝은 영역은 약해짐</li>
+            <li>어두운 선이나 질감은 살아남음</li>
+            <li>스캔 선화, 먹선 합성에 유리</li>
+          </ul>
+        </article>
+        <article class="mode-card">
+          <div class="mode-name screen">Screen</div>
+          <p>검은색에 가까울수록 투명해지고, 밝은 빛은 살아납니다. 어두운 배경 위의 빛 효과를 살릴 때 자주 씁니다.</p>
+          <div class="mode-visual screen-demo"><span>어두울수록 사라짐</span></div>
+          <ul class="list">
+            <li>검정 배경 제거에 유리</li>
+            <li>빛, 불꽃, 반짝임 합성에 적합</li>
+            <li>전체적으로 밝아지는 경향</li>
+          </ul>
+        </article>
+        <article class="mode-card">
+          <div class="mode-name overlay">Overlay</div>
+          <p>회색을 기준으로 밝은 것은 더 밝게, 어두운 것은 더 어둡게 만듭니다. 대비를 올리는 효과가 큽니다.</p>
+          <div class="mode-visual overlay-demo"><span>중간 회색이 기준</span></div>
+          <ul class="list">
+            <li>회색 자체는 큰 변화가 적음</li>
+            <li>밝은 부분은 더 밝아짐</li>
+            <li>어두운 부분은 더 어두워짐</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top: 18px;">
+        <article class="card">
+          <h3>언제 어떤 모드를 떠올릴까?</h3>
+          <ul class="list">
+            <li><strong>Multiply:</strong> 흰 배경이 있는 드로잉, 질감, 잉크를 합성할 때</li>
+            <li><strong>Screen:</strong> 검은 배경의 빛 효과, 렌즈 플레어, 불꽃을 합성할 때</li>
+            <li><strong>Overlay:</strong> 명암 대비를 빠르게 강조하고 싶을 때</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>헷갈리기 쉬운 한 줄 정리</h3>
+          <ul class="list">
+            <li>Multiply는 밝은 쪽이 빠진다.</li>
+            <li>Screen은 어두운 쪽이 빠진다.</li>
+            <li>Overlay는 회색 기준으로 위아래 대비를 벌린다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="brush">
+      <div class="section-header">
+        <div>
+          <h2>3. 이미지 브러시 등록</h2>
+          <p>브러시로 등록할 이미지는 색상보다 밝기 정보가 중요합니다. 명도에 따라 브러시의 진하기와 투명도가 달라집니다.</p>
+        </div>
+      </div>
+
+      <div class="brush-stage">
+        <div class="brush-swatch" aria-hidden="true">
+          <div class="brush-stamp"></div>
+        </div>
+        <article class="card">
+          <h3>브러시 등록 명도 규칙</h3>
+          <ul class="list">
+            <li>하얀색: 거의 찍히지 않음</li>
+            <li>회색: 반투명하게 찍힘</li>
+            <li>검은색: 가장 진하게 찍힘</li>
+          </ul>
+          <div class="example-board">
+            <div class="example-item">
+              <strong>해석 방법</strong>
+              브러시 원본 이미지가 검을수록 힘 있게 남고, 밝을수록 약하게 남습니다.
+            </div>
+            <div class="example-item">
+              <strong>실전 팁</strong>
+              종이 질감이나 번짐 브러시를 만들 때는 검정과 회색의 비율로 농도를 설계하면 됩니다.
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>4. 시험 직전 암기 포인트</h2>
+          <p>말로 바로 설명할 수 있을 정도로 짧게 정리해 두면 실습 중 판단이 빨라집니다.</p>
+        </div>
+      </div>
+
+      <div class="tip-grid">
+        <article class="tip">
+          <strong>레이어 마스크</strong>
+          원본을 지우지 않고 보이는 범위를 조절한다.
+        </article>
+        <article class="tip">
+          <strong>검정 / 회색 / 흰색</strong>
+          숨김 / 반투명 / 복구 또는 유지.
+        </article>
+        <article class="tip">
+          <strong>선택 후 마스크</strong>
+          선택 영역 외의 부분이 숨겨져 배경제거에 유리하다.
+        </article>
+        <article class="tip">
+          <strong>블렌딩 모드</strong>
+          Multiply는 밝은 쪽, Screen은 어두운 쪽이 빠진다.
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-header">
+        <div>
+          <h2>5. 복습 문제</h2>
+          <p>직접 선택하고 입력한 뒤 채점하세요. 정답 보기만 있는 자료가 아니라 실제로 확인 가능한 복습 시트입니다.</p>
+        </div>
+      </div>
+
+      <div class="worksheet-card">
+        <div class="question" data-kind="mc" data-answer="b">
+          <h4>1. 레이어 마스크의 가장 큰 장점은 무엇인가?</h4>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q1" value="a"> 픽셀을 영구 삭제해서 파일 용량을 줄인다.</label>
+            <label class="choice"><input type="radio" name="q1" value="b"> 원본을 훼손하지 않고 보이는 범위를 조절할 수 있다.</label>
+            <label class="choice"><input type="radio" name="q1" value="c"> 모든 레이어를 자동으로 하나로 합친다.</label>
+          </div>
+          <div class="feedback" data-feedback="q1"></div>
+        </div>
+
+        <div class="question" data-kind="mc" data-answer="c">
+          <h4>2. 레이어 마스크에서 회색은 무엇을 의미하는가?</h4>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q2" value="a"> 완전히 숨김</label>
+            <label class="choice"><input type="radio" name="q2" value="b"> 완전히 복구</label>
+            <label class="choice"><input type="radio" name="q2" value="c"> 반투명</label>
+          </div>
+          <div class="feedback" data-feedback="q2"></div>
+        </div>
+
+        <div class="question" data-kind="mc" data-answer="a">
+          <h4>3. 흰 배경이 있는 선화를 자연스럽게 합성할 때 먼저 떠올릴 블렌딩 모드는?</h4>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q3" value="a"> Multiply</label>
+            <label class="choice"><input type="radio" name="q3" value="b"> Screen</label>
+            <label class="choice"><input type="radio" name="q3" value="c"> Overlay</label>
+          </div>
+          <div class="feedback" data-feedback="q3"></div>
+        </div>
+
+        <div class="question" data-kind="mc" data-answer="b">
+          <h4>4. 검은 배경의 빛 효과 이미지를 살릴 때 유리한 블렌딩 모드는?</h4>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q4" value="a"> Multiply</label>
+            <label class="choice"><input type="radio" name="q4" value="b"> Screen</label>
+            <label class="choice"><input type="radio" name="q4" value="c"> Overlay</label>
+          </div>
+          <div class="feedback" data-feedback="q4"></div>
+        </div>
+
+        <div class="question" data-kind="text" data-answer="선택 영역 외의 부분이 숨겨진다|배경이 제거된다|배경제거">
+          <h4>5. 선택 영역이 잡혀 있는 상태에서 레이어 마스크를 만들면 어떤 결과가 생기나?</h4>
+          <div class="input-line">
+            <input type="text" name="q5" placeholder="핵심 문장을 짧게 적어보세요.">
+          </div>
+          <div class="feedback" data-feedback="q5"></div>
+        </div>
+
+        <div class="question" data-kind="text" data-answer="검은색|검정">
+          <h4>6. 이미지 브러시 등록 시 가장 진하게 찍히는 색은 무엇인가?</h4>
+          <div class="input-line">
+            <input type="text" name="q6" placeholder="색 이름을 적어보세요.">
+          </div>
+          <div class="feedback" data-feedback="q6"></div>
+        </div>
+
+        <div class="question" data-kind="long">
+          <h4>7. Overlay 모드를 한 문장으로 설명해 보세요.</h4>
+          <div class="textarea-line">
+            <textarea name="q7" placeholder="회색을 기준으로 어떻게 밝아지고 어두워지는지 설명해 보세요."></textarea>
+          </div>
+          <div class="feedback" data-feedback="q7"></div>
+        </div>
+
+        <div class="worksheet-actions">
+          <button class="button primary" id="gradeButton" type="button">채점하기</button>
+          <button class="button" id="showButton" type="button">예시 정답 보기</button>
+          <button class="button" id="resetButton" type="button">초기화</button>
+        </div>
+
+        <div class="scoreboard" id="scoreboard">아직 채점 전입니다. 답을 고르고 입력한 뒤 채점하세요.</div>
+      </div>
+    </section>
+
+    <p class="footer-note">Kim Ddolbok · Photoshop class review handout</p>
+  </div>
+
+  <script>
+    (function () {
+      const scoreboard = document.getElementById("scoreboard");
+      const questions = Array.from(document.querySelectorAll(".question"));
+      const longAnswerGuide = "회색을 기준으로 밝은 것은 더 밝게, 어두운 것은 더 어둡게 만든다.";
+
+      function setFeedback(name, text, cls) {
+        const node = document.querySelector(`[data-feedback="${name}"]`);
+        if (!node) return;
+        node.textContent = text;
+        node.className = `feedback ${cls}`.trim();
+      }
+
+      function normalize(text) {
+        return String(text || "").replace(/\s+/g, "").toLowerCase();
+      }
+
+      function grade() {
+        let score = 0;
+        let objectiveCount = 0;
+
+        questions.forEach((question) => {
+          const kind = question.dataset.kind;
+
+          if (kind === "mc") {
+            objectiveCount += 1;
+            const selected = question.querySelector('input[type="radio"]:checked');
+            const name = selected ? selected.name : question.querySelector('input[type="radio"]').name;
+
+            if (!selected) {
+              setFeedback(name, "선택한 답이 없습니다.", "no");
+              return;
+            }
+
+            if (selected.value === question.dataset.answer) {
+              score += 1;
+              setFeedback(name, "정답입니다.", "ok");
+            } else {
+              setFeedback(name, "오답입니다. 다시 개념을 확인하세요.", "no");
+            }
+          }
+
+          if (kind === "text") {
+            objectiveCount += 1;
+            const input = question.querySelector('input[type="text"]');
+            const value = normalize(input.value);
+            const answers = question.dataset.answer.split("|").map(normalize);
+
+            if (!value) {
+              setFeedback(input.name, "답을 입력하지 않았습니다.", "no");
+              return;
+            }
+
+            const ok = answers.some((answer) => value.includes(answer) || answer.includes(value));
+            if (ok) {
+              score += 1;
+              setFeedback(input.name, "정답으로 인정됩니다.", "ok");
+            } else {
+              setFeedback(input.name, "핵심어가 부족합니다. 선택 영역 외의 부분, 배경제거를 떠올려 보세요.", "no");
+            }
+          }
+
+          if (kind === "long") {
+            const area = question.querySelector("textarea");
+            if (!area.value.trim()) {
+              setFeedback(area.name, "작성형 문제입니다. 직접 설명을 적어보세요.", "no");
+            } else {
+              setFeedback(area.name, "작성 완료. 예시 정답과 비교해 표현을 다듬어 보세요.", "show");
+            }
+          }
+        });
+
+        scoreboard.textContent = `객관식 및 단답형 점수: ${score} / ${objectiveCount} · 작성형 1문항은 예시와 비교하여 스스로 보완하세요.`;
+      }
+
+      function showAnswers() {
+        setFeedback("q1", "정답: 원본을 훼손하지 않고 보이는 범위를 조절할 수 있다.", "show");
+        setFeedback("q2", "정답: 회색은 반투명 상태를 만든다.", "show");
+        setFeedback("q3", "정답: Multiply", "show");
+        setFeedback("q4", "정답: Screen", "show");
+        setFeedback("q5", "예시: 선택 영역 외의 부분이 숨겨져 배경제거 효과가 난다.", "show");
+        setFeedback("q6", "정답: 검은색", "show");
+        setFeedback("q7", `예시: ${longAnswerGuide}`, "show");
+        scoreboard.textContent = "예시 정답을 표시했습니다. 직접 쓴 답과 비교해 핵심어를 점검하세요.";
+      }
+
+      function resetAll() {
+        document.querySelectorAll('input[type="radio"]').forEach((input) => {
+          input.checked = false;
+        });
+
+        document.querySelectorAll('input[type="text"], textarea').forEach((input) => {
+          input.value = "";
+        });
+
+        document.querySelectorAll(".feedback").forEach((node) => {
+          node.textContent = "";
+          node.className = "feedback";
+        });
+
+        scoreboard.textContent = "아직 채점 전입니다. 답을 고르고 입력한 뒤 채점하세요.";
+      }
+
+      document.getElementById("gradeButton").addEventListener("click", grade);
+      document.getElementById("showButton").addEventListener("click", showAnswers);
+      document.getElementById("resetButton").addEventListener("click", resetAll);
+    })();
+  </script>
+</body>
+</html>
