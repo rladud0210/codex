@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>포토샵 필터 갤러리 · 스마트 오브젝트 복습 자료</title>
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --paper: rgba(255, 252, 247, 0.96);
+      --ink: #18202b;
+      --muted: #5d6877;
+      --line: rgba(24, 32, 43, 0.12);
+      --accent: #d4643a;
+      --accent-2: #0d7f79;
+      --accent-3: #1e4fb8;
+      --soft-orange: #f8dccd;
+      --soft-green: #d9efe8;
+      --soft-blue: #dfe9ff;
+      --soft-yellow: #f5e8b8;
+      --shadow: 0 24px 60px rgba(78, 59, 31, 0.14);
+      --radius: 28px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.6;
+      word-break: keep-all;
+      background:
+        radial-gradient(circle at 10% 12%, rgba(212, 100, 58, 0.16), transparent 20%),
+        radial-gradient(circle at 90% 10%, rgba(30, 79, 184, 0.12), transparent 18%),
+        linear-gradient(180deg, #efe4d7 0%, #f8f2ea 42%, #fffdf9 100%);
+    }
+
+    h1, h2, h3, p, ul, ol { margin: 0; }
+    button, input, textarea { font: inherit; }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .hero,
+    .section,
+    .quiz-card,
+    .tip-card,
+    .note-card,
+    .checklist-card,
+    .compare-card {
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      padding: 34px;
+      align-items: stretch;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 14px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 100, 58, 0.18);
+      background: rgba(212, 100, 58, 0.08);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 16px 0 0 var(--accent-2), 32px 0 0 var(--accent-3);
+      margin-right: 28px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 720px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .hero-actions a,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .hero-actions a:hover,
+    .hero-actions a:focus-visible,
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(30, 79, 184, 0.28);
+      background: #fff;
+      box-shadow: 0 14px 26px rgba(30, 79, 184, 0.12);
+      outline: none;
+    }
+
+    .hero-visual {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+      padding: 22px;
+      border-radius: 24px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.18), transparent 24%),
+        linear-gradient(150deg, #1b2230 0%, #153c4d 34%, #1e4fb8 68%, #e8a35d 100%);
+    }
+
+    .window {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dots i {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ff6b5f;
+    }
+
+    .dots i:nth-child(2) { background: #ffd25e; }
+    .dots i:nth-child(3) { background: #5fd27d; }
+
+    .mockup {
+      position: relative;
+      min-height: 300px;
+      overflow: hidden;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background:
+        linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25% 75%, rgba(255,255,255,0.08) 75%),
+        linear-gradient(45deg, rgba(255,255,255,0.08) 25%, transparent 25% 75%, rgba(255,255,255,0.08) 75%),
+        rgba(255, 255, 255, 0.08);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+    }
+
+    .canvas {
+      position: absolute;
+      inset: 18px;
+      border-radius: 18px;
+      background:
+        linear-gradient(160deg, #f5c58c 0%, #f2e0c4 28%, #6aa6d5 28%, #96cae3 58%, #356779 58%, #18353f 100%);
+    }
+
+    .filter-stack,
+    .smart-badge,
+    .side-label {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .filter-stack {
+      inset: 64px 42px auto auto;
+      width: 150px;
+      height: 170px;
+      color: #18353f;
+      background: rgba(255, 250, 240, 0.92);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.14);
+    }
+
+    .filter-stack::before,
+    .filter-stack::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px dashed rgba(24, 32, 43, 0.22);
+      border-radius: 14px;
+    }
+
+    .filter-stack::after {
+      inset: auto 14px 22px 14px;
+      height: 48px;
+      background: linear-gradient(90deg, rgba(13, 127, 121, 0.22), rgba(30, 79, 184, 0.28));
+      border: 0;
+    }
+
+    .smart-badge {
+      left: 28px;
+      top: 34px;
+      width: 136px;
+      height: 54px;
+      color: #fff;
+      background: linear-gradient(135deg, #0d7f79, #1e4fb8);
+      box-shadow: 0 18px 34px rgba(13, 127, 121, 0.28);
+    }
+
+    .side-label {
+      left: 30px;
+      bottom: 26px;
+      min-width: 150px;
+      min-height: 58px;
+      padding: 10px 16px;
+      color: #fff;
+      background: rgba(24, 32, 43, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .visual-caption {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .section {
+      padding: 30px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .section-header p {
+      max-width: 560px;
+      color: var(--muted);
+    }
+
+    .topic-grid,
+    .compare-grid,
+    .tip-grid,
+    .quiz-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .topic-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .compare-grid,
+    .tip-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .topic-card,
+    .compare-card,
+    .tip-card,
+    .note-card,
+    .checklist-card,
+    .quiz-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .topic-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,243,235,0.94));
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      background: var(--soft-blue);
+      color: var(--accent-3);
+    }
+
+    .topic-card h3,
+    .compare-card h3,
+    .tip-card h3,
+    .quiz-card h3 {
+      margin-top: 14px;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .topic-card p,
+    .compare-card p,
+    .tip-card p,
+    .note-card p,
+    .checklist-card p,
+    .quiz-card p,
+    .quiz-card li,
+    .topic-card li {
+      color: var(--muted);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+      padding-left: 20px;
+    }
+
+    .workflow {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 62px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      border-radius: 20px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #f0a45b);
+      box-shadow: 0 14px 28px rgba(212, 100, 58, 0.22);
+    }
+
+    .step h3 {
+      font-size: 22px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .mini-note {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: var(--soft-green);
+      color: #16524d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .compare-card:nth-child(1) .chip { background: var(--soft-yellow); color: #8a6520; }
+    .compare-card:nth-child(2) .chip { background: var(--soft-blue); color: var(--accent-3); }
+    .compare-card:nth-child(3) .chip { background: var(--soft-green); color: var(--accent-2); }
+
+    .note-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .note-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(243,248,255,0.94));
+    }
+
+    .checklist-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,244,235,0.94));
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .checkline {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .checkline i {
+      width: 22px;
+      height: 22px;
+      margin-top: 2px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+      position: relative;
+      box-shadow: 0 10px 20px rgba(13, 127, 121, 0.18);
+    }
+
+    .checkline i::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 4px;
+      width: 8px;
+      height: 12px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(38deg);
+    }
+
+    .quiz-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .question-meta {
+      display: inline-flex;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--soft-orange);
+      color: #8c4729;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .question {
+      margin-top: 14px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .choice-group {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.88);
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .choice:hover {
+      transform: translateY(-1px);
+      border-color: rgba(30, 79, 184, 0.24);
+      background: #fff;
+    }
+
+    textarea,
+    input[type="text"] {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.94);
+      color: var(--ink);
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 120px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .button.primary {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--accent), #f0a45b);
+      box-shadow: 0 14px 26px rgba(212, 100, 58, 0.22);
+    }
+
+    .button.secondary {
+      background: rgba(255,255,255,0.92);
+    }
+
+    .feedback {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .feedback.show { display: block; }
+    .feedback.correct {
+      background: rgba(13, 127, 121, 0.12);
+      color: #0c675f;
+      border: 1px solid rgba(13, 127, 121, 0.18);
+    }
+    .feedback.incorrect {
+      background: rgba(212, 100, 58, 0.12);
+      color: #9a4d2d;
+      border: 1px solid rgba(212, 100, 58, 0.18);
+    }
+    .feedback.info {
+      background: rgba(30, 79, 184, 0.12);
+      color: #1f4e9d;
+      border: 1px solid rgba(30, 79, 184, 0.18);
+    }
+
+    .score-board {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #1b2230, #214d78);
+      color: #fff;
+    }
+
+    .score-board strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.1;
+      margin-top: 6px;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: rgba(24, 32, 43, 0.92);
+      color: rgba(255,255,255,0.88);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .topic-grid,
+      .compare-grid,
+      .tip-grid,
+      .quiz-grid,
+      .note-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(calc(100% - 20px), var(--max)); padding-top: 18px; }
+      .hero, .section { padding: 22px; }
+      .hero-visual { padding: 16px; }
+      .mockup { min-height: 250px; }
+      .filter-stack {
+        right: 18px;
+        top: 54px;
+        width: 120px;
+        height: 146px;
+      }
+      .smart-badge {
+        left: 18px;
+        top: 18px;
+      }
+      .side-label {
+        left: 18px;
+        right: 18px;
+        min-width: 0;
+      }
+      .step {
+        grid-template-columns: 1fr;
+      }
+      .step-number {
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+      .hero,
+      .section,
+      .quiz-card,
+      .tip-card,
+      .note-card,
+      .checklist-card,
+      .compare-card {
+        box-shadow: none;
+        background: #fff;
+        backdrop-filter: none;
+      }
+      .hero-actions,
+      .actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Photoshop Review Sheet</div>
+        <h1>필터 갤러리와<br>스마트 오브젝트 복습</h1>
+        <p class="lead">
+          필터를 예쁘게 거는 것보다 중요한 것은 <strong>언제, 어떤 방식으로 적용하느냐</strong>입니다.
+          이 자료는 필터 갤러리의 역할과, 보정 전에 스마트 오브젝트로 바꿔야 하는 이유를 한 번에 정리하도록 구성했습니다.
+        </p>
+        <div class="hero-actions">
+          <a href="#concept">개념 요약 보기</a>
+          <a href="#workflow">실무 순서 보기</a>
+          <a href="#quiz">복습 문제 풀기</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="window">
+          <span>Filter Workflow Preview</span>
+          <span class="dots"><i></i><i></i><i></i></span>
+        </div>
+        <div class="mockup" aria-hidden="true">
+          <div class="canvas"></div>
+          <div class="smart-badge">Smart Object</div>
+          <div class="filter-stack">Filter<br>Gallery</div>
+          <div class="side-label">원본 보호 + 재편집 가능</div>
+        </div>
+        <p class="visual-caption">핵심 흐름: 레이어 정리 → 스마트 오브젝트 변환 → 필터 적용 → 필요시 다시 수정</p>
+      </div>
+    </section>
+
+    <section class="section grid" id="concept">
+      <div class="section-header">
+        <div>
+          <h2>핵심 개념 두 가지</h2>
+        </div>
+        <p>이번 복습의 중심은 “필터 갤러리가 무엇인지”와 “왜 먼저 스마트 오브젝트로 바꾸는지”입니다.</p>
+      </div>
+
+      <div class="topic-grid">
+        <article class="topic-card">
+          <span class="chip">개념 01</span>
+          <h3>필터 갤러리</h3>
+          <p>여러 필터를 한 화면에서 미리 보고 선택하거나 겹쳐 적용할 수 있는 필터 전용 작업 창입니다.</p>
+          <ul class="list">
+            <li>대표적으로 아티스틱, 브러시 스트로크, 스케치 계열 효과를 확인하기 좋습니다.</li>
+            <li>미리보기 화면을 보면서 수치를 조절할 수 있어 결과를 예측하기 쉽습니다.</li>
+            <li>효과를 쌓듯이 적용해 스타일을 만들 수 있습니다.</li>
+          </ul>
+        </article>
+
+        <article class="topic-card">
+          <span class="chip">개념 02</span>
+          <h3>보정 전 스마트 오브젝트 처리</h3>
+          <p>필터나 변형을 적용하기 전에 레이어를 스마트 오브젝트로 바꾸면 원본을 유지하면서 다시 수정할 수 있습니다.</p>
+          <ul class="list">
+            <li>원본 픽셀을 직접 망가뜨리지 않는 비파괴 편집이 가능합니다.</li>
+            <li>필터가 스마트 필터로 적용되어 나중에 옵션을 다시 열 수 있습니다.</li>
+            <li>마스크와 함께 쓰면 특정 영역만 자연스럽게 조절할 수 있습니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-header">
+        <div>
+          <h2>실무 순서로 정리</h2>
+        </div>
+        <p>수업 실습이나 시험 작업에서는 순서를 안정적으로 기억하는 것이 중요합니다.</p>
+      </div>
+
+      <div class="workflow">
+        <article class="step">
+          <div class="step-number">1</div>
+          <div>
+            <h3>보정할 레이어 선택</h3>
+            <p>사진 한 장인지, 여러 레이어를 함께 처리할 것인지 먼저 판단합니다. 필요한 레이어를 선택한 뒤 작업을 시작합니다.</p>
+            <div class="mini-note">여러 레이어를 한 번에 필터 처리해야 한다면 먼저 병합 복사본이나 그룹 구조를 점검합니다.</div>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-number">2</div>
+          <div>
+            <h3>스마트 오브젝트로 변환</h3>
+            <p><strong>레이어 패널 우클릭 → 스마트 오브젝트로 변환</strong> 순서로 처리합니다. 이 단계가 원본 보호의 핵심입니다.</p>
+            <div class="mini-note">이 과정을 먼저 해두면 이후 필터를 잘못 걸어도 삭제하거나 다시 수정할 수 있습니다.</div>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-number">3</div>
+          <div>
+            <h3>필터 갤러리 열기</h3>
+            <p><strong>필터 → 필터 갤러리</strong>로 들어가서 원하는 계열의 효과를 탐색합니다. 미리보기로 이미지 변화를 확인하면서 수치를 조절합니다.</p>
+            <div class="mini-note">필터가 강하면 전체 톤이 과해질 수 있으므로 한 번에 세게 주기보다 점진적으로 확인하는 편이 안정적입니다.</div>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-number">4</div>
+          <div>
+            <h3>스마트 필터 상태로 다시 점검</h3>
+            <p>적용 후 레이어 아래에 스마트 필터가 생기면 성공입니다. 필요하면 필터 이름을 더블클릭해 옵션을 다시 열고 수정합니다.</p>
+            <div class="mini-note">효과가 일부만 필요하면 스마트 필터 마스크를 이용해 브러시로 가리고 보이게 조절할 수 있습니다.</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>비교로 기억하기</h2>
+        </div>
+        <p>시험에서 자주 헷갈리는 지점을 짧게 비교해 두면 실수 방지에 도움이 됩니다.</p>
+      </div>
+
+      <div class="compare-grid">
+        <article class="compare-card">
+          <span class="chip">직접 적용</span>
+          <h3>일반 레이어에 필터 적용</h3>
+          <p>적용은 빠르지만 원본 픽셀이 직접 바뀌기 쉽습니다. 나중에 수치 수정이 제한적입니다.</p>
+        </article>
+
+        <article class="compare-card">
+          <span class="chip">권장 방식</span>
+          <h3>스마트 오브젝트 후 필터 적용</h3>
+          <p>원본 보존, 재편집 가능, 스마트 필터 마스크 사용 가능이라는 장점이 있습니다.</p>
+        </article>
+
+        <article class="compare-card">
+          <span class="chip">기억 포인트</span>
+          <h3>필터 갤러리는 미리보기 중심</h3>
+          <p>효과를 탐색하고 조절하는 공간으로 이해하면 됩니다. 적용 전후를 비교하며 판단하는 도구입니다.</p>
+        </article>
+      </div>
+
+      <div class="note-wrap">
+        <article class="note-card">
+          <h3>자주 나오는 실수</h3>
+          <ul class="list">
+            <li>스마트 오브젝트로 바꾸지 않고 바로 필터를 걸어 원본을 되돌리기 어렵게 만드는 경우</li>
+            <li>필터 강도를 너무 높게 주어 이미지 질감이 부자연스러워지는 경우</li>
+            <li>필터 갤러리와 다른 필터 메뉴를 구분하지 못해 원하는 효과를 찾지 못하는 경우</li>
+            <li>스마트 필터가 생겼는데도 다시 수정 가능하다는 점을 활용하지 못하는 경우</li>
+          </ul>
+        </article>
+
+        <article class="checklist-card">
+          <h3>작업 전 체크리스트</h3>
+          <div class="checklist">
+            <div class="checkline"><i></i><div>지금 선택한 레이어가 맞는지 확인했다.</div></div>
+            <div class="checkline"><i></i><div>필터 적용 전에 스마트 오브젝트로 변환했다.</div></div>
+            <div class="checkline"><i></i><div>필터 갤러리에서 미리보기로 강도를 먼저 확인했다.</div></div>
+            <div class="checkline"><i></i><div>적용 후 스마트 필터로 다시 수정 가능한 상태인지 확인했다.</div></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="quiz">
+      <div class="section-header">
+        <div>
+          <h2>복습 문제</h2>
+        </div>
+        <p>선택형과 서술형을 섞어 두었습니다. 답을 고르거나 적은 뒤 바로 확인할 수 있습니다.</p>
+      </div>
+
+      <div class="quiz-grid">
+        <article class="quiz-card">
+          <span class="question-meta">문제 1 · 객관식</span>
+          <h3>필터 갤러리의 특징</h3>
+          <p class="question">다음 중 필터 갤러리에 대한 설명으로 가장 알맞은 것은 무엇인가요?</p>
+          <div class="choice-group">
+            <label class="choice"><input type="radio" name="q1" value="a"><span>레이어를 자동으로 병합하는 전용 창이다.</span></label>
+            <label class="choice"><input type="radio" name="q1" value="b"><span>필터 효과를 미리 보며 선택하고 조절할 수 있는 작업 창이다.</span></label>
+            <label class="choice"><input type="radio" name="q1" value="c"><span>브러시 크기만 조절하는 보조 패널이다.</span></label>
+          </div>
+          <div class="actions">
+            <button class="button primary" type="button" onclick="checkQ1()">정답 확인</button>
+          </div>
+          <div class="feedback" id="feedback-q1"></div>
+        </article>
+
+        <article class="quiz-card">
+          <span class="question-meta">문제 2 · 객관식</span>
+          <h3>스마트 오브젝트의 목적</h3>
+          <p class="question">필터 적용 전에 스마트 오브젝트로 변환하는 가장 큰 이유는 무엇인가요?</p>
+          <div class="choice-group">
+            <label class="choice"><input type="radio" name="q2" value="a"><span>파일 용량을 무조건 줄이기 위해서</span></label>
+            <label class="choice"><input type="radio" name="q2" value="b"><span>필터 메뉴를 더 많이 열기 위해서</span></label>
+            <label class="choice"><input type="radio" name="q2" value="c"><span>원본을 유지하면서 필터를 다시 수정하기 위해서</span></label>
+          </div>
+          <div class="actions">
+            <button class="button primary" type="button" onclick="checkQ2()">정답 확인</button>
+          </div>
+          <div class="feedback" id="feedback-q2"></div>
+        </article>
+
+        <article class="quiz-card">
+          <span class="question-meta">문제 3 · 순서 배열</span>
+          <h3>작업 순서 적기</h3>
+          <p class="question">아래 칸에 올바른 작업 흐름을 간단히 적어 보세요. 예: 레이어 선택 → 스마트 오브젝트 → 필터 갤러리</p>
+          <input type="text" id="q3" placeholder="작업 순서를 입력하세요">
+          <div class="actions">
+            <button class="button primary" type="button" onclick="checkQ3()">채점하기</button>
+            <button class="button secondary" type="button" onclick="showExampleQ3()">예시 답 보기</button>
+          </div>
+          <div class="feedback" id="feedback-q3"></div>
+        </article>
+
+        <article class="quiz-card">
+          <span class="question-meta">문제 4 · 서술형</span>
+          <h3>개념 설명하기</h3>
+          <p class="question">“비파괴 편집”이라는 말을 오늘 배운 내용과 연결해서 한두 문장으로 설명해 보세요.</p>
+          <textarea id="q4" placeholder="스마트 오브젝트, 원본 유지, 다시 수정 가능 등의 표현을 활용해 보세요."></textarea>
+          <div class="actions">
+            <button class="button primary" type="button" onclick="checkQ4()">피드백 보기</button>
+            <button class="button secondary" type="button" onclick="showExampleQ4()">예시 답 보기</button>
+          </div>
+          <div class="feedback" id="feedback-q4"></div>
+        </article>
+      </div>
+
+      <div class="score-board" id="score-board">
+        현재 점검 상태
+        <strong>0 / 4 완료</strong>
+        <span>문제를 확인할 때마다 진행 상태가 갱신됩니다.</span>
+      </div>
+
+      <div class="footer-note">
+        한 줄 암기: <strong>“필터를 걸기 전에는 스마트 오브젝트, 적용할 때는 필터 갤러리 미리보기, 적용 후에는 스마트 필터로 재수정.”</strong>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const progress = {
+      q1: false,
+      q2: false,
+      q3: false,
+      q4: false
+    };
+
+    function setFeedback(id, type, message) {
+      const node = document.getElementById(id);
+      node.className = `feedback show ${type}`;
+      node.textContent = message;
+    }
+
+    function updateScore() {
+      const count = Object.values(progress).filter(Boolean).length;
+      const strong = document.querySelector("#score-board strong");
+      strong.textContent = `${count} / 4 완료`;
+    }
+
+    function checkQ1() {
+      const picked = document.querySelector('input[name="q1"]:checked');
+      if (!picked) {
+        setFeedback("feedback-q1", "info", "먼저 하나를 선택하세요.");
+        return;
+      }
+      progress.q1 = true;
+      if (picked.value === "b") {
+        setFeedback("feedback-q1", "correct", "정답입니다. 필터 갤러리는 효과를 미리 보며 선택하고 조절하는 창입니다.");
+      } else {
+        setFeedback("feedback-q1", "incorrect", "다시 확인해 보세요. 필터 갤러리는 필터 효과를 미리 보고 조절하는 역할에 가깝습니다.");
+      }
+      updateScore();
+    }
+
+    function checkQ2() {
+      const picked = document.querySelector('input[name="q2"]:checked');
+      if (!picked) {
+        setFeedback("feedback-q2", "info", "먼저 하나를 선택하세요.");
+        return;
+      }
+      progress.q2 = true;
+      if (picked.value === "c") {
+        setFeedback("feedback-q2", "correct", "맞습니다. 스마트 오브젝트로 바꾸면 원본을 유지한 채 스마트 필터로 다시 수정할 수 있습니다.");
+      } else {
+        setFeedback("feedback-q2", "incorrect", "핵심은 용량이 아니라 비파괴 편집입니다. 원본 유지와 재편집 가능성을 떠올리면 됩니다.");
+      }
+      updateScore();
+    }
+
+    function checkQ3() {
+      const value = document.getElementById("q3").value.trim().replace(/\s+/g, "");
+      if (!value) {
+        setFeedback("feedback-q3", "info", "작업 순서를 먼저 적어 보세요.");
+        return;
+      }
+
+      progress.q3 = true;
+      const hasLayer = value.includes("레이어선택") || value.includes("레이어");
+      const hasSmart = value.includes("스마트오브젝트");
+      const hasFilter = value.includes("필터갤러리") || value.includes("필터");
+
+      if (hasLayer && hasSmart && hasFilter) {
+        setFeedback("feedback-q3", "correct", "좋습니다. 핵심 순서가 들어갔습니다. 이후에는 스마트 필터 상태로 다시 점검하면 더 완전합니다.");
+      } else {
+        setFeedback("feedback-q3", "incorrect", "핵심 요소를 다시 넣어 보세요. 보통 레이어 선택 → 스마트 오브젝트 변환 → 필터 갤러리 적용 순서로 기억합니다.");
+      }
+      updateScore();
+    }
+
+    function showExampleQ3() {
+      progress.q3 = true;
+      document.getElementById("q3").value = "레이어 선택 → 스마트 오브젝트로 변환 → 필터 갤러리 적용 → 스마트 필터로 다시 수정";
+      setFeedback("feedback-q3", "info", "예시 답을 채워 두었습니다. 순서를 눈으로 다시 익혀 보세요.");
+      updateScore();
+    }
+
+    function checkQ4() {
+      const value = document.getElementById("q4").value.trim();
+      if (!value) {
+        setFeedback("feedback-q4", "info", "설명을 먼저 적어 보세요.");
+        return;
+      }
+
+      progress.q4 = true;
+      const normalized = value.replace(/\s+/g, "");
+      const hasOriginal = normalized.includes("원본");
+      const hasEdit = normalized.includes("다시수정") || normalized.includes("재수정") || normalized.includes("수정");
+      const hasSmart = normalized.includes("스마트오브젝트") || normalized.includes("스마트필터");
+
+      if ((hasOriginal && hasEdit) || (hasSmart && hasEdit)) {
+        setFeedback("feedback-q4", "correct", "설명이 잘 잡혔습니다. 비파괴 편집은 원본을 해치지 않고 나중에 다시 수정할 수 있는 편집 방식입니다.");
+      } else {
+        setFeedback("feedback-q4", "incorrect", "설명에 원본 유지, 스마트 오브젝트, 다시 수정 가능 중 두 가지 이상을 넣으면 더 정확합니다.");
+      }
+      updateScore();
+    }
+
+    function showExampleQ4() {
+      progress.q4 = true;
+      document.getElementById("q4").value = "비파괴 편집은 원본 이미지를 직접 망가뜨리지 않고 작업하는 방식이다. 스마트 오브젝트로 바꾼 뒤 필터를 적용하면 나중에 다시 수정할 수 있다.";
+      setFeedback("feedback-q4", "info", "예시 답을 채워 두었습니다. 핵심 표현을 확인해 보세요.");
+      updateScore();
+    }
+  </script>
+</body>
+</html>
