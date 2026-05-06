@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>일러스트 패턴 복습자료</title>
+  <style>
+    :root {
+      --bg: #f7f1e7;
+      --paper: rgba(255, 252, 247, 0.96);
+      --card: #ffffff;
+      --ink: #1f252c;
+      --muted: #667380;
+      --line: rgba(31, 37, 44, 0.12);
+      --coral: #c85a3c;
+      --teal: #0f7b72;
+      --blue: #2c6ad7;
+      --gold: #e4a93f;
+      --red: #cc4f50;
+      --soft-coral: rgba(200, 90, 60, 0.1);
+      --soft-teal: rgba(15, 123, 114, 0.1);
+      --soft-blue: rgba(44, 106, 215, 0.1);
+      --soft-gold: rgba(228, 169, 63, 0.14);
+      --shadow: 0 20px 50px rgba(21, 26, 32, 0.12);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(228, 169, 63, 0.18), transparent 20%),
+        radial-gradient(circle at bottom right, rgba(44, 106, 215, 0.14), transparent 24%),
+        linear-gradient(180deg, #efe4d3 0%, var(--bg) 40%, #faf8f5 100%);
+    }
+
+    p, li, span, a, button, label, input, textarea, th, td {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.95em;
+      background: rgba(31, 37, 44, 0.07);
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 58px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 7px 12px;
+      border: 1px solid rgba(200, 90, 60, 0.24);
+      border-radius: 999px;
+      color: var(--coral);
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--soft-coral);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.18;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 58px);
+    }
+
+    h2 {
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-pills, .nav, .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-pills {
+      margin-top: 20px;
+    }
+
+    .nav {
+      margin-top: 22px;
+    }
+
+    .actions {
+      margin-top: 18px;
+    }
+
+    .pill, .nav a, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .pill, .nav a {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .pill {
+      font-size: 13px;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 14px;
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+      border-color: rgba(31, 37, 44, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: 0;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 10px 24px rgba(31, 37, 44, 0.16);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(31, 37, 44, 0.2);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .hero-visual {
+      min-height: 340px;
+      padding: 22px;
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(135deg, #c85a3c 0%, #e4a93f 36%, #2c6ad7 70%, #0f7b72 100%);
+      background-size: 26px 26px, 26px 26px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    .artboard {
+      position: relative;
+      min-height: 295px;
+      border: 2px solid rgba(255, 255, 255, 0.74);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      box-shadow: 0 24px 44px rgba(16, 20, 26, 0.24);
+    }
+
+    .tile, .shape, .tag {
+      position: absolute;
+      box-shadow: 0 14px 28px rgba(12, 18, 24, 0.18);
+    }
+
+    .tile {
+      inset: 30px 26px auto auto;
+      width: 164px;
+      height: 164px;
+      border: 3px dashed rgba(255, 255, 255, 0.74);
+      border-radius: 18px;
+    }
+
+    .shape.one, .shape.two, .shape.three, .shape.four {
+      border-radius: 16px;
+    }
+
+    .shape.one {
+      left: 34px;
+      top: 42px;
+      width: 88px;
+      height: 88px;
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .shape.two {
+      left: 102px;
+      top: 76px;
+      width: 92px;
+      height: 92px;
+      background: rgba(228, 169, 63, 0.94);
+      transform: rotate(16deg);
+    }
+
+    .shape.three {
+      right: 58px;
+      top: 54px;
+      width: 74px;
+      height: 74px;
+      background: rgba(44, 106, 215, 0.94);
+      transform: rotate(-14deg);
+    }
+
+    .shape.four {
+      right: 118px;
+      bottom: 48px;
+      width: 102px;
+      height: 52px;
+      background: rgba(15, 123, 114, 0.92);
+      border-radius: 999px;
+    }
+
+    .pattern-row {
+      position: absolute;
+      left: 28px;
+      bottom: 34px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .pattern-row span {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 18px rgba(12, 18, 24, 0.18);
+    }
+
+    .pattern-row span:nth-child(2) {
+      background: rgba(228, 169, 63, 0.92);
+    }
+
+    .pattern-row span:nth-child(3) {
+      background: rgba(44, 106, 215, 0.92);
+    }
+
+    .pattern-row span:nth-child(4) {
+      background: rgba(15, 123, 114, 0.92);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .tag.swatch {
+      left: 28px;
+      top: 22px;
+      background: rgba(31, 37, 44, 0.9);
+    }
+
+    .tag.tile-note {
+      right: 28px;
+      top: 208px;
+      background: rgba(200, 90, 60, 0.92);
+    }
+
+    .tag.trace {
+      right: 26px;
+      bottom: 26px;
+      background: rgba(44, 106, 215, 0.92);
+    }
+
+    main {
+      display: grid;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    section {
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 24px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .badge.coral {
+      color: var(--coral);
+      background: var(--soft-coral);
+    }
+
+    .badge.teal {
+      color: var(--teal);
+      background: var(--soft-teal);
+    }
+
+    .badge.blue {
+      color: var(--blue);
+      background: var(--soft-blue);
+    }
+
+    .badge.gold {
+      color: #8b5d05;
+      background: var(--soft-gold);
+    }
+
+    .grid-2, .grid-3, .quiz-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .quiz-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card, .question-card {
+      height: 100%;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover, .question-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(31, 37, 44, 0.22);
+      box-shadow: 0 14px 28px rgba(24, 29, 35, 0.1);
+    }
+
+    .card h3, .question-card h3 {
+      margin-top: 14px;
+    }
+
+    .card p, .question-card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .step-list, .check-list, .hint-list, .answer-list {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step-list li, .check-list li, .hint-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .step-no, .check-dot {
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      margin-top: 1px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .step-no.coral, .check-dot.coral {
+      background: var(--coral);
+    }
+
+    .step-no.teal, .check-dot.teal {
+      background: var(--teal);
+    }
+
+    .step-no.blue, .check-dot.blue {
+      background: var(--blue);
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--card);
+      margin-top: 18px;
+    }
+
+    .compare-table th, .compare-table td {
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .compare-table th {
+      width: 24%;
+      background: rgba(31, 37, 44, 0.04);
+      font-size: 14px;
+    }
+
+    .compare-table tr:last-child th,
+    .compare-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--coral);
+      border-radius: 0 12px 12px 0;
+      background: rgba(200, 90, 60, 0.08);
+      font-weight: 700;
+    }
+
+    .memory-box {
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(15, 123, 114, 0.16);
+      background: linear-gradient(180deg, rgba(15, 123, 114, 0.08) 0%, rgba(15, 123, 114, 0.02) 100%);
+    }
+
+    .memory-box p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .option-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+      border-color: rgba(31, 37, 44, 0.22);
+      background: rgba(31, 37, 44, 0.03);
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 13px 14px;
+      border: 1px solid rgba(31, 37, 44, 0.18);
+      border-radius: 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: rgba(44, 106, 215, 0.64);
+      box-shadow: 0 0 0 4px rgba(44, 106, 215, 0.12);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      min-height: 26px;
+      font-weight: 800;
+    }
+
+    .feedback.correct {
+      color: var(--teal);
+    }
+
+    .feedback.incorrect {
+      color: var(--red);
+    }
+
+    .score-board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-top: 22px;
+      padding: 20px 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(31, 37, 44, 0.1);
+      background: rgba(31, 37, 44, 0.04);
+    }
+
+    .score-board strong {
+      font-size: 20px;
+    }
+
+    .answer-sheet {
+      display: none;
+      margin-top: 18px;
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(44, 106, 215, 0.18);
+      background: rgba(44, 106, 215, 0.08);
+    }
+
+    .answer-sheet.open {
+      display: block;
+    }
+
+    .answer-sheet ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero, .grid-2, .grid-3, .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding: 20px 0 34px;
+      }
+
+      .hero, section {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 10vw, 42px);
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero, section, .card, .question-card {
+        box-shadow: none;
+      }
+
+      .btn, .nav, .actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Kim Ddolbok Illustrator Review</div>
+        <h1>패턴 만들기와 수정,<br>이미지 정리까지 한 번에 복습</h1>
+        <p class="lead">
+          최소 견본으로 패턴을 만들고, Swatches 패널에 저장하고, 패턴 타일 옵션을 이해한 뒤
+          이미지 임베드와 크롭, 이미지 추적까지 이어지는 수업 핵심 흐름을 정리한 복습자료입니다.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">최소 견본 만들기</span>
+          <span class="pill">Transform Pattern 이해</span>
+          <span class="pill">Embed · Crop Image</span>
+          <span class="pill">Image Trace</span>
+        </div>
+        <nav class="nav">
+          <a href="#pattern-build">패턴 생성</a>
+          <a href="#pattern-edit">패턴 수정</a>
+          <a href="#image-flow">이미지 관리</a>
+          <a href="#worksheet">확인 문제</a>
+        </nav>
+        <div class="actions">
+          <button class="btn" type="button" onclick="window.print()">인쇄하기</button>
+          <button class="btn secondary" type="button" onclick="document.getElementById('worksheet').scrollIntoView({ behavior: 'smooth' });">문제 풀기</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="artboard">
+          <div class="tile"></div>
+          <div class="shape one"></div>
+          <div class="shape two"></div>
+          <div class="shape three"></div>
+          <div class="shape four"></div>
+          <div class="pattern-row">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="tag swatch">Swatches</div>
+          <div class="tag tile-note">Size Tile to Art</div>
+          <div class="tag trace">Image Trace</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="pattern-build">
+        <div class="section-head">
+          <div>
+            <h2>1. 패턴 생성 핵심 정리</h2>
+            <p>패턴은 복잡한 그림이 아니라, 반복 기준이 되는 최소 견본을 정확하게 만드는 것부터 시작합니다.</p>
+          </div>
+          <span class="badge gold">수업 핵심 순서</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="badge coral">기본 흐름</span>
+            <h3>최소 견본으로 패턴 만들기</h3>
+            <ul class="step-list">
+              <li><span class="step-no coral">1</span><div>패턴으로 반복될 <strong>최소 견본</strong>을 만든다. 기본 시작 예시는 <strong>사각형</strong>이다.</div></li>
+              <li><span class="step-no coral">2</span><div>완성한 견본을 <strong>Swatches 패널</strong>에 저장한다.</div></li>
+              <li><span class="step-no coral">3</span><div>패턴 썸네일을 더블클릭하면 수정 모드로 들어갈 수 있다.</div></li>
+              <li><span class="step-no coral">4</span><div>필요하면 <code>Size Tile to Art</code>를 사용해 타일 크기를 아트에 맞춘다.</div></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge teal">기억 포인트</span>
+            <h3>Swatches 패널에서 확인할 것</h3>
+            <ul class="check-list">
+              <li><span class="check-dot teal">핵심</span><div>패턴은 작업 화면의 개체만 보는 것이 아니라 <strong>Swatches에 저장된 상태</strong>까지 확인해야 한다.</div></li>
+              <li><span class="check-dot teal">핵심</span><div>썸네일 더블클릭은 단순 미리보기가 아니라 <strong>패턴 수정 진입</strong> 기능이다.</div></li>
+              <li><span class="check-dot teal">핵심</span><div><code>Size Tile to Art</code>를 이해하면 타일 영역과 실제 반복 범위를 더 쉽게 맞출 수 있다.</div></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="callout">한 줄 정리: 패턴은 “최소 견본 제작 → Swatches 저장 → 썸네일 더블클릭으로 수정” 흐름으로 기억하면 정리가 쉽습니다.</div>
+      </section>
+
+      <section id="pattern-edit">
+        <div class="section-head">
+          <div>
+            <h2>2. 패턴 수정과 변형 이해</h2>
+            <p><code>Ctrl + K</code> 환경설정과 변형 옵션을 이해하면 개체와 패턴이 어떻게 움직이는지 구분할 수 있습니다.</p>
+          </div>
+          <span class="badge blue">개체 vs 패턴 구분</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="badge blue">설정 확인</span>
+            <h3><code>Ctrl + K</code>에서 보는 항목</h3>
+            <p>패턴 수정 때는 <strong>Transform Pattern Tile</strong> 상태를 꼭 확인한다.</p>
+            <table class="compare-table">
+              <tr>
+                <th>켜짐</th>
+                <td>개체와 패턴이 함께 크기 조절된다.</td>
+              </tr>
+              <tr>
+                <th>꺼짐</th>
+                <td>개체만 조절되고, 내부 패턴은 그대로 유지된다.</td>
+              </tr>
+            </table>
+          </article>
+
+          <article class="card">
+            <span class="badge coral">변형 도구</span>
+            <h3>Transform 도구에서 구분할 옵션</h3>
+            <ul class="step-list">
+              <li><span class="step-no blue">1</span><div><strong>Transform Pattern</strong>: 패턴 자체를 변형할 때 사용</div></li>
+              <li><span class="step-no blue">2</span><div><strong>Transform Object</strong>: 외곽 개체를 변형할 때 사용</div></li>
+              <li><span class="step-no blue">3</span><div>두 옵션을 같이 보면서 “무엇이 움직여야 하는지” 먼저 판단한다.</div></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="grid-3" style="margin-top: 18px;">
+          <div class="memory-box">
+            <span class="badge gold">암기 문장</span>
+            <p><strong>Pattern Tile이 켜지면 같이, 꺼지면 개체만.</strong></p>
+          </div>
+          <div class="memory-box">
+            <span class="badge gold">암기 문장</span>
+            <p><strong>Transform Pattern은 무늬, Transform Object는 틀.</strong></p>
+          </div>
+          <div class="memory-box">
+            <span class="badge gold">암기 문장</span>
+            <p><strong>수정은 썸네일 더블클릭부터 시작.</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <section id="image-flow">
+        <div class="section-head">
+          <div>
+            <h2>3. 이미지 관리와 벡터화</h2>
+            <p>패턴 수업과 함께 자주 이어지는 이미지 작업 흐름도 같이 정리해 두면 실습 속도가 빨라집니다.</p>
+          </div>
+          <span class="badge teal">실무형 보조 흐름</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="badge teal">이미지 관리</span>
+            <h3>기본 작업 순서</h3>
+            <ul class="step-list">
+              <li><span class="step-no teal">1</span><div><code>Ctrl + O</code>로 이미지를 열고, 필요하면 새 문서를 <code>Ctrl + N</code>으로 만든다.</div></li>
+              <li><span class="step-no teal">2</span><div>배치된 이미지는 <strong>Embed</strong>로 포함시켜 링크 문제를 줄인다.</div></li>
+              <li><span class="step-no teal">3</span><div>이미지 위에서 우클릭 후 <strong>Crop Image</strong>로 필요한 영역만 정리한다.</div></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge blue">이미지 벡터화</span>
+            <h3>Image Trace</h3>
+            <p>비트맵 이미지를 벡터 느낌으로 바꾸고 싶을 때는 <strong>Image Trace(이미지 추적)</strong>를 사용한다.</p>
+            <ul class="hint-list">
+              <li><span class="check-dot blue">팁</span><div>원본 이미지를 먼저 정리한 뒤 추적하면 결과가 더 깔끔하다.</div></li>
+              <li><span class="check-dot blue">팁</span><div>크롭 후 추적하면 불필요한 배경까지 함께 벡터화되는 일을 줄일 수 있다.</div></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="callout">빠른 복습: 열기 → 새 문서 → Embed → Crop Image → Image Trace 순서로 묶어 기억하면 실습에서 바로 연결됩니다.</div>
+      </section>
+
+      <section id="worksheet">
+        <div class="section-head">
+          <div>
+            <h2>4. 확인 문제</h2>
+            <p>선택형과 단답형을 함께 풀고 바로 채점해 보세요. 마지막 서술형은 핵심 흐름을 스스로 정리하는 문제입니다.</p>
+          </div>
+          <span class="badge coral">즉시 채점 가능</span>
+        </div>
+
+        <div class="quiz-grid">
+          <article class="question-card" data-question="q1">
+            <span class="badge gold">문제 1</span>
+            <h3>패턴을 만들 때 가장 먼저 생각해야 하는 것은 무엇인가요?</h3>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="q1" value="wrong"> Image Trace부터 켠다.</label>
+              <label class="option"><input type="radio" name="q1" value="correct"> 최소 견본을 만든다.</label>
+              <label class="option"><input type="radio" name="q1" value="wrong"> Crop Image를 먼저 한다.</label>
+            </div>
+            <div class="feedback" id="feedback-q1"></div>
+          </article>
+
+          <article class="question-card" data-question="q2">
+            <span class="badge gold">문제 2</span>
+            <h3>패턴 썸네일을 더블클릭하면 들어가는 기능은?</h3>
+            <label for="q2-input">정답 입력</label>
+            <input id="q2-input" type="text" placeholder="예: 패턴 수정 모드">
+            <div class="feedback" id="feedback-q2"></div>
+          </article>
+
+          <article class="question-card" data-question="q3">
+            <span class="badge gold">문제 3</span>
+            <h3><code>Transform Pattern Tile</code>이 켜져 있을 때 맞는 설명을 고르세요.</h3>
+            <div class="option-list">
+              <label class="option"><input type="radio" name="q3" value="correct"> 개체와 패턴이 함께 크기 조절된다.</label>
+              <label class="option"><input type="radio" name="q3" value="wrong"> 개체만 조절되고 패턴은 고정된다.</label>
+              <label class="option"><input type="radio" name="q3" value="wrong"> Swatches 패널이 잠긴다.</label>
+            </div>
+            <div class="feedback" id="feedback-q3"></div>
+          </article>
+
+          <article class="question-card" data-question="q4">
+            <span class="badge gold">문제 4</span>
+            <h3>다음 중 이미지 관리 흐름에 포함되는 것을 모두 고르세요.</h3>
+            <div class="option-list">
+              <label class="option"><input type="checkbox" name="q4" value="a"> Embed</label>
+              <label class="option"><input type="checkbox" name="q4" value="b"> Crop Image</label>
+              <label class="option"><input type="checkbox" name="q4" value="c"> Image Trace</label>
+              <label class="option"><input type="checkbox" name="q4" value="d"> Pathfinder Divide</label>
+            </div>
+            <div class="feedback" id="feedback-q4"></div>
+          </article>
+
+          <article class="question-card" style="grid-column: 1 / -1;" data-question="q5">
+            <span class="badge gold">문제 5</span>
+            <h3>서술형</h3>
+            <p>아래 칸에 <strong>패턴 생성부터 수정까지</strong> 또는 <strong>이미지 관리부터 벡터화까지</strong> 순서를 한 줄 이상으로 정리해 보세요.</p>
+            <textarea id="q5-input" placeholder="예: 최소 견본 만들기 → Swatches 저장 → 썸네일 더블클릭 → Transform Pattern Tile 확인"></textarea>
+            <div class="feedback" id="feedback-q5">서술형은 핵심 키워드 포함 여부를 기준으로 안내합니다.</div>
+          </article>
+        </div>
+
+        <div class="score-board">
+          <div>
+            <strong id="score-text">점수: 0 / 4</strong>
+            <div class="footer-note">객관식과 단답형 4문항만 자동 채점됩니다.</div>
+          </div>
+          <div class="actions" style="margin-top: 0;">
+            <button class="btn" type="button" id="grade-btn">채점하기</button>
+            <button class="btn secondary" type="button" id="reset-btn">초기화</button>
+            <button class="btn secondary" type="button" id="toggle-answer-btn">정답 보기</button>
+          </div>
+        </div>
+
+        <div class="answer-sheet" id="answer-sheet">
+          <span class="badge blue">정답 모음</span>
+          <ul class="answer-list">
+            <li>문제 1: 최소 견본을 만든다.</li>
+            <li>문제 2: 패턴 수정 모드</li>
+            <li>문제 3: 개체와 패턴이 함께 크기 조절된다.</li>
+            <li>문제 4: a, b, c</li>
+            <li>문제 5 예시 1: 최소 견본 만들기 → Swatches 저장 → 썸네일 더블클릭 → Size Tile to Art 또는 Transform Pattern Tile 확인</li>
+            <li>문제 5 예시 2: Ctrl + O → Ctrl + N → Embed → Crop Image → Image Trace</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const scoreText = document.getElementById("score-text");
+    const gradeBtn = document.getElementById("grade-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const toggleAnswerBtn = document.getElementById("toggle-answer-btn");
+    const answerSheet = document.getElementById("answer-sheet");
+
+    function normalize(value) {
+      return value.toLowerCase().replace(/\s+/g, "");
+    }
+
+    function setFeedback(id, message, isCorrect) {
+      const el = document.getElementById(id);
+      el.textContent = message;
+      el.className = "feedback " + (isCorrect ? "correct" : "incorrect");
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === "correct") {
+        score += 1;
+        setFeedback("feedback-q1", "정답입니다. 패턴은 최소 견본부터 정확하게 잡아야 합니다.", true);
+      } else {
+        setFeedback("feedback-q1", "다시 확인해 보세요. 패턴의 시작은 최소 견본입니다.", false);
+      }
+
+      const q2Value = normalize(document.getElementById("q2-input").value);
+      const q2Correct = ["패턴수정모드", "수정모드", "패턴수정"].includes(q2Value);
+      if (q2Correct) {
+        score += 1;
+        setFeedback("feedback-q2", "정답입니다. 썸네일 더블클릭으로 패턴 수정에 들어갑니다.", true);
+      } else {
+        setFeedback("feedback-q2", "정답은 '패턴 수정 모드'입니다.", false);
+      }
+
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      if (q3 && q3.value === "correct") {
+        score += 1;
+        setFeedback("feedback-q3", "정답입니다. 켜져 있으면 개체와 패턴이 함께 변형됩니다.", true);
+      } else {
+        setFeedback("feedback-q3", "정답은 '개체와 패턴이 함께 크기 조절된다'입니다.", false);
+      }
+
+      const q4Checked = Array.from(document.querySelectorAll('input[name="q4"]:checked'))
+        .map((input) => input.value)
+        .sort()
+        .join(",");
+      const q4Correct = q4Checked === "a,b,c";
+      if (q4Correct) {
+        score += 1;
+        setFeedback("feedback-q4", "정답입니다. Embed, Crop Image, Image Trace가 이미지 흐름에 포함됩니다.", true);
+      } else {
+        setFeedback("feedback-q4", "정답은 Embed, Crop Image, Image Trace입니다.", false);
+      }
+
+      const q5Value = document.getElementById("q5-input").value.trim().toLowerCase();
+      if (q5Value.length > 0) {
+        const hasPatternFlow = ["swatches", "썸네일", "transform", "tile"].some((word) => q5Value.includes(word))
+          && ["견본", "패턴"].some((word) => q5Value.includes(word));
+        const hasImageFlow = ["embed", "crop", "trace"].filter((word) => q5Value.includes(word)).length >= 2;
+
+        if (hasPatternFlow || hasImageFlow) {
+          document.getElementById("feedback-q5").textContent = "핵심 흐름이 잘 들어갔습니다. 순서만 더 또렷하게 정리하면 충분합니다.";
+          document.getElementById("feedback-q5").className = "feedback correct";
+        } else {
+          document.getElementById("feedback-q5").textContent = "견본, Swatches, 썸네일 수정 또는 Embed, Crop Image, Image Trace 같은 핵심어를 포함해 다시 정리해 보세요.";
+          document.getElementById("feedback-q5").className = "feedback incorrect";
+        }
+      }
+
+      scoreText.textContent = "점수: " + score + " / 4";
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach((input) => {
+        input.checked = false;
+      });
+
+      document.getElementById("q2-input").value = "";
+      document.getElementById("q5-input").value = "";
+      scoreText.textContent = "점수: 0 / 4";
+
+      ["feedback-q1", "feedback-q2", "feedback-q3", "feedback-q4"].forEach((id) => {
+        const el = document.getElementById(id);
+        el.textContent = "";
+        el.className = "feedback";
+      });
+
+      const q5 = document.getElementById("feedback-q5");
+      q5.textContent = "서술형은 핵심 키워드 포함 여부를 기준으로 안내합니다.";
+      q5.className = "feedback";
+    }
+
+    gradeBtn.addEventListener("click", gradeQuiz);
+    resetBtn.addEventListener("click", resetQuiz);
+    toggleAnswerBtn.addEventListener("click", () => {
+      answerSheet.classList.toggle("open");
+      toggleAnswerBtn.textContent = answerSheet.classList.contains("open") ? "정답 숨기기" : "정답 보기";
+    });
+  </script>
+</body>
+</html>
