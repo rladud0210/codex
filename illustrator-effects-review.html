@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 효과 기능 복습 자료</title>
+  <style>
+    :root {
+      --bg: #f4efe8;
+      --paper: rgba(255, 251, 246, 0.96);
+      --card: rgba(255, 255, 255, 0.88);
+      --card-strong: #ffffff;
+      --ink: #1f2430;
+      --muted: #5d6876;
+      --line: rgba(31, 36, 48, 0.12);
+      --orange: #f26a2e;
+      --yellow: #f4bf4f;
+      --sky: #3c7cff;
+      --teal: #149a90;
+      --pink: #ff5d8f;
+      --violet: #7356d8;
+      --soft-orange: rgba(242, 106, 46, 0.12);
+      --soft-yellow: rgba(244, 191, 79, 0.16);
+      --soft-sky: rgba(60, 124, 255, 0.12);
+      --soft-teal: rgba(20, 154, 144, 0.12);
+      --soft-pink: rgba(255, 93, 143, 0.12);
+      --soft-violet: rgba(115, 86, 216, 0.12);
+      --shadow: 0 24px 60px rgba(25, 30, 39, 0.12);
+      --radius-lg: 30px;
+      --radius-md: 20px;
+      --radius-sm: 14px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at 10% 12%, rgba(244, 191, 79, 0.24), transparent 22%),
+        radial-gradient(circle at 88% 10%, rgba(115, 86, 216, 0.16), transparent 20%),
+        radial-gradient(circle at 78% 32%, rgba(60, 124, 255, 0.14), transparent 18%),
+        linear-gradient(180deg, #efe3d3 0%, var(--bg) 42%, #fcfaf7 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.28) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    p, li, span, a, button, label, input, select, textarea, th, td {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    code {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.95em;
+      background: rgba(31, 36, 48, 0.08);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 32px 0 60px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .eyebrow,
+    .badge,
+    .tiny-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: var(--orange);
+      border: 1px solid rgba(242, 106, 46, 0.22);
+      background: var(--soft-orange);
+    }
+
+    .badge.orange, .tiny-tag.orange { color: var(--orange); background: var(--soft-orange); }
+    .badge.sky, .tiny-tag.sky { color: var(--sky); background: var(--soft-sky); }
+    .badge.teal, .tiny-tag.teal { color: var(--teal); background: var(--soft-teal); }
+    .badge.violet, .tiny-tag.violet { color: var(--violet); background: var(--soft-violet); }
+    .badge.pink, .tiny-tag.pink { color: var(--pink); background: var(--soft-pink); }
+    .badge.yellow, .tiny-tag.yellow { color: #a06b00; background: var(--soft-yellow); }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0;
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 62px);
+    }
+
+    h2 {
+      font-size: clamp(26px, 3vw, 38px);
+    }
+
+    h3 {
+      font-size: 22px;
+    }
+
+    h4 {
+      font-size: 17px;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-pills,
+    .nav,
+    .hero-actions,
+    .toolbar,
+    .summary-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-pills {
+      margin-top: 22px;
+    }
+
+    .nav {
+      margin-top: 24px;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+    }
+
+    .summary-strip {
+      margin-top: 18px;
+    }
+
+    .nav a,
+    .pill,
+    .btn,
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .nav a,
+    .pill {
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pill {
+      font-size: 13px;
+    }
+
+    .nav a:hover,
+    .pill:hover,
+    .btn:hover,
+    .ghost-btn:hover,
+    .card:hover,
+    .quiz-card:hover,
+    .effect-card:hover,
+    .step-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn,
+    .ghost-btn {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      color: #fff;
+      background: var(--ink);
+      box-shadow: 0 14px 28px rgba(31, 36, 48, 0.18);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .ghost-btn {
+      padding: 10px 14px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .hero-visual {
+      min-height: 380px;
+      padding: 20px;
+      border-radius: 26px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(140deg, #ff7b36 0%, #f4bf4f 32%, #3c7cff 68%, #149a90 100%);
+      background-size: 24px 24px, 24px 24px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    .board {
+      position: relative;
+      min-height: 340px;
+      overflow: hidden;
+      border-radius: 22px;
+      border: 2px solid rgba(255, 255, 255, 0.76);
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 24px 40px rgba(17, 21, 28, 0.22);
+    }
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 28px;
+      box-shadow: 0 16px 28px rgba(16, 20, 28, 0.18);
+      animation: drift 6.5s ease-in-out infinite;
+    }
+
+    .floating-shape.s1 {
+      top: 28px;
+      left: 28px;
+      width: 124px;
+      height: 124px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.34));
+      clip-path: polygon(50% 0%, 100% 45%, 80% 100%, 18% 100%, 0% 40%);
+    }
+
+    .floating-shape.s2 {
+      right: 34px;
+      top: 40px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.22);
+      border: 2px dashed rgba(255, 255, 255, 0.8);
+      animation-delay: 1s;
+    }
+
+    .floating-shape.s3 {
+      left: 44px;
+      bottom: 54px;
+      width: 140px;
+      height: 46px;
+      background: rgba(31, 36, 48, 0.16);
+      border-radius: 999px;
+      filter: blur(0.2px);
+      animation-delay: 2s;
+    }
+
+    .course-shell {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      width: min(82%, 290px);
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 18px 32px rgba(17, 21, 28, 0.18);
+    }
+
+    .course-head,
+    .lesson-item,
+    .meter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .course-head strong {
+      display: block;
+      font-size: 17px;
+    }
+
+    .course-head span,
+    .meter-label,
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .metric-card {
+      padding: 10px;
+      border-radius: 16px;
+      background: #f7f8fb;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .meter {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(31, 36, 48, 0.08);
+    }
+
+    .meter > span {
+      display: block;
+      width: 74%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--orange), var(--sky), var(--teal));
+    }
+
+    .lesson-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .lesson-item {
+      padding: 12px 13px;
+      border-radius: 16px;
+      background: #f8f8fc;
+      border: 1px solid rgba(31, 36, 48, 0.08);
+    }
+
+    .lesson-item.active {
+      background: linear-gradient(135deg, rgba(242, 106, 46, 0.12), rgba(60, 124, 255, 0.1));
+      border-color: rgba(60, 124, 255, 0.18);
+    }
+
+    .lesson-item strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .lesson-item span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      border-radius: 26px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .section-grid-2,
+    .section-grid-3,
+    .quiz-grid,
+    .effect-grid,
+    .step-grid,
+    .summary-grid,
+    .concept-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-grid-2,
+    .concept-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .section-grid-3,
+    .summary-grid,
+    .effect-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .step-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .quiz-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .card,
+    .effect-card,
+    .quiz-card,
+    .step-card,
+    .summary-card {
+      height: 100%;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 36, 48, 0.08);
+      background: var(--card);
+      box-shadow: 0 14px 24px rgba(25, 30, 39, 0.06);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover,
+    .effect-card:hover,
+    .quiz-card:hover,
+    .step-card:hover,
+    .summary-card:hover {
+      border-color: rgba(31, 36, 48, 0.16);
+      box-shadow: 0 20px 34px rgba(25, 30, 39, 0.1);
+    }
+
+    .card p,
+    .effect-card p,
+    .summary-card p,
+    .step-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .key-list,
+    .check-list,
+    .note-list,
+    .answer-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .key-list li,
+    .check-list li,
+    .note-list li,
+    .answer-list li {
+      margin-bottom: 8px;
+    }
+
+    .split-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .focus-panel {
+      padding: 20px;
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(255, 93, 143, 0.08), rgba(115, 86, 216, 0.08));
+      border: 1px solid rgba(115, 86, 216, 0.12);
+    }
+
+    .focus-panel .summary-strip {
+      margin-top: 14px;
+    }
+
+    .mini-board {
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 247, 253, 0.96));
+      border: 1px solid rgba(31, 36, 48, 0.08);
+    }
+
+    .appearance-stack {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .appearance-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: #f9f9fc;
+      border: 1px solid rgba(31, 36, 48, 0.07);
+    }
+
+    .appearance-row strong {
+      font-size: 14px;
+    }
+
+    .appearance-row span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--card-strong);
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(31, 36, 48, 0.08);
+    }
+
+    th {
+      font-size: 14px;
+      background: #f6f8fb;
+    }
+
+    td {
+      font-size: 15px;
+    }
+
+    .toolbar {
+      margin-top: 14px;
+    }
+
+    .quiz-card {
+      position: relative;
+      padding-top: 48px;
+    }
+
+    .quiz-card::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 20px;
+      top: 18px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--sky);
+      background: var(--soft-sky);
+    }
+
+    .quiz-card p {
+      margin: 0 0 14px;
+      font-weight: 700;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid rgba(31, 36, 48, 0.08);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .option input {
+      margin-top: 3px;
+      accent-color: var(--sky);
+    }
+
+    .quiz-input,
+    .quiz-select,
+    .quiz-textarea {
+      width: 100%;
+      padding: 13px 14px;
+      color: var(--ink);
+      border: 1px solid rgba(31, 36, 48, 0.14);
+      border-radius: 16px;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .quiz-input:focus,
+    .quiz-select:focus,
+    .quiz-textarea:focus {
+      border-color: rgba(60, 124, 255, 0.42);
+      box-shadow: 0 0 0 4px rgba(60, 124, 255, 0.1);
+    }
+
+    .quiz-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .feedback,
+    .long-feedback {
+      margin-top: 12px;
+      min-height: 24px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .feedback.correct,
+    .long-feedback.correct {
+      color: var(--teal);
+    }
+
+    .feedback.incorrect,
+    .long-feedback.incorrect {
+      color: #d64550;
+    }
+
+    .score-board {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(242, 106, 46, 0.1), rgba(60, 124, 255, 0.08));
+      border: 1px solid rgba(31, 36, 48, 0.08);
+    }
+
+    .score-board strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .score-board span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .answer-wrap {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .answer-wrap.open {
+      display: block;
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 18px 22px;
+      border-radius: 20px;
+      color: #fff;
+      background: linear-gradient(135deg, #1f2430 0%, #32445f 55%, #178c87 100%);
+      box-shadow: 0 20px 36px rgba(25, 30, 39, 0.18);
+    }
+
+    .footer strong {
+      color: #ffd28a;
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (max-width: 1040px) {
+      .hero,
+      .split-card,
+      .step-grid,
+      .section-grid-3,
+      .summary-grid,
+      .effect-grid,
+      .concept-grid,
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 340px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 16px;
+      }
+
+      .hero,
+      .section {
+        padding: 22px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .course-shell {
+        width: calc(100% - 40px);
+      }
+
+      .score-board,
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn,
+      .ghost-btn,
+      .nav a {
+        width: 100%;
+      }
+
+      .nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      body::before,
+      .hero-actions,
+      .nav,
+      .toolbar,
+      .ghost-btn,
+      .btn {
+        display: none !important;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .footer {
+        box-shadow: none;
+        border: 1px solid #d4d8de;
+        break-inside: avoid;
+      }
+
+      .answer-wrap {
+        display: block !important;
+      }
+
+      .print-only {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Illustrator Review Sheet</span>
+        <h1>일러스트레이터 <br>효과 기능 복습 자료</h1>
+        <p class="lead">
+          효과는 오브젝트를 바로 파괴하지 않고 시각 결과를 얹는 <strong>라이브 편집</strong>의 핵심입니다.
+          이번 자료는 <code>Effect</code> 메뉴, <code>Appearance</code> 패널, 래스터 효과 설정, 그리고
+          <code>Expand Appearance</code>까지 한 번에 정리하도록 구성했습니다.
+        </p>
+
+        <div class="hero-pills">
+          <span class="pill">Live Effect 중심</span>
+          <span class="pill">Appearance 재편집</span>
+          <span class="pill">Photoshop Effects 구분</span>
+          <span class="pill">실습 전 체크리스트 포함</span>
+        </div>
+
+        <nav class="nav">
+          <a href="#core">핵심 개념</a>
+          <a href="#effects">자주 쓰는 효과</a>
+          <a href="#workflow">작업 흐름</a>
+          <a href="#compare">비교 정리</a>
+          <a href="#worksheet">복습 문제</a>
+          <a href="#answer-key">정답 확인</a>
+        </nav>
+
+        <div class="hero-actions">
+          <a class="btn" href="#worksheet">문제 풀기</a>
+          <button class="btn secondary" type="button" onclick="window.print()">PDF로 출력</button>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="board">
+          <div class="floating-shape s1"></div>
+          <div class="floating-shape s2"></div>
+          <div class="floating-shape s3"></div>
+
+          <div class="course-shell">
+            <div class="course-head">
+              <div>
+                <span>Lesson 08</span>
+                <strong>Effect Mastery</strong>
+              </div>
+              <span class="tiny-tag orange">편집 가능</span>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric-card">
+                <div class="metric-label">진행률</div>
+                <strong>74%</strong>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">핵심어</div>
+                <strong>12개</strong>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">문제 수</div>
+                <strong>6문항</strong>
+              </div>
+            </div>
+
+            <div class="meter-row">
+              <span class="meter-label">오늘 목표: 효과의 구조 이해하기</span>
+              <span class="meter-label">A-</span>
+            </div>
+            <div class="meter"><span></span></div>
+
+            <div class="lesson-list">
+              <div class="lesson-item active">
+                <div>
+                  <strong>Effect vs Object 변경</strong>
+                  <span>원본 유지 여부를 먼저 판단</span>
+                </div>
+                <span>Now</span>
+              </div>
+              <div class="lesson-item">
+                <div>
+                  <strong>Appearance 패널 재편집</strong>
+                  <span>효과를 다시 열어 수치 수정</span>
+                </div>
+                <span>02</span>
+              </div>
+              <div class="lesson-item">
+                <div>
+                  <strong>Expand Appearance 시점</strong>
+                  <span>최종 제작 직전에 확정</span>
+                </div>
+                <span>03</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="core">
+      <div class="section-head">
+        <div>
+          <h2>1. 효과 기능 핵심 개념</h2>
+          <p>Lazyweb에서 자주 보이는 학습형 대시보드 구성처럼, 먼저 개념을 작은 블록으로 끊어 빠르게 파악할 수 있게 정리했습니다.</p>
+        </div>
+        <span class="badge violet">개념 블록 요약</span>
+      </div>
+
+      <div class="split-card">
+        <div class="focus-panel">
+          <span class="badge pink">가장 먼저 기억</span>
+          <h3 style="margin-top:12px;">효과는 “모양을 덧입히는 편집”이다</h3>
+          <p>
+            Illustrator의 효과는 오브젝트 자체를 곧바로 파괴하기보다, 보이는 결과를 입히는 방식으로 작동하는 경우가 많습니다.
+            그래서 <strong>나중에 다시 수정할 수 있는지</strong>, <strong>벡터 상태가 유지되는지</strong>,
+            <strong>래스터 계산이 필요한지</strong>를 함께 생각해야 합니다.
+          </p>
+
+          <div class="summary-strip">
+            <span class="tiny-tag orange">원본 유지</span>
+            <span class="tiny-tag sky">재편집 가능</span>
+            <span class="tiny-tag teal">Appearance 확인</span>
+          </div>
+
+          <ul class="key-list">
+            <li><strong>Effect 메뉴</strong>: 오브젝트에 시각 효과를 적용하는 출발점입니다.</li>
+            <li><strong>Appearance 패널</strong>: 적용된 효과, 채우기, 선의 순서를 확인하고 다시 편집합니다.</li>
+            <li><strong>Expand Appearance</strong>: 라이브 상태를 실제 패스/면 구조로 바꾸는 최종 확정 단계입니다.</li>
+            <li><strong>Document Raster Effects Settings</strong>: 그림자, 블러 등 래스터 계산이 필요한 효과 품질을 조정합니다.</li>
+          </ul>
+        </div>
+
+        <div class="mini-board">
+          <span class="badge sky">Appearance 예시</span>
+          <div class="appearance-stack">
+            <div class="appearance-row">
+              <div>
+                <strong>Opacity</strong>
+                <span>90%</span>
+              </div>
+              <span>맨 위</span>
+            </div>
+            <div class="appearance-row">
+              <div>
+                <strong>Drop Shadow</strong>
+                <span>Stylize</span>
+              </div>
+              <span>Effect</span>
+            </div>
+            <div class="appearance-row">
+              <div>
+                <strong>Fill</strong>
+                <span>Orange Gradient</span>
+              </div>
+              <span>면</span>
+            </div>
+            <div class="appearance-row">
+              <div>
+                <strong>Stroke</strong>
+                <span>4 pt Navy</span>
+              </div>
+              <span>선</span>
+            </div>
+          </div>
+
+          <ul class="note-list">
+            <li>효과가 안 보일 때는 <code>Appearance</code>에 실제로 붙었는지 확인합니다.</li>
+            <li>선과 면 중 어디에 적용했는지에 따라 결과가 달라질 수 있습니다.</li>
+            <li>효과 순서가 바뀌면 그림자, 왜곡, 블러 결과도 달라집니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="concept-grid" style="margin-top:16px;">
+        <article class="card">
+          <span class="badge orange">Illustrator Effects</span>
+          <h3 style="margin-top:12px;">벡터 중심 효과</h3>
+          <p>왜곡, 변형, 지그재그, 경로 이동처럼 벡터 구조를 기준으로 계산되는 효과가 많습니다.</p>
+          <ul class="check-list">
+            <li><code>Distort & Transform</code></li>
+            <li><code>Path</code></li>
+            <li><code>Stylize</code> 일부</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge teal">Photoshop Effects</span>
+          <h3 style="margin-top:12px;">픽셀 계산이 필요한 효과</h3>
+          <p>블러, 글로우, 그림자처럼 래스터 계산이 들어가는 효과입니다. 해상도 설정 영향이 큽니다.</p>
+          <ul class="check-list">
+            <li><code>Gaussian Blur</code></li>
+            <li><code>Drop Shadow</code></li>
+            <li><code>Inner Glow</code></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="effects">
+      <div class="section-head">
+        <div>
+          <h2>2. 자주 쓰는 효과 6가지</h2>
+          <p>메뉴 이름만 외우기보다 “언제 쓰는지”를 같이 기억해야 실제 작업에서 바로 꺼낼 수 있습니다.</p>
+        </div>
+        <span class="badge yellow">실전 중심</span>
+      </div>
+
+      <div class="effect-grid">
+        <article class="effect-card">
+          <span class="badge orange">Stylize</span>
+          <h3 style="margin-top:12px;">Drop Shadow</h3>
+          <p>텍스트나 아이콘을 바닥에서 띄워 보이게 할 때 사용합니다. 인쇄 전에는 너무 흐리거나 진하지 않은지 확인합니다.</p>
+        </article>
+
+        <article class="effect-card">
+          <span class="badge sky">Blur</span>
+          <h3 style="margin-top:12px;">Gaussian Blur</h3>
+          <p>부드러운 빛 번짐, 배경 거리감, 유리 느낌을 만들 때 자주 씁니다. 래스터 효과 해상도 설정을 같이 봐야 합니다.</p>
+        </article>
+
+        <article class="effect-card">
+          <span class="badge violet">Distort & Transform</span>
+          <h3 style="margin-top:12px;">Transform</h3>
+          <p>복제, 이동, 회전, 반복 배치를 한 번에 처리할 수 있습니다. 원본 하나로 패턴성 구성을 만들기 좋습니다.</p>
+        </article>
+
+        <article class="effect-card">
+          <span class="badge pink">Distort & Transform</span>
+          <h3 style="margin-top:12px;">Zig Zag</h3>
+          <p>직선이나 곡선을 톱니, 물결 느낌으로 바꾸는 데 적합합니다. <code>Smooth</code>와 <code>Corner</code> 차이를 기억하세요.</p>
+        </article>
+
+        <article class="effect-card">
+          <span class="badge teal">Path</span>
+          <h3 style="margin-top:12px;">Offset Path</h3>
+          <p>외곽선을 일정 간격으로 키우거나 줄일 때 사용합니다. 스티커 테두리나 글자 외곽선 작업에 매우 자주 나옵니다.</p>
+        </article>
+
+        <article class="effect-card">
+          <span class="badge yellow">3D</span>
+          <h3 style="margin-top:12px;">3D and Materials</h3>
+          <p>입체감, 회전, 깊이 표현을 줄 때 사용합니다. 결과가 무거워질 수 있으니 최종 저장 전에 구조를 점검합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-head">
+        <div>
+          <h2>3. 효과 작업 흐름</h2>
+          <p>효과를 걸기 전에 무엇을 확인하고, 걸고 나서 어디를 다시 열어보는지 흐름으로 기억하면 실수가 줄어듭니다.</p>
+        </div>
+        <span class="badge sky">4단계 루틴</span>
+      </div>
+
+      <div class="step-grid">
+        <article class="step-card">
+          <span class="badge orange">Step 1</span>
+          <h3 style="margin-top:12px;">대상 확인</h3>
+          <p>오브젝트가 맞는지, 그룹인지, 텍스트인지, 면과 선 중 어디에 걸어야 하는지부터 봅니다.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="badge sky">Step 2</span>
+          <h3 style="margin-top:12px;">효과 적용</h3>
+          <p><code>Effect</code> 메뉴에서 목적에 맞는 항목을 선택하고 수치를 조절합니다.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="badge teal">Step 3</span>
+          <h3 style="margin-top:12px;">Appearance 점검</h3>
+          <p>효과가 어느 레벨에 붙었는지, 순서가 맞는지, 다시 수정 가능한지 확인합니다.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="badge violet">Step 4</span>
+          <h3 style="margin-top:12px;">최종 확정</h3>
+          <p>더 이상 수정하지 않을 때만 <code>Expand Appearance</code>를 검토합니다. 너무 일찍 확정하지 않습니다.</p>
+        </article>
+      </div>
+
+      <div class="summary-grid" style="margin-top:16px;">
+        <article class="summary-card">
+          <span class="badge pink">체크 포인트</span>
+          <h3 style="margin-top:12px;">효과가 안 보일 때</h3>
+          <ul class="answer-list">
+            <li>다른 오브젝트가 선택된 것은 아닌지 확인</li>
+            <li>면/선 적용 위치가 맞는지 확인</li>
+            <li>래스터 효과 해상도가 너무 낮지 않은지 확인</li>
+          </ul>
+        </article>
+
+        <article class="summary-card">
+          <span class="badge teal">체크 포인트</span>
+          <h3 style="margin-top:12px;">작업이 무거울 때</h3>
+          <ul class="answer-list">
+            <li>블러, 그림자, 3D 효과가 많이 중첩되지 않았는지 확인</li>
+            <li>불필요한 복제 효과를 정리</li>
+            <li>최종 결과가 굳어졌다면 적절한 시점에 확정</li>
+          </ul>
+        </article>
+
+        <article class="summary-card">
+          <span class="badge yellow">체크 포인트</span>
+          <h3 style="margin-top:12px;">인쇄 전 확인</h3>
+          <ul class="answer-list">
+            <li>그림자와 글로우가 지나치게 흐리지 않은지</li>
+            <li>래스터 해상도가 충분한지</li>
+            <li>최종 전달 형식에서 모양이 유지되는지</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="compare">
+      <div class="section-head">
+        <div>
+          <h2>4. 비교해서 외우기</h2>
+          <p>비슷해 보이는 기능을 구분해 두면 문제 풀이와 실습에서 훨씬 빨라집니다.</p>
+        </div>
+        <span class="badge orange">헷갈림 방지</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>항목</th>
+              <th>Effect 적용</th>
+              <th>Expand Appearance</th>
+              <th>직접 패스 수정</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>원본 유지</strong></td>
+              <td>대체로 유지됨</td>
+              <td>라이브 상태를 실제 구조로 바꿈</td>
+              <td>원본을 직접 바꿈</td>
+            </tr>
+            <tr>
+              <td><strong>재편집</strong></td>
+              <td>Appearance에서 가능</td>
+              <td>이전 효과 수치를 바로 되돌리기 어려움</td>
+              <td>다시 손으로 수정</td>
+            </tr>
+            <tr>
+              <td><strong>언제 쓰나</strong></td>
+              <td>탐색, 시안, 반복 수정 단계</td>
+              <td>최종 제작 직전 또는 전달 직전</td>
+              <td>정교한 마감 편집이 필요할 때</td>
+            </tr>
+            <tr>
+              <td><strong>대표 예시</strong></td>
+              <td>Drop Shadow, Transform, Zig Zag</td>
+              <td>효과 결과를 실제 면/선으로 확정</td>
+              <td>Direct Selection으로 점 조정</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="toolbar">
+        <span class="pill">기억 문장 1: 효과는 먼저 걸고, 확정은 나중에.</span>
+        <span class="pill">기억 문장 2: 결과가 이상하면 Appearance 순서를 본다.</span>
+        <span class="pill">기억 문장 3: 블러와 그림자는 해상도 설정도 함께 본다.</span>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <div>
+          <h2>5. 복습 문제</h2>
+          <p>선택형과 입력형을 섞었습니다. 직접 답을 넣고 <strong>채점하기</strong>를 누르면 바로 피드백이 나옵니다.</p>
+        </div>
+        <span class="badge pink">즉시 채점 가능</span>
+      </div>
+
+      <div class="quiz-grid">
+        <article class="quiz-card" data-label="문제 1" data-type="radio" data-answer="b" data-message="효과는 먼저 라이브 상태로 적용하고, 필요할 때만 확정하는 흐름이 안전합니다.">
+          <p>Illustrator의 효과 기능에 대한 설명으로 가장 알맞은 것은?</p>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q1" value="a">효과를 적용하면 언제나 즉시 패스 구조가 완전히 바뀐다.</label>
+            <label class="option"><input type="radio" name="q1" value="b">효과는 원본을 유지한 채 보이는 결과를 덧입히는 경우가 많다.</label>
+            <label class="option"><input type="radio" name="q1" value="c">효과는 오직 사진에만 적용된다.</label>
+          </div>
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 2" data-type="text" data-answer="appearance" data-alt="appearance panel" data-message="적용된 효과를 다시 열어 수정할 때는 Appearance 패널을 가장 먼저 떠올리면 됩니다.">
+          <p>적용된 효과의 순서를 확인하고 다시 수정할 때 가장 먼저 보는 패널 이름은?</p>
+          <input class="quiz-input" type="text" placeholder="영문 패널명 입력">
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 3" data-type="radio" data-answer="c" data-message="Drop Shadow, Gaussian Blur 같은 효과는 래스터 계산 영향을 받습니다.">
+          <p>래스터 효과 해상도 설정을 특히 같이 확인해야 하는 효과는?</p>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q3" value="a">Offset Path</label>
+            <label class="option"><input type="radio" name="q3" value="b">Zig Zag</label>
+            <label class="option"><input type="radio" name="q3" value="c">Gaussian Blur</label>
+          </div>
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 4" data-type="select" data-answer="expand appearance" data-alt="expandappearance" data-message="최종 구조를 실제 패스/면으로 바꾸는 단계는 Expand Appearance입니다.">
+          <p>라이브 효과를 실제 결과 구조로 확정하는 명령은?</p>
+          <select class="quiz-select">
+            <option value="">선택하세요</option>
+            <option value="group">Group</option>
+            <option value="expand appearance">Expand Appearance</option>
+            <option value="arrange">Arrange</option>
+          </select>
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 5" data-type="checkbox" data-answer="a,c,d" data-message="효과 작업 전에는 대상, 적용 위치, 확정 시점을 함께 생각해야 합니다.">
+          <p>효과를 적용하기 전에 확인할 내용으로 알맞은 것을 모두 고르세요.</p>
+          <div class="option-list">
+            <label class="option"><input type="checkbox" value="a">어떤 오브젝트가 선택되었는지 확인한다.</label>
+            <label class="option"><input type="checkbox" value="b">무조건 먼저 Expand Appearance를 한다.</label>
+            <label class="option"><input type="checkbox" value="c">면과 선 중 어디에 적용할지 본다.</label>
+            <label class="option"><input type="checkbox" value="d">최종 확정 시점이 지금인지 생각한다.</label>
+          </div>
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 6" data-type="text" data-answer="document raster effects settings" data-alt="raster effects settings" data-message="블러와 그림자 품질이 거칠면 Document Raster Effects Settings를 먼저 의심해 보세요.">
+          <p>문서 전체의 래스터 효과 품질을 조정하는 메뉴 이름은?</p>
+          <input class="quiz-input" type="text" placeholder="영문 메뉴명 입력">
+          <div class="feedback"></div>
+        </article>
+      </div>
+
+      <div class="score-board">
+        <div>
+          <strong id="score-text">점수: - / 6</strong>
+          <span>객관식, 체크박스, 단답형 6문항이 자동 채점됩니다.</span>
+        </div>
+        <div class="toolbar" style="margin-top:0;">
+          <button class="btn" type="button" id="grade-btn">채점하기</button>
+          <button class="btn secondary" type="button" id="reset-btn">초기화</button>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <article class="card">
+          <span class="badge teal">서술형 정리</span>
+          <h3 style="margin-top:12px;">실전 체크 문장 쓰기</h3>
+          <p>아래 문장을 스스로 정리해 보세요. 자동 점수에는 포함되지 않지만, 수업 내용을 말로 정리하는 데 중요합니다.</p>
+          <label for="long-answer" style="display:block; margin-top:14px; font-weight:700;">“효과를 적용한 뒤 결과가 이상하게 보일 때, 나는 무엇부터 어떤 순서로 확인할지”를 3문장 이상으로 써보세요.</label>
+          <textarea class="quiz-textarea" id="long-answer" placeholder="예: 오브젝트 선택 상태를 먼저 확인하고, Appearance 패널에서 효과 순서를 본다. 그리고 면/선 적용 위치와 래스터 효과 설정을 다시 확인한다."></textarea>
+          <div class="long-feedback" id="long-feedback">핵심어 예시: 선택 상태, Appearance, 면/선, 해상도, 확정 시점</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="answer-key">
+      <div class="section-head">
+        <div>
+          <h2>6. 정답 및 최종 정리</h2>
+          <p>먼저 스스로 풀고, 마지막에 정답을 펼쳐서 핵심 문장을 다시 확인하세요.</p>
+        </div>
+        <button class="ghost-btn" type="button" id="toggle-answer-btn" aria-expanded="false" aria-controls="answer-wrap">정답 펼치기</button>
+      </div>
+
+      <div class="answer-wrap" id="answer-wrap">
+        <div class="section-grid-2">
+          <article class="card">
+            <span class="badge sky">복습문제 정답</span>
+            <ol class="answer-list">
+              <li>문제 1: <strong>b</strong></li>
+              <li>문제 2: <strong>Appearance</strong></li>
+              <li>문제 3: <strong>Gaussian Blur</strong></li>
+              <li>문제 4: <strong>Expand Appearance</strong></li>
+              <li>문제 5: <strong>a, c, d</strong></li>
+              <li>문제 6: <strong>Document Raster Effects Settings</strong></li>
+            </ol>
+          </article>
+
+          <article class="card">
+            <span class="badge orange">마무리 한 줄</span>
+            <ul class="answer-list">
+              <li>효과는 먼저 적용하고, 필요할 때만 확정합니다.</li>
+              <li>문제가 생기면 <code>Appearance</code>와 적용 위치를 먼저 확인합니다.</li>
+              <li>블러, 그림자 계열은 래스터 효과 설정을 함께 봅니다.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <p class="footer-note print-only">인쇄 시에는 정답 영역이 자동으로 펼쳐집니다.</p>
+    </section>
+
+    <footer class="footer">
+      <strong>오늘의 핵심:</strong>
+      Illustrator의 효과는 “바로 부수는 기능”이 아니라 “보이는 결과를 덧입히고 관리하는 기능”으로 이해하면 정리가 훨씬 쉽습니다.
+      적용 후에는 <code>Appearance</code>, 필요하면 <code>Expand Appearance</code>, 흐림 계열이면 래스터 설정까지 함께 확인하세요.
+    </footer>
+  </main>
+
+  <script>
+    const quizCards = Array.from(document.querySelectorAll(".quiz-card"));
+    const scoreText = document.getElementById("score-text");
+    const toggleAnswerBtn = document.getElementById("toggle-answer-btn");
+    const answerWrap = document.getElementById("answer-wrap");
+
+    function normalize(value) {
+      return (value || "")
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/&/g, "and")
+        .trim();
+    }
+
+    function setFeedback(node, state, message) {
+      node.textContent = message;
+      node.classList.remove("correct", "incorrect");
+      node.classList.add(state);
+    }
+
+    function getCardAnswer(card) {
+      return normalize(card.dataset.answer || "");
+    }
+
+    function getAlternativeAnswers(card) {
+      const answers = [card.dataset.answer || ""];
+      if (card.dataset.alt) {
+        answers.push(card.dataset.alt);
+      }
+      return answers.map(normalize);
+    }
+
+    function evaluateCard(card) {
+      const type = card.dataset.type;
+      const feedback = card.querySelector(".feedback");
+      let isCorrect = false;
+
+      if (type === "radio") {
+        const checked = card.querySelector("input[type='radio']:checked");
+        isCorrect = checked ? normalize(checked.value) === getCardAnswer(card) : false;
+      }
+
+      if (type === "text") {
+        const input = card.querySelector(".quiz-input");
+        const value = normalize(input.value);
+        isCorrect = getAlternativeAnswers(card).includes(value);
+        input.classList.remove("correct", "incorrect");
+        if (input.value.trim()) {
+          input.classList.add(isCorrect ? "correct" : "incorrect");
+        }
+      }
+
+      if (type === "select") {
+        const select = card.querySelector(".quiz-select");
+        isCorrect = getAlternativeAnswers(card).includes(normalize(select.value));
+      }
+
+      if (type === "checkbox") {
+        const selected = Array.from(card.querySelectorAll("input[type='checkbox']:checked"))
+          .map((input) => input.value)
+          .sort()
+          .join(",");
+        isCorrect = normalize(selected) === getCardAnswer(card);
+      }
+
+      setFeedback(
+        feedback,
+        isCorrect ? "correct" : "incorrect",
+        isCorrect ? `정답입니다. ${card.dataset.message}` : `다시 확인해보세요. ${card.dataset.message}`
+      );
+
+      return isCorrect;
+    }
+
+    document.getElementById("grade-btn").addEventListener("click", () => {
+      let score = 0;
+      quizCards.forEach((card) => {
+        if (evaluateCard(card)) {
+          score += 1;
+        }
+      });
+      scoreText.textContent = `점수: ${score} / ${quizCards.length}`;
+    });
+
+    document.getElementById("reset-btn").addEventListener("click", () => {
+      document.querySelectorAll("#worksheet input").forEach((input) => {
+        if (input.type === "radio" || input.type === "checkbox") {
+          input.checked = false;
+        } else {
+          input.value = "";
+          input.classList.remove("correct", "incorrect");
+        }
+      });
+
+      document.querySelectorAll("#worksheet select").forEach((select) => {
+        select.selectedIndex = 0;
+      });
+
+      document.querySelectorAll("#worksheet textarea").forEach((textarea) => {
+        textarea.value = "";
+      });
+
+      document.querySelectorAll("#worksheet .feedback").forEach((feedback) => {
+        feedback.textContent = "";
+        feedback.classList.remove("correct", "incorrect");
+      });
+
+      document.getElementById("long-feedback").textContent = "핵심어 예시: 선택 상태, Appearance, 면/선, 해상도, 확정 시점";
+      document.getElementById("long-feedback").classList.remove("correct", "incorrect");
+      scoreText.textContent = `점수: - / ${quizCards.length}`;
+    });
+
+    document.getElementById("long-answer").addEventListener("input", (event) => {
+      const value = event.target.value.trim();
+      const feedback = document.getElementById("long-feedback");
+      const hasSequence = /먼저|다음|그리고|마지막/.test(value);
+      const hasCoreTerm = /Appearance|appearance|선택|면|선|해상도|효과|Expand|expand|raster/i.test(value);
+
+      if (value.length < 18) {
+        feedback.textContent = "조금 더 구체적으로 써보세요. 최소 3문장 정도가 좋습니다.";
+        feedback.classList.remove("correct");
+        feedback.classList.add("incorrect");
+        return;
+      }
+
+      if (hasSequence && hasCoreTerm) {
+        feedback.textContent = "좋습니다. 핵심 확인 순서를 잘 포함했습니다.";
+        feedback.classList.remove("incorrect");
+        feedback.classList.add("correct");
+      } else {
+        feedback.textContent = "문장은 충분하지만, 순서 표현과 핵심어를 조금 더 넣어보세요.";
+        feedback.classList.remove("correct");
+        feedback.classList.add("incorrect");
+      }
+    });
+
+    toggleAnswerBtn.addEventListener("click", () => {
+      answerWrap.classList.toggle("open");
+      const expanded = answerWrap.classList.contains("open");
+      toggleAnswerBtn.setAttribute("aria-expanded", String(expanded));
+      toggleAnswerBtn.textContent = expanded ? "정답 접기" : "정답 펼치기";
+    });
+  </script>
+</body>
+</html>
