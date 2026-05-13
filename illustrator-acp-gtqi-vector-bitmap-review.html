@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>일러스트 자격증 · 벡터 · 비트맵 복습 자료</title>
+  <style>
+    :root {
+      --bg: #f6f0e8;
+      --paper: rgba(255, 251, 246, 0.95);
+      --card: rgba(255, 255, 255, 0.88);
+      --card-strong: #ffffff;
+      --ink: #1d2430;
+      --muted: #627080;
+      --line: rgba(29, 36, 48, 0.12);
+      --orange: #ef6a32;
+      --gold: #f1ba56;
+      --blue: #3d74ff;
+      --teal: #109082;
+      --coral: #f15b6c;
+      --soft-orange: rgba(239, 106, 50, 0.12);
+      --soft-gold: rgba(241, 186, 86, 0.16);
+      --soft-blue: rgba(61, 116, 255, 0.12);
+      --soft-teal: rgba(16, 144, 130, 0.12);
+      --soft-coral: rgba(241, 91, 108, 0.12);
+      --shadow: 0 24px 60px rgba(27, 34, 44, 0.12);
+      --radius-lg: 30px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at 14% 14%, rgba(241, 186, 86, 0.24), transparent 18%),
+        radial-gradient(circle at 84% 10%, rgba(61, 116, 255, 0.14), transparent 18%),
+        radial-gradient(circle at 82% 28%, rgba(16, 144, 130, 0.12), transparent 20%),
+        linear-gradient(180deg, #efe3d5 0%, var(--bg) 46%, #fcfaf7 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.28) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    p, li, span, a, button, label, input, select, textarea, th, td {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    code, kbd {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.94em;
+      background: rgba(29, 36, 48, 0.08);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+
+    .hero,
+    .section {
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(320px, 0.96fr);
+      gap: 28px;
+      padding: 34px;
+    }
+
+    .eyebrow,
+    .badge,
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: var(--orange);
+      border: 1px solid rgba(239, 106, 50, 0.22);
+      background: var(--soft-orange);
+    }
+
+    .badge.orange, .pill.orange { color: var(--orange); background: var(--soft-orange); }
+    .badge.gold, .pill.gold { color: #946100; background: var(--soft-gold); }
+    .badge.blue, .pill.blue { color: var(--blue); background: var(--soft-blue); }
+    .badge.teal, .pill.teal { color: var(--teal); background: var(--soft-teal); }
+    .badge.coral, .pill.coral { color: var(--coral); background: var(--soft-coral); }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0;
+      line-height: 1.16;
+      letter-spacing: -0.03em;
+    }
+
+    h1 { font-size: clamp(34px, 5vw, 62px); }
+    h2 { font-size: clamp(26px, 3vw, 38px); }
+    h3 { font-size: 22px; }
+    h4 { font-size: 17px; }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-pills,
+    .nav,
+    .hero-actions,
+    .toolbar,
+    .meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-pills { margin-top: 22px; }
+    .nav { margin-top: 24px; }
+    .hero-actions { margin-top: 24px; }
+    .meta-strip { margin-top: 16px; }
+
+    .nav a,
+    .btn,
+    .ghost-btn,
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      font-weight: 800;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .nav a,
+    .pill {
+      padding: 8px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .btn,
+    .ghost-btn {
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      color: #fff;
+      background: var(--ink);
+      box-shadow: 0 14px 28px rgba(29, 36, 48, 0.18);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .ghost-btn {
+      padding: 10px 14px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .nav a:hover,
+    .btn:hover,
+    .ghost-btn:hover,
+    .pill:hover,
+    .card:hover,
+    .quiz-card:hover,
+    .step-card:hover,
+    .summary-card:hover,
+    .timeline-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      min-height: 390px;
+      padding: 20px;
+      border-radius: 28px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(140deg, #ef6a32 0%, #f1ba56 34%, #3d74ff 68%, #109082 100%);
+      background-size: 24px 24px, 24px 24px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    .visual-board {
+      position: relative;
+      min-height: 350px;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 2px solid rgba(255, 255, 255, 0.76);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 40px rgba(17, 21, 28, 0.22);
+    }
+
+    .shape {
+      position: absolute;
+      box-shadow: 0 16px 28px rgba(16, 20, 28, 0.18);
+      animation: drift 6.4s ease-in-out infinite;
+    }
+
+    .shape.vector {
+      top: 34px;
+      left: 32px;
+      width: 124px;
+      height: 124px;
+      border-radius: 26px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.34));
+      clip-path: polygon(50% 0%, 100% 42%, 80% 100%, 18% 100%, 0% 38%);
+    }
+
+    .shape.pixel {
+      right: 34px;
+      top: 38px;
+      width: 110px;
+      height: 110px;
+      border-radius: 24px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.24) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.24) 50%, rgba(255,255,255,0.24) 75%, transparent 75%),
+        linear-gradient(rgba(255,255,255,0.24) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.24) 50%, rgba(255,255,255,0.24) 75%, transparent 75%),
+        rgba(29, 36, 48, 0.2);
+      background-size: 22px 22px;
+      border: 2px dashed rgba(255, 255, 255, 0.78);
+      animation-delay: 1.2s;
+    }
+
+    .shape.band {
+      left: 42px;
+      bottom: 52px;
+      width: 146px;
+      height: 42px;
+      border-radius: 999px;
+      background: rgba(29, 36, 48, 0.14);
+      animation-delay: 2.1s;
+    }
+
+    .board-card {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      width: min(82%, 298px);
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 18px 32px rgba(17, 21, 28, 0.18);
+    }
+
+    .board-head,
+    .course-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .board-head strong {
+      display: block;
+      font-size: 17px;
+    }
+
+    .board-head span,
+    .mini-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .meter {
+      width: 100%;
+      height: 10px;
+      margin-top: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(29, 36, 48, 0.08);
+    }
+
+    .meter > span {
+      display: block;
+      width: 78%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--orange), var(--blue), var(--teal));
+    }
+
+    .course-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .course-row {
+      padding: 12px 13px;
+      border-radius: 16px;
+      background: #f7f8fb;
+      border: 1px solid rgba(29, 36, 48, 0.08);
+    }
+
+    .course-row strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .course-row span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 28px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      max-width: 720px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grid-2,
+    .grid-3,
+    .timeline-grid,
+    .quiz-grid,
+    .summary-grid,
+    .step-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2,
+    .quiz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3,
+    .summary-grid,
+    .timeline-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .step-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card,
+    .timeline-card,
+    .summary-card,
+    .step-card,
+    .quiz-card {
+      height: 100%;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(29, 36, 48, 0.08);
+      background: var(--card);
+      box-shadow: 0 14px 24px rgba(25, 30, 39, 0.06);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover,
+    .timeline-card:hover,
+    .summary-card:hover,
+    .step-card:hover,
+    .quiz-card:hover {
+      border-color: rgba(29, 36, 48, 0.16);
+      box-shadow: 0 20px 34px rgba(25, 30, 39, 0.1);
+    }
+
+    .card p,
+    .timeline-card p,
+    .summary-card p,
+    .step-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .number {
+      display: inline-grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 12px;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 900;
+      background: var(--ink);
+    }
+
+    .key-list,
+    .check-list,
+    .answer-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+    }
+
+    .key-list li,
+    .check-list li,
+    .answer-list li {
+      margin-bottom: 8px;
+    }
+
+    .callout {
+      margin-top: 16px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      border-left: 5px solid var(--gold);
+      background: rgba(241, 186, 86, 0.14);
+    }
+
+    .split-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.92fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .focus-panel {
+      padding: 20px;
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(61, 116, 255, 0.08), rgba(16, 144, 130, 0.08));
+      border: 1px solid rgba(61, 116, 255, 0.12);
+    }
+
+    .mini-board {
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 247, 253, 0.96));
+      border: 1px solid rgba(29, 36, 48, 0.08);
+    }
+
+    .swatch-row {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .swatch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(29, 36, 48, 0.08);
+      background: #f8f9fc;
+    }
+
+    .swatch strong { font-size: 14px; }
+    .swatch span { color: var(--muted); font-size: 12px; }
+
+    .rgb-chip,
+    .cmyk-chip {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+    }
+
+    .rgb-chip {
+      background: linear-gradient(135deg, #ff4c6d 0%, #7c55ff 45%, #35b7ff 100%);
+    }
+
+    .cmyk-chip {
+      background: linear-gradient(135deg, #53c8c0 0%, #f0d54a 40%, #ff4d61 70%, #334a94 100%);
+      filter: saturate(0.72) brightness(0.92);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--card-strong);
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(29, 36, 48, 0.08);
+    }
+
+    th {
+      font-size: 14px;
+      background: #f6f8fb;
+    }
+
+    td { font-size: 15px; }
+
+    .quiz-card {
+      position: relative;
+      padding-top: 48px;
+    }
+
+    .quiz-card::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 20px;
+      top: 18px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--blue);
+      background: var(--soft-blue);
+    }
+
+    .quiz-card p {
+      margin: 0 0 14px;
+      font-weight: 700;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid rgba(29, 36, 48, 0.08);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .option input {
+      margin-top: 3px;
+      accent-color: var(--blue);
+    }
+
+    .quiz-input,
+    .quiz-select,
+    .quiz-textarea {
+      width: 100%;
+      padding: 13px 14px;
+      color: var(--ink);
+      border: 1px solid rgba(29, 36, 48, 0.14);
+      border-radius: 16px;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .quiz-input:focus,
+    .quiz-select:focus,
+    .quiz-textarea:focus {
+      border-color: rgba(61, 116, 255, 0.42);
+      box-shadow: 0 0 0 4px rgba(61, 116, 255, 0.1);
+    }
+
+    .quiz-input.correct {
+      border-color: rgba(16, 144, 130, 0.68);
+      background: rgba(16, 144, 130, 0.08);
+    }
+
+    .quiz-input.incorrect {
+      border-color: rgba(241, 91, 108, 0.75);
+      background: rgba(241, 91, 108, 0.08);
+    }
+
+    .quiz-textarea {
+      min-height: 116px;
+      resize: vertical;
+    }
+
+    .feedback,
+    .long-feedback {
+      margin-top: 12px;
+      min-height: 24px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .feedback.correct,
+    .long-feedback.correct { color: var(--teal); }
+    .feedback.incorrect,
+    .long-feedback.incorrect { color: #d94c61; }
+
+    .score-board {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(239, 106, 50, 0.1), rgba(61, 116, 255, 0.08));
+      border: 1px solid rgba(29, 36, 48, 0.08);
+    }
+
+    .score-board strong {
+      display: block;
+      font-size: 18px;
+    }
+
+    .score-board span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .answer-wrap {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .answer-wrap.open { display: block; }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 18px 22px;
+      border-radius: 20px;
+      color: #fff;
+      background: linear-gradient(135deg, #1d2430 0%, #314762 55%, #0f8d80 100%);
+      box-shadow: 0 20px 36px rgba(25, 30, 39, 0.18);
+    }
+
+    .footer strong { color: #ffd28f; }
+
+    .print-only { display: none; }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (max-width: 1040px) {
+      .hero,
+      .grid-3,
+      .timeline-grid,
+      .summary-grid,
+      .step-grid,
+      .split-card,
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual { min-height: 340px; }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 16px;
+      }
+
+      .hero,
+      .section { padding: 22px; }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .board-card {
+        width: calc(100% - 36px);
+      }
+
+      .score-board,
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .grid-2,
+      .nav {
+        grid-template-columns: 1fr;
+      }
+
+      .btn,
+      .ghost-btn,
+      .nav a { width: 100%; }
+    }
+
+    @media print {
+      body { background: #fff; }
+
+      body::before,
+      .hero-actions,
+      .nav,
+      .toolbar,
+      .ghost-btn,
+      .btn {
+        display: none !important;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .footer {
+        box-shadow: none;
+        border: 1px solid #d4d8de;
+        break-inside: avoid;
+      }
+
+      .answer-wrap { display: block !important; }
+      .print-only { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Illustrator 수강생 복습 자료</span>
+        <h1>자격증부터 벡터·비트맵까지<br>한 번에 정리하는 복습 시트</h1>
+        <p class="lead">
+          ACP, GTQi, 컴퓨터그래픽스운용기능사 흐름을 먼저 정리하고,
+          <strong>벡터와 비트맵 차이</strong>, <strong>RGB와 CMYK 구분</strong>,
+          <strong>새 파일·열기·저장·내보내기</strong>까지 수업 핵심만 다시 묶었습니다.
+          아래 복습 문제는 읽기만 하는 자료가 아니라 직접 선택하고 입력하면서 확인할 수 있게 구성했습니다.
+        </p>
+
+        <div class="hero-pills">
+          <span class="pill orange">시험 정보 요약</span>
+          <span class="pill blue">벡터 vs 비트맵</span>
+          <span class="pill teal">RGB vs CMYK</span>
+          <span class="pill gold">실전 복습 문제 포함</span>
+        </div>
+
+        <nav class="nav" aria-label="복습 목차">
+          <a href="#license">자격증 비교</a>
+          <a href="#vector-bitmap">벡터와 비트맵</a>
+          <a href="#color-mode">RGB와 CMYK</a>
+          <a href="#shortcut">기본 조작</a>
+          <a href="#worksheet">복습 문제</a>
+          <a href="#answer-key">정답 확인</a>
+        </nav>
+
+        <div class="hero-actions">
+          <a class="btn" href="#worksheet">문제 바로 풀기</a>
+          <button class="btn secondary" type="button" onclick="window.print()">PDF로 출력</button>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="visual-board">
+          <div class="shape vector"></div>
+          <div class="shape pixel"></div>
+          <div class="shape band"></div>
+          <div class="board-card">
+            <div class="board-head">
+              <div>
+                <span>Lesson Focus</span>
+                <strong>Illustrator Core Review</strong>
+              </div>
+              <span class="badge blue">기초 정리</span>
+            </div>
+            <div class="meter"><span></span></div>
+            <div class="course-list">
+              <div class="course-row">
+                <div>
+                  <strong>자격증 파트</strong>
+                  <span>ACP · GTQi · 컴그</span>
+                </div>
+                <span>요약</span>
+              </div>
+              <div class="course-row">
+                <div>
+                  <strong>이미지 표현 방식</strong>
+                  <span>벡터 · 비트맵</span>
+                </div>
+                <span>핵심</span>
+              </div>
+              <div class="course-row">
+                <div>
+                  <strong>기본 명령</strong>
+                  <span>새 파일 · 열기 · 저장 · Export</span>
+                </div>
+                <span>실습</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="license">
+      <div class="section-head">
+        <div>
+          <h2>1. 자격증 비교</h2>
+          <p>시험 이름만 외우지 말고, 어떤 방식으로 평가하는지까지 함께 기억해야 실제 준비 방향이 잡힙니다.</p>
+        </div>
+        <span class="badge orange">시험 구조 먼저</span>
+      </div>
+
+      <div class="timeline-grid">
+        <article class="timeline-card">
+          <span class="badge blue">ACP</span>
+          <h3 style="margin-top:12px;">국제공인 자격증</h3>
+          <ul class="key-list">
+            <li>구분: 국제공인</li>
+            <li>구성: 실기 + 필기 33문항</li>
+            <li>시간: 50분</li>
+            <li>난이도 메모: 하</li>
+            <li>시험 일정 메모: 5/6-5/7, 13:00-14:00</li>
+          </ul>
+        </article>
+
+        <article class="timeline-card">
+          <span class="badge teal">GTQi</span>
+          <h3 style="margin-top:12px;">1급 · 2급 · 3급</h3>
+          <ul class="key-list">
+            <li>등급: 1급, 2급, 3급</li>
+            <li>구성: 실기 3문제</li>
+            <li>시간: 1시간 30분</li>
+            <li>난이도 메모: 중상</li>
+          </ul>
+        </article>
+
+        <article class="timeline-card">
+          <span class="badge gold">컴그</span>
+          <h3 style="margin-top:12px;">컴퓨터그래픽스운용기능사</h3>
+          <ul class="key-list">
+            <li>구성: 필기 + 실기</li>
+            <li>실기: 1문제</li>
+            <li>시간: 3시간 30분</li>
+            <li>긴 시간 동안 완성도를 유지하는 연습이 중요</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout">
+        <strong>빠른 기억법:</strong> ACP는 짧고 가볍게 구조 이해, GTQi는 정해진 문제를 시간 안에 처리, 컴그는 긴 시간 동안 한 문제를 끝까지 완성하는 흐름으로 구분하면 정리가 빠릅니다.
+      </div>
+    </section>
+
+    <section class="section" id="vector-bitmap">
+      <div class="section-head">
+        <div>
+          <h2>2. 벡터와 비트맵</h2>
+          <p>이미지 표현 방식을 구분하는 것은 프로그램 선택의 출발점입니다. 일러스트레이터와 포토샵이 왜 다른지 여기서 갈립니다.</p>
+        </div>
+        <span class="badge blue">이미지 표현 방식</span>
+      </div>
+
+      <div class="split-card">
+        <div class="focus-panel">
+          <h3>핵심 기준</h3>
+          <div class="meta-strip">
+            <span class="pill blue">벡터 = 수학적 공식</span>
+            <span class="pill coral">비트맵 = 픽셀</span>
+          </div>
+          <div class="summary-grid" style="margin-top:16px;">
+            <article class="summary-card">
+              <span class="badge blue">벡터</span>
+              <p>수학적 공식으로 모양을 계산해서 그립니다.</p>
+              <ul class="answer-list">
+                <li>장점: 확대해도 화질이 깨지지 않음</li>
+                <li>단점: 사진처럼 복잡한 색 표현에는 한계가 있음</li>
+                <li>대표 프로그램: 일러스트레이터</li>
+              </ul>
+            </article>
+
+            <article class="summary-card">
+              <span class="badge coral">비트맵</span>
+              <p>작은 픽셀이 모여 이미지를 만듭니다.</p>
+              <ul class="answer-list">
+                <li>장점: 다채로운 색 표현 가능</li>
+                <li>단점: 확대하면 화질이 깨질 수 있음</li>
+                <li>대표 프로그램: 포토샵</li>
+              </ul>
+            </article>
+
+            <article class="summary-card">
+              <span class="badge gold">수업 포인트</span>
+              <p>로고, 아이콘, 도형 중심 작업은 벡터가 유리하고, 사진 보정이나 사실적인 이미지 작업은 비트맵이 유리합니다.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="mini-board">
+          <h3>바로 연결해서 기억하기</h3>
+          <div class="swatch-row">
+            <div class="swatch">
+              <div>
+                <strong>Illustrator</strong>
+                <span>도형, 로고, 아이콘, 편집이 쉬운 선 작업</span>
+              </div>
+              <div class="rgb-chip" aria-hidden="true"></div>
+            </div>
+            <div class="swatch">
+              <div>
+                <strong>Photoshop</strong>
+                <span>사진, 질감, 섬세한 색 보정, 합성 작업</span>
+              </div>
+              <div class="cmyk-chip" aria-hidden="true"></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="color-mode">
+      <div class="section-head">
+        <div>
+          <h2>3. RGB와 CMYK</h2>
+          <p>어디에 쓰는 결과물인지 먼저 판단하면 색 모드를 고르기 쉬워집니다. 디지털용인지, 인쇄용인지부터 묻는 습관이 중요합니다.</p>
+        </div>
+        <span class="badge teal">색 모드 구분</span>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <span class="badge blue">RGB</span>
+          <h3 style="margin-top:12px;">디지털 화면용</h3>
+          <p>빛의 색을 사용하는 방식이라 화면에서 다채로운 색 표현이 가능합니다.</p>
+          <ul class="key-list">
+            <li>웹배너</li>
+            <li>카드뉴스</li>
+            <li>상세페이지</li>
+            <li>그 외 화면에서 보는 작업물</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge gold">CMYK</span>
+          <h3 style="margin-top:12px;">인쇄용</h3>
+          <p>인쇄 과정에서 화면보다 색이 칙칙해질 수 있으므로, 인쇄물을 만들 때는 미리 이 모드로 작업하는 것이 안전합니다.</p>
+          <ul class="key-list">
+            <li>포스터</li>
+            <li>컵홀더</li>
+            <li>패키지</li>
+            <li>명함 등 인쇄해야 하는 모든 것</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>RGB</th>
+              <th>CMYK</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>기준</strong></td>
+              <td>디지털 화면</td>
+              <td>인쇄 결과물</td>
+            </tr>
+            <tr>
+              <td><strong>색 느낌</strong></td>
+              <td>더 선명하고 다채롭게 보이기 쉬움</td>
+              <td>상대적으로 칙칙하게 보일 수 있음</td>
+            </tr>
+            <tr>
+              <td><strong>대표 작업</strong></td>
+              <td>웹배너, 카드뉴스, 상세페이지</td>
+              <td>포스터, 패키지, 명함, 컵홀더</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="shortcut">
+      <div class="section-head">
+        <div>
+          <h2>4. 기본 조작과 인터페이스</h2>
+          <p>짧은 단축키와 저장 방식은 실습 속도를 크게 바꿉니다. 여기서는 가장 자주 먼저 쓰는 명령만 묶어서 정리합니다.</p>
+        </div>
+        <span class="badge coral">기본기 점검</span>
+      </div>
+
+      <div class="step-grid">
+        <article class="step-card">
+          <span class="number">1</span>
+          <h3>새 파일</h3>
+          <p><kbd>Ctrl + N</kbd>으로 새 파일을 만듭니다. 작업 시작 전 문서 크기와 색 모드를 확인하는 습관까지 함께 가져가야 합니다.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="number">2</span>
+          <h3>열기</h3>
+          <p><kbd>Ctrl + O</kbd>로 기존 파일을 엽니다. 기존 작업 수정, 자료 불러오기, 이어서 작업할 때 가장 기본이 되는 명령입니다.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="number">3</span>
+          <h3>저장</h3>
+          <p><code>Save</code>, <code>Save As</code>, <code>Save a Copy</code> 차이를 구분해야 합니다. 원본을 덮어쓸지, 다른 이름으로 저장할지 판단하는 단계입니다.</p>
+        </article>
+
+        <article class="step-card">
+          <span class="number">4</span>
+          <h3>이미지 저장</h3>
+          <p>이미지를 따로 내보낼 때는 <code>Export</code>를 사용합니다. 작업 파일 저장과 결과물 내보내기를 혼동하지 않아야 합니다.</p>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top:16px;">
+        <article class="card">
+          <span class="badge teal">인터페이스</span>
+          <h3 style="margin-top:12px;">일러스트 인터페이스를 볼 때</h3>
+          <ul class="check-list">
+            <li>도구 패널이 어디 있는지</li>
+            <li>상단 옵션바가 무엇을 바꾸는지</li>
+            <li>레이어, 속성, 색상 패널 위치</li>
+            <li>현재 문서의 색 모드와 아트보드 상태</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge orange">실수 방지</span>
+          <h3 style="margin-top:12px;">헷갈리기 쉬운 구분</h3>
+          <ul class="check-list">
+            <li><code>Save</code>: 현재 파일 그대로 저장</li>
+            <li><code>Save As</code>: 다른 이름 또는 다른 위치로 저장</li>
+            <li><code>Save a Copy</code>: 복사본 저장</li>
+            <li><code>Export</code>: 이미지 결과물로 내보내기</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <div>
+          <h2>5. 복습 문제</h2>
+          <p>직접 고르고 입력한 뒤 채점하세요. 객관식, 선택형, 입력형, 서술형을 섞어서 실제 복습 시트처럼 구성했습니다.</p>
+        </div>
+        <span class="badge blue">즉시 채점 가능</span>
+      </div>
+
+      <div class="quiz-grid">
+        <article class="quiz-card" data-label="문제 1" data-type="radio" data-answer="b" data-message="벡터는 수학적 공식으로 계산되므로 확대해도 깨지지 않는다는 점이 핵심입니다.">
+          <p>벡터에 대한 설명으로 맞는 것은?</p>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q1" value="a">픽셀로 이루어져 있어 확대할수록 자연스럽다.</label>
+            <label class="option"><input type="radio" name="q1" value="b">수학적 공식으로 표현되어 확대해도 화질이 잘 깨지지 않는다.</label>
+            <label class="option"><input type="radio" name="q1" value="c">사진 보정에 가장 특화된 방식이다.</label>
+          </div>
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 2" data-type="text" data-answer="포토샵,photoshop" data-message="비트맵의 대표 프로그램은 포토샵입니다.">
+          <p>비트맵의 대표 프로그램 이름을 쓰세요.</p>
+          <input class="quiz-input" type="text" placeholder="정답 입력">
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 3" data-type="select" data-answer="rgb" data-message="웹배너와 카드뉴스처럼 화면으로 보는 결과물은 RGB가 기본입니다.">
+          <p>웹배너 작업에 더 알맞은 색 모드는?</p>
+          <select class="quiz-select">
+            <option value="">선택하세요</option>
+            <option value="rgb">RGB</option>
+            <option value="cmyk">CMYK</option>
+          </select>
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 4" data-type="checkbox" data-answer="a,c,d" data-message="인쇄물은 포스터, 패키지, 명함처럼 실제 출력되는 결과물입니다.">
+          <p>CMYK로 작업하는 것이 적절한 항목을 모두 고르세요.</p>
+          <div class="option-list">
+            <label class="option"><input type="checkbox" value="a">포스터</label>
+            <label class="option"><input type="checkbox" value="b">웹배너</label>
+            <label class="option"><input type="checkbox" value="c">명함</label>
+            <label class="option"><input type="checkbox" value="d">패키지</label>
+          </div>
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 5" data-type="text" data-answer="ctrl+n,ctrln,ctrl n" data-message="새 파일 만들기 단축키는 Ctrl + N입니다.">
+          <p>새 파일 만들기 단축키를 쓰세요.</p>
+          <input class="quiz-input" type="text" placeholder="예: Ctrl + ?">
+          <div class="feedback"></div>
+        </article>
+
+        <article class="quiz-card" data-label="문제 6" data-type="radio" data-answer="c" data-message="이미지 결과물을 따로 저장할 때는 Export를 사용합니다.">
+          <p>이미지 저장과 가장 직접적으로 연결되는 메뉴는?</p>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q6" value="a">Save</label>
+            <label class="option"><input type="radio" name="q6" value="b">Save As</label>
+            <label class="option"><input type="radio" name="q6" value="c">Export</label>
+          </div>
+          <div class="feedback"></div>
+        </article>
+      </div>
+
+      <div class="score-board">
+        <div>
+          <strong id="score-text">점수: - / 6</strong>
+          <span>객관식, 선택형, 입력형 6문항을 자동 채점합니다.</span>
+        </div>
+        <div class="toolbar" style="margin-top:0;">
+          <button class="btn" type="button" id="grade-btn">채점하기</button>
+          <button class="btn secondary" type="button" id="reset-btn">초기화</button>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px;">
+        <article class="card">
+          <span class="badge teal">서술형</span>
+          <h3 style="margin-top:12px;">개념 설명해 보기</h3>
+          <p>아래 문장은 자동 점수에는 포함되지 않지만, 수업 내용을 말로 정리하는 데 중요합니다.</p>
+          <label for="long-answer" style="display:block; margin-top:14px; font-weight:700;">벡터와 비트맵의 차이, 그리고 RGB와 CMYK를 어떤 상황에서 나누어 써야 하는지 3문장 이상으로 적어보세요.</label>
+          <textarea class="quiz-textarea" id="long-answer" placeholder="예: 벡터는 수학적 공식이라 확대해도 깨지지 않는다. 비트맵은 픽셀 기반이라 사진 표현에 유리하다. 웹배너는 RGB, 명함과 포스터는 CMYK로 작업한다."></textarea>
+          <div class="long-feedback" id="long-feedback">핵심어 예시: 수학적 공식, 픽셀, 디지털, 인쇄, RGB, CMYK</div>
+        </article>
+
+        <article class="card">
+          <span class="badge gold">실습 체크</span>
+          <h3 style="margin-top:12px;">직접 체크하면서 보기</h3>
+          <div class="option-list" style="margin-top:14px;">
+            <label class="option"><input type="checkbox" class="practice-check"> 새 파일을 열고 색 모드를 확인했다.</label>
+            <label class="option"><input type="checkbox" class="practice-check"> RGB와 CMYK가 언제 쓰이는지 말로 구분해 봤다.</label>
+            <label class="option"><input type="checkbox" class="practice-check"> Save, Save As, Save a Copy 차이를 다시 확인했다.</label>
+            <label class="option"><input type="checkbox" class="practice-check"> Export가 결과물 내보내기라는 점을 체크했다.</label>
+          </div>
+          <p class="footer-note">실습 체크는 채점 점수와 별개입니다. 실제 수업 복습 때 모두 체크될 때까지 다시 확인하세요.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="answer-key">
+      <div class="section-head">
+        <div>
+          <h2>6. 정답과 마무리</h2>
+          <p>먼저 스스로 풀고 난 뒤에 열어보세요. 정답만 보는 것보다 왜 그 답인지 설명할 수 있어야 복습이 됩니다.</p>
+        </div>
+        <button class="ghost-btn" type="button" id="toggle-answer-btn" aria-expanded="false" aria-controls="answer-wrap">정답 펼치기</button>
+      </div>
+
+      <div class="answer-wrap" id="answer-wrap">
+        <div class="grid-2">
+          <article class="card">
+            <span class="badge blue">복습 문제 정답</span>
+            <ol class="answer-list">
+              <li>문제 1: <strong>b</strong></li>
+              <li>문제 2: <strong>포토샵</strong></li>
+              <li>문제 3: <strong>RGB</strong></li>
+              <li>문제 4: <strong>a, c, d</strong></li>
+              <li>문제 5: <strong>Ctrl + N</strong></li>
+              <li>문제 6: <strong>Export</strong></li>
+            </ol>
+          </article>
+
+          <article class="card">
+            <span class="badge orange">오늘의 핵심</span>
+            <ul class="answer-list">
+              <li>벡터는 수학적 공식, 비트맵은 픽셀이다.</li>
+              <li>RGB는 디지털 화면용, CMYK는 인쇄용이다.</li>
+              <li>작업 파일 저장과 결과물 내보내기는 다르다.</li>
+              <li>기본 단축키와 저장 구조를 먼저 익혀야 실습 속도가 붙는다.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <p class="footer-note print-only">인쇄 시에는 정답 영역이 함께 표시됩니다.</p>
+    </section>
+
+    <footer class="footer">
+      <strong>정리 문장:</strong>
+      일러스트 수업 기초에서는 자격증 종류를 구분하는 것보다,
+      어떤 작업에 어떤 표현 방식과 색 모드를 써야 하는지 정확히 아는 것이 더 중요합니다.
+      벡터와 비트맵, RGB와 CMYK, Save와 Export 차이만 정확히 잡아도 실습 실수가 크게 줄어듭니다.
+    </footer>
+  </main>
+
+  <script>
+    const quizCards = Array.from(document.querySelectorAll(".quiz-card"));
+    const scoreText = document.getElementById("score-text");
+    const toggleAnswerBtn = document.getElementById("toggle-answer-btn");
+    const answerWrap = document.getElementById("answer-wrap");
+    const longAnswer = document.getElementById("long-answer");
+    const longFeedback = document.getElementById("long-feedback");
+
+    function normalize(value) {
+      return (value || "")
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[+]/g, "+")
+        .trim();
+    }
+
+    function setFeedback(node, state, message) {
+      node.textContent = message;
+      node.classList.remove("correct", "incorrect");
+      node.classList.add(state);
+    }
+
+    function getAnswers(card) {
+      const answers = [];
+      [card.dataset.answer, card.dataset.alt].forEach((source) => {
+        if (!source) return;
+        source.split(",").forEach((answer) => {
+          answers.push(answer);
+        });
+      });
+      return answers.map(normalize);
+    }
+
+    function evaluateCard(card) {
+      const type = card.dataset.type;
+      const feedback = card.querySelector(".feedback");
+      let isCorrect = false;
+
+      if (type === "radio") {
+        const checked = card.querySelector("input[type='radio']:checked");
+        isCorrect = checked ? normalize(checked.value) === normalize(card.dataset.answer) : false;
+      }
+
+      if (type === "text") {
+        const input = card.querySelector(".quiz-input");
+        const value = normalize(input.value);
+        isCorrect = getAnswers(card).includes(value);
+        input.classList.remove("correct", "incorrect");
+        if (input.value.trim()) {
+          input.classList.add(isCorrect ? "correct" : "incorrect");
+        }
+      }
+
+      if (type === "select") {
+        const select = card.querySelector(".quiz-select");
+        isCorrect = normalize(select.value) === normalize(card.dataset.answer);
+      }
+
+      if (type === "checkbox") {
+        const selected = Array.from(card.querySelectorAll("input[type='checkbox']:checked"))
+          .map((input) => input.value)
+          .sort()
+          .join(",");
+        isCorrect = normalize(selected) === normalize(card.dataset.answer);
+      }
+
+      setFeedback(
+        feedback,
+        isCorrect ? "correct" : "incorrect",
+        isCorrect ? `정답입니다. ${card.dataset.message}` : `다시 확인해 보세요. ${card.dataset.message}`
+      );
+
+      return isCorrect;
+    }
+
+    document.getElementById("grade-btn").addEventListener("click", () => {
+      let score = 0;
+      quizCards.forEach((card) => {
+        if (evaluateCard(card)) {
+          score += 1;
+        }
+      });
+      scoreText.textContent = `점수: ${score} / ${quizCards.length}`;
+    });
+
+    document.getElementById("reset-btn").addEventListener("click", () => {
+      document.querySelectorAll("#worksheet input").forEach((input) => {
+        if (input.type === "radio" || input.type === "checkbox") {
+          input.checked = false;
+        } else {
+          input.value = "";
+          input.classList.remove("correct", "incorrect");
+        }
+      });
+
+      document.querySelectorAll("#worksheet select").forEach((select) => {
+        select.selectedIndex = 0;
+      });
+
+      document.querySelectorAll("#worksheet textarea").forEach((textarea) => {
+        textarea.value = "";
+      });
+
+      document.querySelectorAll("#worksheet .feedback").forEach((feedback) => {
+        feedback.textContent = "";
+        feedback.classList.remove("correct", "incorrect");
+      });
+
+      longFeedback.textContent = "핵심어 예시: 수학적 공식, 픽셀, 디지털, 인쇄, RGB, CMYK";
+      longFeedback.classList.remove("correct", "incorrect");
+      scoreText.textContent = `점수: - / ${quizCards.length}`;
+    });
+
+    longAnswer.addEventListener("input", (event) => {
+      const value = event.target.value.trim();
+      const hasVector = /벡터|수학적\s*공식/i.test(value);
+      const hasBitmap = /비트맵|픽셀/i.test(value);
+      const hasColorMode = /rgb|cmyk|디지털|인쇄/i.test(value);
+
+      if (value.length < 28) {
+        longFeedback.textContent = "조금 더 구체적으로 써보세요. 최소 3문장 정도로 정리하면 좋습니다.";
+        longFeedback.classList.remove("correct");
+        longFeedback.classList.add("incorrect");
+        return;
+      }
+
+      if (hasVector && hasBitmap && hasColorMode) {
+        longFeedback.textContent = "좋습니다. 벡터·비트맵과 RGB·CMYK 핵심이 모두 들어갔습니다.";
+        longFeedback.classList.remove("incorrect");
+        longFeedback.classList.add("correct");
+      } else {
+        longFeedback.textContent = "문장은 충분하지만 핵심어가 조금 부족합니다. 벡터, 비트맵, RGB, CMYK를 직접 넣어 보세요.";
+        longFeedback.classList.remove("correct");
+        longFeedback.classList.add("incorrect");
+      }
+    });
+
+    toggleAnswerBtn.addEventListener("click", () => {
+      answerWrap.classList.toggle("open");
+      const expanded = answerWrap.classList.contains("open");
+      toggleAnswerBtn.setAttribute("aria-expanded", String(expanded));
+      toggleAnswerBtn.textContent = expanded ? "정답 접기" : "정답 펼치기";
+    });
+  </script>
+</body>
+</html>
