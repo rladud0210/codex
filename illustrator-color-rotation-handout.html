@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 컬러 · 회전 변형 수강생 자료</title>
+  <style>
+    :root {
+      --bg: #f3ecdf;
+      --paper: rgba(255, 251, 244, 0.95);
+      --panel: #fffdfa;
+      --ink: #1f2430;
+      --muted: #636b78;
+      --line: rgba(31, 36, 48, 0.12);
+      --accent: #d35f31;
+      --accent-soft: rgba(211, 95, 49, 0.12);
+      --teal: #11756c;
+      --teal-soft: rgba(17, 117, 108, 0.12);
+      --blue: #355fd6;
+      --blue-soft: rgba(53, 95, 214, 0.11);
+      --gold: #d6a032;
+      --gold-soft: rgba(214, 160, 50, 0.12);
+      --danger: #c44536;
+      --shadow: 0 24px 56px rgba(31, 36, 48, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.65;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(211, 95, 49, 0.18), transparent 24%),
+        radial-gradient(circle at 100% 0%, rgba(17, 117, 108, 0.12), transparent 25%),
+        linear-gradient(rgba(31, 36, 48, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 36, 48, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, #eee3d4 0%, #f5efe5 42%, #fcfaf5 100%);
+      background-size: auto, auto, 28px 28px, 28px 28px, auto;
+    }
+
+    body,
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    ul,
+    ol {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    li,
+    span,
+    strong,
+    label,
+    button,
+    a,
+    td,
+    th {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code,
+    kbd {
+      font-family: "Consolas", "SFMono-Regular", "Roboto Mono", monospace;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 4px 10px;
+      border: 1px solid rgba(31, 36, 48, 0.15);
+      border-bottom-width: 3px;
+      border-radius: 10px;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    .hero,
+    .section {
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: var(--radius-xl);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 26px;
+      padding: 34px;
+      overflow: hidden;
+    }
+
+    .eyebrow,
+    .tag,
+    .mini-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+      color: var(--accent);
+      border: 1px solid rgba(211, 95, 49, 0.24);
+      background: var(--accent-soft);
+    }
+
+    .tag {
+      color: var(--teal);
+      border: 1px solid rgba(17, 117, 108, 0.22);
+      background: var(--teal-soft);
+    }
+
+    .mini-tag {
+      color: var(--blue);
+      border: 1px solid rgba(53, 95, 214, 0.2);
+      background: var(--blue-soft);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1 {
+      margin-bottom: 16px;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1.08;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: clamp(24px, 3.2vw, 36px);
+      line-height: 1.16;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .lead,
+    .muted,
+    .hero-note,
+    .section-intro,
+    .feedback {
+      color: var(--muted);
+    }
+
+    .lead {
+      margin-bottom: 0;
+      font-size: 18px;
+    }
+
+    .nav,
+    .hero-actions,
+    .quiz-actions,
+    .answer-actions,
+    .tool-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav,
+    .hero-actions {
+      margin-top: 22px;
+    }
+
+    .nav a,
+    .btn,
+    .ghost-btn,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .nav a,
+    .chip {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .btn,
+    .ghost-btn {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .btn {
+      color: #fff;
+      background: var(--ink);
+      box-shadow: 0 14px 28px rgba(31, 36, 48, 0.14);
+    }
+
+    .ghost-btn {
+      color: var(--teal);
+      background: rgba(17, 117, 108, 0.1);
+      border: 1px solid rgba(17, 117, 108, 0.15);
+    }
+
+    .nav a:hover,
+    .btn:hover,
+    .ghost-btn:hover,
+    .chip:hover,
+    .card:hover,
+    .quiz-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      display: grid;
+      gap: 14px;
+      align-content: end;
+      min-height: 340px;
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      color: #fff;
+      background:
+        linear-gradient(145deg, rgba(16, 22, 35, 0.12), rgba(16, 22, 35, 0.36)),
+        linear-gradient(135deg, #ff7a3d 0%, #ffb545 25%, #1ca795 56%, #335fe0 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-visual::before,
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      filter: blur(2px);
+    }
+
+    .hero-visual::before {
+      width: 150px;
+      height: 150px;
+      top: -30px;
+      right: -20px;
+    }
+
+    .hero-visual::after {
+      width: 110px;
+      height: 110px;
+      left: -22px;
+      bottom: 42px;
+    }
+
+    .visual-card {
+      position: relative;
+      z-index: 1;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius-md);
+      background: rgba(14, 18, 28, 0.24);
+      backdrop-filter: blur(14px);
+    }
+
+    .visual-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .shortcut-stack {
+      display: grid;
+      gap: 8px;
+    }
+
+    .shortcut-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .shortcut-row span:last-child {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 30px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head p {
+      max-width: 580px;
+      margin-bottom: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card,
+    .quiz-card,
+    .fact-box,
+    .summary-box {
+      min-height: 100%;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card strong,
+    .quiz-card strong {
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .card ul,
+    .fact-box ul,
+    .summary-box ul {
+      margin-bottom: 0;
+      padding-left: 20px;
+    }
+
+    .tone-accent {
+      border-color: rgba(211, 95, 49, 0.18);
+      background: linear-gradient(180deg, rgba(211, 95, 49, 0.08), rgba(255, 255, 255, 0.98));
+    }
+
+    .tone-teal {
+      border-color: rgba(17, 117, 108, 0.18);
+      background: linear-gradient(180deg, rgba(17, 117, 108, 0.08), rgba(255, 255, 255, 0.98));
+    }
+
+    .tone-blue {
+      border-color: rgba(53, 95, 214, 0.16);
+      background: linear-gradient(180deg, rgba(53, 95, 214, 0.08), rgba(255, 255, 255, 0.98));
+    }
+
+    .tone-gold {
+      border-color: rgba(214, 160, 50, 0.18);
+      background: linear-gradient(180deg, rgba(214, 160, 50, 0.08), rgba(255, 255, 255, 0.98));
+    }
+
+    .steps {
+      counter-reset: item;
+      display: grid;
+      gap: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: #fff;
+    }
+
+    .step::before {
+      counter-increment: item;
+      content: counter(item, decimal-leading-zero);
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      color: #fff;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--ink), #46506a);
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-left: 5px solid var(--accent);
+      border-radius: 18px;
+      background: rgba(211, 95, 49, 0.08);
+    }
+
+    .warning {
+      border-left-color: var(--gold);
+      background: rgba(214, 160, 50, 0.1);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 660px;
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(31, 36, 48, 0.04);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .quiz-card h3 {
+      margin-bottom: 12px;
+    }
+
+    .option-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .option input {
+      margin-top: 4px;
+    }
+
+    .answer-line,
+    .text-answer,
+    .select-answer {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px 14px;
+      border: 1px solid rgba(31, 36, 48, 0.14);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .answer-line:focus,
+    .text-answer:focus,
+    .select-answer:focus {
+      outline: 2px solid rgba(53, 95, 214, 0.18);
+      border-color: rgba(53, 95, 214, 0.34);
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .feedback.correct {
+      color: var(--teal);
+    }
+
+    .feedback.incorrect {
+      color: var(--danger);
+    }
+
+    .score-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .score-item {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .score-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .answer-sheet {
+      display: none;
+      margin-top: 16px;
+      padding: 18px 20px;
+      border: 1px dashed rgba(31, 36, 48, 0.18);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .answer-sheet.visible {
+      display: block;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid,
+      .grid.two,
+      .quiz-grid,
+      .score-board {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: start;
+      }
+
+      table {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 14px;
+        padding-bottom: 40px;
+      }
+
+      .hero,
+      .section {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+      }
+
+      .step::before {
+        width: 48px;
+        height: 48px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 10vw, 46px);
+      }
+
+      .nav a,
+      .btn,
+      .ghost-btn {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .card,
+      .quiz-card,
+      .fact-box,
+      .summary-box,
+      .score-item {
+        box-shadow: none;
+      }
+
+      .hero-actions,
+      .quiz-actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Illustrator Student Handout</div>
+        <h1>컬러 · 그라디언트 · 회전 변형<br>수강생 복습 자료</h1>
+        <p class="lead">실무에서 자주 쓰는 단축키, 컬러 관련 핵심 패널, 스포이드 활용, 그라디언트 종류, 회전 변형의 중심축 개념을 한 번에 정리한 학습 자료입니다.</p>
+        <div class="nav">
+          <a href="#shortcut">단축키</a>
+          <a href="#color">컬러</a>
+          <a href="#gradient">그라디언트</a>
+          <a href="#transform">변형</a>
+          <a href="#worksheet">복습문제</a>
+        </div>
+        <div class="hero-actions">
+          <button class="btn" type="button" onclick="document.getElementById('worksheet').scrollIntoView({behavior:'smooth'});">문제 바로 풀기</button>
+          <button class="ghost-btn" type="button" onclick="window.print();">인쇄하기</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-card">
+          <strong>핵심 포인트</strong>
+          <p class="hero-note">Fill / Stroke의 앞뒤 순서, 스포이드의 <code>Shift</code>와 <code>Alt</code>, 회전 중심축의 <code>Alt + 클릭</code>은 시험과 실습에서 자주 나옵니다.</p>
+        </div>
+        <div class="visual-card shortcut-stack">
+          <div class="shortcut-row">
+            <kbd>Ctrl + Y</kbd>
+            <span>윤곽선 모드</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd>R</kbd>
+            <span>회전 도구</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd>G</kbd>
+            <span>그라디언트 툴</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shortcut">
+      <div class="section-head">
+        <div>
+          <div class="tag"><span class="dot"></span>Shortcut Review</div>
+          <h2>자주 쓰는 레이어 · 보기 단축키</h2>
+        </div>
+        <p class="section-intro">겹쳐진 오브젝트의 앞뒤 순서를 빠르게 바꾸는 단축키는 선택 도구 작업과 함께 반복적으로 사용됩니다.</p>
+      </div>
+      <div class="grid">
+        <article class="card tone-accent">
+          <strong><kbd>Ctrl + Y</kbd></strong>
+          <h3>윤곽선 모드</h3>
+          <p>복잡한 일러스트에서 실제 면과 효과 대신 선 구조만 확인할 때 사용합니다.</p>
+        </article>
+        <article class="card tone-teal">
+          <strong><kbd>Ctrl + ]</kbd></strong>
+          <h3>한 칸만 위로</h3>
+          <p>선택한 오브젝트를 바로 위의 오브젝트 한 단계 앞으로 이동합니다.</p>
+        </article>
+        <article class="card tone-blue">
+          <strong><kbd>Ctrl + Shift + ]</kbd></strong>
+          <h3>맨 위로</h3>
+          <p>선택한 오브젝트를 현재 레이어의 가장 앞쪽으로 보냅니다.</p>
+        </article>
+        <article class="card tone-gold">
+          <strong><kbd>Ctrl + [</kbd></strong>
+          <h3>한 칸만 아래로</h3>
+          <p>선택한 오브젝트를 바로 아래의 오브젝트 한 단계 뒤로 이동합니다.</p>
+        </article>
+        <article class="card tone-accent">
+          <strong><kbd>Ctrl + Shift + [</kbd></strong>
+          <h3>맨 뒤로</h3>
+          <p>선택한 오브젝트를 현재 레이어의 가장 뒤쪽으로 보냅니다.</p>
+        </article>
+        <article class="card tone-teal">
+          <strong>체크 포인트</strong>
+          <h3>앞뒤 순서 감각 익히기</h3>
+          <p>한 칸 이동과 맨 앞/맨 뒤 이동을 구분해서 기억해야 작업 속도가 빨라집니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="color">
+      <div class="section-head">
+        <div>
+          <div class="tag"><span class="dot"></span>Color Tools</div>
+          <h2>컬러 관련 핵심 기능</h2>
+        </div>
+        <p class="section-intro">컬러는 패널 이름만 외우는 것이 아니라 Fill / Stroke 순서와 스포이드 옵션까지 함께 이해해야 실수가 줄어듭니다.</p>
+      </div>
+      <div class="grid">
+        <article class="card tone-accent">
+          <strong>1. 컬러 피커</strong>
+          <p>색상을 직접 선택하고 수치로 조절할 수 있는 기본 창입니다.</p>
+        </article>
+        <article class="card tone-teal">
+          <strong>2. 컬러 패널</strong>
+          <p>RGB, CMYK 같은 수치 기반으로 색을 세밀하게 조절할 때 사용합니다.</p>
+        </article>
+        <article class="card tone-blue">
+          <strong>3. 스와치</strong>
+          <p>자주 쓰는 색을 저장해 두고 반복 적용할 때 가장 편리한 패널입니다.</p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <strong>중요:</strong> <code>Fill Color</code>와 <code>Stroke Color</code>는 앞에 보이는 쪽이 현재 적용 대상입니다. 순서의 영향을 받기 때문에, 원하는 대상이 앞에 올라와 있는지 먼저 확인해야 합니다.
+      </div>
+
+      <div class="grid two" style="margin-top:16px;">
+        <article class="fact-box">
+          <div class="mini-tag">4. 스포이드</div>
+          <h3>Eyedropper 핵심</h3>
+          <ul>
+            <li>기본 사용 시 색만이 아니라 모든 속성이 함께 추출될 수 있습니다.</li>
+            <li>색만 뽑아오고 싶다면 <kbd>Shift</kbd>를 함께 사용합니다.</li>
+            <li>반대로 적용시키고 싶다면 <kbd>Alt</kbd>를 사용합니다.</li>
+          </ul>
+        </article>
+        <article class="fact-box">
+          <div class="mini-tag">시험 포인트</div>
+          <h3>실수하기 쉬운 부분</h3>
+          <ul>
+            <li>스포이드가 색만 가져오는 도구라고 단정하면 오답이 됩니다.</li>
+            <li><kbd>Shift</kbd> 기능은 별표 표시할 정도로 중요합니다.</li>
+            <li>Fill / Stroke의 앞뒤 상태를 확인하지 않으면 원하는 곳에 색이 안 들어갈 수 있습니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="gradient">
+      <div class="section-head">
+        <div>
+          <div class="tag"><span class="dot"></span>Gradient Review</div>
+          <h2>그라데이션 = 그라디언트</h2>
+        </div>
+        <p class="section-intro">용어와 도구, 종류를 함께 연결해서 기억하면 문제 풀이와 실습 둘 다 수월합니다.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card tone-accent">
+          <strong>Linear</strong>
+          <h3>선형</h3>
+          <p>한 방향으로 부드럽게 이어지는 기본 그라디언트입니다.</p>
+        </article>
+        <article class="card tone-teal">
+          <strong>Radial</strong>
+          <h3>방사형</h3>
+          <p>중심에서 바깥으로 퍼지는 원형 계열 그라디언트입니다.</p>
+        </article>
+        <article class="card tone-blue">
+          <strong>Freeform</strong>
+          <h3>자유형</h3>
+          <p>여러 지점에 색을 직접 배치하며 자유롭게 흐름을 만드는 방식입니다.</p>
+        </article>
+      </div>
+
+      <div class="table-wrap" style="margin-top:16px;">
+        <table>
+          <thead>
+            <tr>
+              <th>항목</th>
+              <th>기억할 내용</th>
+              <th>관련 단축키 / 메뉴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>그라데이션 실행</td>
+              <td>점(<code>.</code>) 키로 빠르게 실행할 수 있습니다.</td>
+              <td><kbd>.</kbd></td>
+            </tr>
+            <tr>
+              <td>그라디언트 툴</td>
+              <td>방향과 범위를 직접 조절할 때 사용합니다.</td>
+              <td><kbd>G</kbd></td>
+            </tr>
+            <tr>
+              <td>색 재구성</td>
+              <td>여러 색 조합을 한 번에 바꿀 때 사용합니다.</td>
+              <td><code>Edit → Edit Colors → Recolor Artwork</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="transform">
+      <div class="section-head">
+        <div>
+          <div class="tag"><span class="dot"></span>Transform</div>
+          <h2>변형: 회전은 중심축 기준</h2>
+        </div>
+        <p class="section-intro">회전은 단순히 돌리는 기능이 아니라 중심축을 어디에 두느냐가 핵심입니다.</p>
+      </div>
+
+      <div class="steps">
+        <article class="step">
+          <div>
+            <h3>회전 도구 선택</h3>
+            <p><kbd>R</kbd> 키로 회전 도구를 선택합니다.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div>
+            <h3>중심축 클릭 후 돌리기</h3>
+            <p>회전 중심이 될 지점을 먼저 정한 뒤 오브젝트를 회전합니다.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div>
+            <h3>옵션창 열기</h3>
+            <p><kbd>Enter</kbd>를 누르면 Rotate 옵션창이 열려 수치 입력이 가능합니다.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div>
+            <h3>복제 회전의 핵심</h3>
+            <p><kbd>Alt + 클릭</kbd>으로 중심축을 지정하면 복제와 반복 작업에 매우 유리합니다.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid two" style="margin-top:16px;">
+        <article class="summary-box">
+          <div class="mini-tag">반복</div>
+          <h3><kbd>Ctrl + D</kbd></h3>
+          <p>직전 변형을 반복 적용합니다. 복제 회전 후 패턴처럼 연속 배치할 때 자주 사용합니다.</p>
+        </article>
+        <article class="summary-box">
+          <div class="mini-tag">수치 입력</div>
+          <h3>마이너스와 수식</h3>
+          <ul>
+            <li>마이너스 수치를 입력하면 반대 방향으로 회전합니다.</li>
+            <li>수식을 그대로 입력해도 자동 계산됩니다.</li>
+            <li>예: <code>360/3</code>, <code>360*2</code>, <code>360+3</code></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout warning">
+        <strong>암기 포인트:</strong> 회전은 항상 중심축 기준으로 생각합니다. 중심축 지정, <kbd>Alt + 클릭</kbd>, <kbd>Ctrl + D</kbd> 조합을 묶어서 기억해 두면 좋습니다.
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <div>
+          <div class="tag"><span class="dot"></span>Worksheet</div>
+          <h2>복습 문제</h2>
+        </div>
+        <p class="section-intro">객관식과 단답형을 섞었습니다. 답을 직접 선택하거나 입력한 뒤 채점해 보세요.</p>
+      </div>
+
+      <div class="score-board">
+        <div class="score-item">
+          <span class="muted">총 문항</span>
+          <strong id="totalCount">8</strong>
+        </div>
+        <div class="score-item">
+          <span class="muted">맞은 개수</span>
+          <strong id="scoreCount">0</strong>
+        </div>
+        <div class="score-item">
+          <span class="muted">정답률</span>
+          <strong id="scoreRate">0%</strong>
+        </div>
+      </div>
+
+      <div class="quiz-grid">
+        <article class="quiz-card">
+          <h3>1. 윤곽선 모드 단축키는?</h3>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q1" value="a"> <span>Ctrl + Y</span></label>
+            <label class="option"><input type="radio" name="q1" value="b"> <span>Ctrl + Shift + Y</span></label>
+            <label class="option"><input type="radio" name="q1" value="c"> <span>Ctrl + ]</span></label>
+          </div>
+          <div class="feedback" id="feedback-q1"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>2. 오브젝트를 한 칸만 위로 보내는 단축키는?</h3>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q2" value="a"> <span>Ctrl + ]</span></label>
+            <label class="option"><input type="radio" name="q2" value="b"> <span>Ctrl + Shift + ]</span></label>
+            <label class="option"><input type="radio" name="q2" value="c"> <span>Ctrl + [</span></label>
+          </div>
+          <div class="feedback" id="feedback-q2"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>3. 스포이드로 색만 뽑아오고 싶을 때 함께 누르는 키는?</h3>
+          <input class="answer-line" id="q3" type="text" placeholder="예: Shift">
+          <div class="feedback" id="feedback-q3"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>4. 기본 스포이드 사용 시 맞는 설명은?</h3>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q4" value="a"> <span>항상 색상만 추출된다.</span></label>
+            <label class="option"><input type="radio" name="q4" value="b"> <span>모든 속성이 함께 추출될 수 있다.</span></label>
+            <label class="option"><input type="radio" name="q4" value="c"> <span>채우기 색만 추출된다.</span></label>
+          </div>
+          <div class="feedback" id="feedback-q4"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>5. 다음 중 그라디언트 종류가 아닌 것은?</h3>
+          <div class="option-list">
+            <label class="option"><input type="radio" name="q5" value="a"> <span>Linear</span></label>
+            <label class="option"><input type="radio" name="q5" value="b"> <span>Radial</span></label>
+            <label class="option"><input type="radio" name="q5" value="c"> <span>Perspective</span></label>
+          </div>
+          <div class="feedback" id="feedback-q5"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>6. 회전 도구 단축키는?</h3>
+          <input class="answer-line" id="q6" type="text" placeholder="알파벳 1글자 입력">
+          <div class="feedback" id="feedback-q6"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>7. Rotate 옵션창을 여는 키를 선택하세요.</h3>
+          <select class="select-answer" id="q7">
+            <option value="">선택하세요</option>
+            <option value="space">Space</option>
+            <option value="enter">Enter</option>
+            <option value="tab">Tab</option>
+          </select>
+          <div class="feedback" id="feedback-q7"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>8. 회전을 반복 적용하는 단축키는?</h3>
+          <input class="answer-line" id="q8" type="text" placeholder="예: Ctrl + D">
+          <div class="feedback" id="feedback-q8"></div>
+        </article>
+      </div>
+
+      <div class="quiz-actions" style="margin-top:20px;">
+        <button class="btn" type="button" onclick="gradeQuiz()">채점하기</button>
+        <button class="ghost-btn" type="button" onclick="toggleAnswers()">정답 보기</button>
+        <button class="ghost-btn" type="button" onclick="resetQuiz()">초기화</button>
+      </div>
+
+      <div class="answer-sheet" id="answerSheet">
+        <h3>정답표</h3>
+        <ul>
+          <li>1번: Ctrl + Y</li>
+          <li>2번: Ctrl + ]</li>
+          <li>3번: Shift</li>
+          <li>4번: 모든 속성이 함께 추출될 수 있다</li>
+          <li>5번: Perspective</li>
+          <li>6번: R</li>
+          <li>7번: Enter</li>
+          <li>8번: Ctrl + D</li>
+        </ul>
+      </div>
+
+      <p class="footer-note">학습 팁: 단축키는 손으로 직접 눌러 보고, 회전은 중심축을 찍는 위치를 바꿔 보면서 반복 연습하세요.</p>
+    </section>
+  </div>
+
+  <script>
+    const totalQuestions = 8;
+
+    function normalize(value) {
+      return value
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[＋+]/g, "+");
+    }
+
+    function setFeedback(id, isCorrect, message) {
+      const node = document.getElementById(id);
+      node.textContent = message;
+      node.className = "feedback " + (isCorrect ? "correct" : "incorrect");
+    }
+
+    function clearFeedback() {
+      document.querySelectorAll(".feedback").forEach((node) => {
+        node.textContent = "";
+        node.className = "feedback";
+      });
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+
+      const q1 = document.querySelector('input[name="q1"]:checked')?.value === "a";
+      setFeedback("feedback-q1", q1, q1 ? "정답입니다." : "정답은 Ctrl + Y 입니다.");
+      if (q1) score += 1;
+
+      const q2 = document.querySelector('input[name="q2"]:checked')?.value === "a";
+      setFeedback("feedback-q2", q2, q2 ? "정답입니다." : "정답은 Ctrl + ] 입니다.");
+      if (q2) score += 1;
+
+      const q3 = normalize(document.getElementById("q3").value) === "shift";
+      setFeedback("feedback-q3", q3, q3 ? "정답입니다." : "정답은 Shift 입니다.");
+      if (q3) score += 1;
+
+      const q4 = document.querySelector('input[name="q4"]:checked')?.value === "b";
+      setFeedback("feedback-q4", q4, q4 ? "정답입니다." : "기본 스포이드는 모든 속성이 함께 추출될 수 있습니다.");
+      if (q4) score += 1;
+
+      const q5 = document.querySelector('input[name="q5"]:checked')?.value === "c";
+      setFeedback("feedback-q5", q5, q5 ? "정답입니다." : "정답은 Perspective 입니다.");
+      if (q5) score += 1;
+
+      const q6 = normalize(document.getElementById("q6").value) === "r";
+      setFeedback("feedback-q6", q6, q6 ? "정답입니다." : "정답은 R 입니다.");
+      if (q6) score += 1;
+
+      const q7 = document.getElementById("q7").value === "enter";
+      setFeedback("feedback-q7", q7, q7 ? "정답입니다." : "정답은 Enter 입니다.");
+      if (q7) score += 1;
+
+      const q8 = normalize(document.getElementById("q8").value) === "ctrl+d";
+      setFeedback("feedback-q8", q8, q8 ? "정답입니다." : "정답은 Ctrl + D 입니다.");
+      if (q8) score += 1;
+
+      document.getElementById("scoreCount").textContent = String(score);
+      document.getElementById("scoreRate").textContent = Math.round((score / totalQuestions) * 100) + "%";
+    }
+
+    function toggleAnswers() {
+      document.getElementById("answerSheet").classList.toggle("visible");
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"]').forEach((input) => {
+        input.checked = false;
+      });
+      document.getElementById("q3").value = "";
+      document.getElementById("q6").value = "";
+      document.getElementById("q7").value = "";
+      document.getElementById("q8").value = "";
+      document.getElementById("scoreCount").textContent = "0";
+      document.getElementById("scoreRate").textContent = "0%";
+      document.getElementById("answerSheet").classList.remove("visible");
+      clearFeedback();
+    }
+
+    document.getElementById("totalCount").textContent = String(totalQuestions);
+  </script>
+</body>
+</html>
