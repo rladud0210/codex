@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 왜곡 · 텍스트 편집 복습자료</title>
+  <style>
+    :root {
+      --bg: #f6efe4;
+      --paper: rgba(255, 251, 246, 0.96);
+      --panel: #fffdfa;
+      --ink: #1f2430;
+      --muted: #5f6875;
+      --line: rgba(31, 36, 48, 0.12);
+      --orange: #d96b38;
+      --orange-soft: rgba(217, 107, 56, 0.12);
+      --teal: #136d68;
+      --teal-soft: rgba(19, 109, 104, 0.12);
+      --blue: #315fda;
+      --blue-soft: rgba(49, 95, 218, 0.11);
+      --gold: #d19d32;
+      --gold-soft: rgba(209, 157, 50, 0.13);
+      --red: #cf5148;
+      --red-soft: rgba(207, 81, 72, 0.12);
+      --shadow: 0 24px 60px rgba(31, 36, 48, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.68;
+      background:
+        radial-gradient(circle at top left, rgba(217, 107, 56, 0.16), transparent 24%),
+        radial-gradient(circle at top right, rgba(19, 109, 104, 0.12), transparent 25%),
+        linear-gradient(rgba(31, 36, 48, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 36, 48, 0.03) 1px, transparent 1px),
+        linear-gradient(180deg, #efe4d4 0%, #f8f1e7 46%, #fcfaf6 100%);
+      background-size: auto, auto, 28px 28px, 28px 28px, auto;
+    }
+
+    body,
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    h1, h2, h3, p, ul, ol {
+      margin-top: 0;
+    }
+
+    h1, h2, h3, p, li, span, a, button, label, input, textarea, th, td {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code,
+    kbd {
+      font-family: Consolas, "SFMono-Regular", "Roboto Mono", monospace;
+    }
+
+    code {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(31, 36, 48, 0.07);
+      font-size: 0.96em;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 4px 10px;
+      border: 1px solid rgba(31, 36, 48, 0.14);
+      border-bottom-width: 3px;
+      border-radius: 10px;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .hero,
+    .section {
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius-xl);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(300px, 0.94fr);
+      gap: 24px;
+      padding: 34px;
+      overflow: hidden;
+    }
+
+    .eyebrow,
+    .chip,
+    .mini-chip,
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+      color: var(--orange);
+      border: 1px solid rgba(217, 107, 56, 0.22);
+      background: var(--orange-soft);
+    }
+
+    .chip {
+      color: var(--teal);
+      border: 1px solid rgba(19, 109, 104, 0.2);
+      background: var(--teal-soft);
+    }
+
+    .mini-chip {
+      color: var(--blue);
+      border: 1px solid rgba(49, 95, 218, 0.18);
+      background: var(--blue-soft);
+    }
+
+    .tag {
+      color: var(--orange);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(217, 107, 56, 0.18);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1 {
+      margin-bottom: 14px;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1.08;
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.18;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      line-height: 1.24;
+    }
+
+    .lead,
+    .muted,
+    .note,
+    .section-head p {
+      color: var(--muted);
+    }
+
+    .lead {
+      margin-bottom: 0;
+      font-size: 18px;
+    }
+
+    .nav,
+    .hero-actions,
+    .chips,
+    .hero-points,
+    .tool-row,
+    .shortcut-pair,
+    .worksheet-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav {
+      margin-top: 22px;
+    }
+
+    .nav a,
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .nav a {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .nav a:hover,
+    .btn:hover,
+    .tool-card:hover,
+    .card:hover,
+    .review-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      background: var(--ink);
+      box-shadow: 0 12px 26px rgba(31, 36, 48, 0.16);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--teal-soft);
+      box-shadow: none;
+    }
+
+    .btn.gold {
+      color: #7a5200;
+      background: var(--gold-soft);
+      box-shadow: none;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 340px;
+      padding: 24px;
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+        linear-gradient(140deg, #cf6438 0%, #f0bb55 34%, #2f61d8 68%, #156d68 100%);
+      background-size: 24px 24px, 24px 24px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+    }
+
+    .artboard {
+      position: relative;
+      height: 100%;
+      min-height: 290px;
+      border-radius: 22px;
+      border: 2px solid rgba(255, 255, 255, 0.66);
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(18, 21, 25, 0.22);
+    }
+
+    .shape {
+      position: absolute;
+      box-shadow: 0 18px 30px rgba(14, 18, 24, 0.24);
+    }
+
+    .shape.base {
+      left: 28px;
+      top: 36px;
+      width: 110px;
+      height: 110px;
+      border: 4px solid rgba(255, 255, 255, 0.74);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .shape.trapezoid {
+      left: 130px;
+      top: 84px;
+      width: 156px;
+      height: 100px;
+      background: rgba(240, 187, 85, 0.96);
+      clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+    }
+
+    .shape.banner {
+      right: 26px;
+      top: 62px;
+      width: 164px;
+      height: 106px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: #fff;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      background: rgba(49, 95, 218, 0.94);
+      transform: skew(-18deg);
+    }
+
+    .shape.banner span {
+      transform: skew(18deg);
+    }
+
+    .joint {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid rgba(21, 109, 104, 0.82);
+      box-shadow: 0 8px 16px rgba(14, 18, 24, 0.2);
+    }
+
+    .joint.one { left: 70px; top: 202px; }
+    .joint.two { left: 136px; top: 216px; }
+    .joint.three { left: 194px; top: 194px; }
+    .joint.four { left: 250px; top: 218px; }
+
+    .puppet-line {
+      position: absolute;
+      left: 78px;
+      top: 210px;
+      width: 184px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      transform: rotate(4deg);
+      transform-origin: left center;
+    }
+
+    .guide {
+      position: absolute;
+      padding: 7px 11px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(31, 36, 48, 0.42);
+      backdrop-filter: blur(4px);
+    }
+
+    .guide.a { left: 22px; bottom: 24px; }
+    .guide.b { right: 22px; bottom: 24px; }
+
+    .hero-points {
+      margin-top: 18px;
+    }
+
+    .hero-points .mini-chip {
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 30px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card,
+    .tool-card {
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .tool-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      background: linear-gradient(180deg, var(--orange), var(--gold));
+    }
+
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .tool-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .tool-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 900;
+      background: var(--orange-soft);
+    }
+
+    .key-box {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(49, 95, 218, 0.08), rgba(19, 109, 104, 0.12));
+    }
+
+    .key-box strong {
+      color: var(--blue);
+    }
+
+    .mini-list,
+    .steps,
+    .check-points {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .mini-list li,
+    .steps li,
+    .check-points li {
+      margin-bottom: 8px;
+    }
+
+    .steps {
+      list-style: decimal;
+      padding-left: 22px;
+    }
+
+    .flow {
+      display: grid;
+      gap: 12px;
+    }
+
+    .flow-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .num {
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      background: var(--teal);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .compare-box {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .compare-box.point {
+      background: linear-gradient(180deg, rgba(49, 95, 218, 0.08), rgba(255, 255, 255, 0.84));
+    }
+
+    .compare-box.area {
+      background: linear-gradient(180deg, rgba(19, 109, 104, 0.08), rgba(255, 255, 255, 0.84));
+    }
+
+    .demo-text {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px dashed rgba(31, 36, 48, 0.18);
+      background: rgba(255, 255, 255, 0.68);
+      font-weight: 700;
+    }
+
+    .demo-text.area {
+      min-height: 110px;
+    }
+
+    .callout {
+      padding: 18px 20px;
+      border-left: 5px solid var(--red);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      background: var(--red-soft);
+    }
+
+    .callout strong {
+      color: var(--red);
+    }
+
+    .shortcut-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .shortcut-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 15px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .shortcut-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .worksheet-tools {
+      margin-bottom: 16px;
+    }
+
+    .scoreboard {
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(49, 95, 218, 0.16);
+      color: var(--blue);
+      font-weight: 800;
+      background: var(--blue-soft);
+    }
+
+    .quiz-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .quiz-item {
+      padding: 22px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .quiz-item h3 {
+      margin-bottom: 14px;
+      font-size: 18px;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .option input {
+      margin-top: 4px;
+    }
+
+    .answer-line,
+    .answer-box,
+    .match-select {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid rgba(31, 36, 48, 0.15);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .answer-box {
+      min-height: 128px;
+      resize: vertical;
+    }
+
+    .match-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .match-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.8fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct {
+      color: #0d6a45;
+      background: rgba(24, 159, 101, 0.12);
+    }
+
+    .feedback.wrong {
+      color: #ad3b34;
+      background: rgba(207, 81, 72, 0.12);
+    }
+
+    .review-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .review-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+      transition: transform 0.18s ease;
+    }
+
+    .review-item input {
+      margin-top: 5px;
+      inline-size: 18px;
+      block-size: 18px;
+      flex: 0 0 auto;
+    }
+
+    .print-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .compare {
+        grid-template-columns: 1fr;
+      }
+
+      .span-3,
+      .span-4,
+      .span-5,
+      .span-6,
+      .span-7,
+      .span-8 {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding: 18px 0 46px;
+      }
+
+      .hero,
+      .section {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .shortcut-item,
+      .match-row,
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .shortcut-item {
+        align-items: flex-start;
+      }
+
+      .match-row {
+        display: grid;
+      }
+
+      .nav a,
+      .btn {
+        width: 100%;
+      }
+
+      .hero-card {
+        min-height: 280px;
+      }
+
+      .shape.banner {
+        right: 18px;
+        width: 130px;
+        font-size: 22px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .btn,
+      .nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Illustrator Review Sheet</div>
+        <h1>왜곡과 텍스트 편집,<br>실무에서 바로 쓰는 핵심만 정리</h1>
+        <p class="lead">
+          오늘 복습 포인트는 두 가지입니다. 첫째, 오브젝트를 원하는 방향으로 비틀고 휘게 만드는 왜곡 도구.
+          둘째, 글자를 입력하고 편집하고 마지막에 아웃라인까지 넘기는 텍스트 작업 흐름입니다.
+        </p>
+
+        <div class="hero-points">
+          <span class="mini-chip"><span class="dot"></span>Perspective Distort = 사다리꼴 왜곡</span>
+          <span class="mini-chip"><span class="dot"></span>Point Text / Area Text 구분</span>
+          <span class="mini-chip"><span class="dot"></span>Create Outline = 글자를 깬다</span>
+        </div>
+
+        <nav class="nav">
+          <a href="#distort">왜곡 도구</a>
+          <a href="#type">텍스트 편집</a>
+          <a href="#workflow">작업 흐름</a>
+          <a href="#worksheet">문제 풀이</a>
+        </nav>
+
+        <div class="hero-actions">
+          <button class="btn" onclick="window.print()">인쇄하기</button>
+          <button class="btn secondary" onclick="document.getElementById('worksheet').scrollIntoView({behavior:'smooth'});">복습문제 바로가기</button>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="artboard">
+          <div class="shape base"></div>
+          <div class="shape trapezoid"></div>
+          <div class="shape banner"><span>WARP</span></div>
+          <div class="puppet-line"></div>
+          <div class="joint one"></div>
+          <div class="joint two"></div>
+          <div class="joint three"></div>
+          <div class="joint four"></div>
+          <div class="guide a">사다리꼴 왜곡</div>
+          <div class="guide b">핀으로 움직이는 퍼펫 워프</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="distort">
+      <div class="section-head">
+        <div>
+          <h2>1. 왜곡 도구 핵심 정리</h2>
+          <p>모양을 바꾸는 목적이 서로 다르기 때문에, 어떤 도구를 언제 쓰는지 구분하는 것이 중요합니다.</p>
+        </div>
+        <span class="tag">도구 구분</span>
+      </div>
+
+      <div class="grid">
+        <article class="tool-card span-3">
+          <div class="tool-title">
+            <h3>Free Transform</h3>
+            <span class="tool-label">Perspective Distort</span>
+          </div>
+          <p>기본 도형이나 오브젝트를 원근감 있게 밀어 사다리꼴 형태로 바꾸고 싶을 때 사용합니다.</p>
+          <div class="key-box">
+            <strong>시험·수업 포인트</strong><br>
+            Perspective Distort는 "사다리꼴"을 떠올리면 됩니다.
+          </div>
+        </article>
+
+        <article class="tool-card span-3">
+          <div class="tool-title">
+            <h3>Puppet Warp</h3>
+            <span class="tool-label">핀 고정</span>
+          </div>
+          <p>오브젝트 위에 핀을 꽂고 부분적으로 당기듯 변형합니다. 팔다리, 리본, 캐릭터 포즈에 특히 유용합니다.</p>
+          <ul class="mini-list">
+            <li>고정할 곳은 핀으로 잡아 둡니다.</li>
+            <li>움직일 곳만 선택적으로 휘게 만들 수 있습니다.</li>
+          </ul>
+        </article>
+
+        <article class="tool-card span-3">
+          <div class="tool-title">
+            <h3>Warp Tool</h3>
+            <span class="tool-label">밀고 당기기</span>
+          </div>
+          <p>브러시처럼 문질러 오브젝트를 밀어내거나 휘게 만드는 도구입니다. 자연스럽고 자유로운 왜곡에 적합합니다.</p>
+          <ul class="mini-list">
+            <li>정확한 수치형 왜곡보다 감각적인 수정에 강합니다.</li>
+            <li>실루엣 정리나 유기적 형태 수정에 자주 씁니다.</li>
+          </ul>
+        </article>
+
+        <article class="tool-card span-3">
+          <div class="tool-title">
+            <h3>Object &gt; Intertwine</h3>
+            <span class="tool-label">얽힘</span>
+          </div>
+          <p>겹쳐진 오브젝트의 앞뒤 순서를 일부 구간만 교차시켜 진짜 엮인 것처럼 보이게 만듭니다.</p>
+          <div class="key-box">
+            <strong>핵심 이미지</strong><br>
+            "겹친다"가 아니라 "얽힌다"는 느낌으로 기억하세요.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="type">
+      <div class="section-head">
+        <div>
+          <h2>2. 텍스트 작성 방식과 편집</h2>
+          <p>글자는 입력 방식부터 다릅니다. 클릭해서 쓰는지, 드래그해서 쓰는지에 따라 성격이 달라집니다.</p>
+        </div>
+        <span class="tag">텍스트 기본</span>
+      </div>
+
+      <div class="compare">
+        <article class="compare-box point">
+          <h3>Point Text</h3>
+          <p><strong>클릭해서 작성</strong>합니다. 제목, 짧은 문구, 자유로운 배치에 적합합니다.</p>
+          <ul class="mini-list">
+            <li>크기를 자유롭게 조절하기 쉽습니다.</li>
+            <li>짧은 텍스트나 로고 문구 작업에 자주 사용합니다.</li>
+          </ul>
+          <div class="demo-text">한 줄 제목이나 짧은 문장에 적합</div>
+        </article>
+
+        <article class="compare-box area">
+          <h3>Area Text</h3>
+          <p><strong>드래그해서 작성</strong>합니다. 정해진 박스 안에 문단을 넣을 때 사용합니다.</p>
+          <ul class="mini-list">
+            <li>문단 흐름과 줄바꿈을 관리하기 좋습니다.</li>
+            <li>전단지, 리플렛, 설명문처럼 긴 텍스트에 적합합니다.</li>
+          </ul>
+          <div class="demo-text area">정해진 영역 안에서 줄이 자동으로 바뀌며 문단처럼 정리됩니다.</div>
+        </article>
+      </div>
+
+      <div class="grid" style="margin-top:16px;">
+        <article class="card span-6">
+          <h3>텍스트 전환 메뉴</h3>
+          <div class="flow">
+            <div class="flow-step">
+              <span class="num">1</span>
+              <div><strong>Type &gt; Convert to Point Text</strong><br>영역형 텍스트를 포인트 텍스트로 바꿉니다.</div>
+            </div>
+            <div class="flow-step">
+              <span class="num">2</span>
+              <div><strong>Type &gt; Convert to Area Text</strong><br>포인트 텍스트를 영역형 텍스트로 바꿉니다.</div>
+            </div>
+            <div class="flow-step">
+              <span class="num">3</span>
+              <div><strong>Type &gt; Change Case</strong><br>영문 대문자·소문자를 바꿉니다.</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card span-6">
+          <h3>행간 기준</h3>
+          <p>가독성이 좋은 행간은 보통 <strong>글씨 크기의 1.4배~1.8배</strong>를 기준으로 잡습니다.</p>
+          <div class="key-box">
+            <strong>예시</strong><br>
+            글자 크기 10pt라면 행간은 대략 14pt~18pt 범위에서 먼저 맞춰 보고,
+            문단 길이와 분위기에 따라 세부 조정합니다.
+          </div>
+          <p class="note" style="margin-top:12px;">행간이 너무 좁으면 답답하고, 너무 넓으면 문장이 끊겨 보여 읽기 힘들어집니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-head">
+        <div>
+          <h2>3. 아웃라인과 작업 흐름</h2>
+          <p>글자는 수정 가능한 상태로 작업하다가, 최종 단계에서 윤곽선으로 바꾸는 흐름을 익혀 두면 좋습니다.</p>
+        </div>
+        <span class="tag">실무 흐름</span>
+      </div>
+
+      <div class="grid">
+        <article class="card span-7">
+          <h3>Create Outline</h3>
+          <div class="shortcut-pair">
+            <kbd>Ctrl</kbd>
+            <kbd>Shift</kbd>
+            <kbd>O</kbd>
+          </div>
+          <p style="margin-top:14px;">
+            <strong>Create Outline</strong>은 글자를 윤곽선 오브젝트로 바꾸는 기능입니다.
+            수업에서 흔히 <strong>"글자를 깬다"</strong>라고 표현합니다.
+          </p>
+          <div class="callout">
+            <strong>주의</strong><br>
+            아웃라인을 만들면 일반 텍스트처럼 다시 입력 내용을 수정하기 어렵습니다.
+            오탈자 확인과 문장 수정이 끝난 뒤 마지막 단계에서 사용하는 것이 안전합니다.
+          </div>
+        </article>
+
+        <article class="card span-5">
+          <h3>작업 순서 추천</h3>
+          <ol class="steps">
+            <li>Point Text 또는 Area Text로 먼저 입력합니다.</li>
+            <li>행간, 크기, 대소문자, 정렬을 수정합니다.</li>
+            <li>필요하면 왜곡이나 배치 작업을 진행합니다.</li>
+            <li>최종본에서만 Create Outline으로 넘깁니다.</li>
+          </ol>
+        </article>
+
+        <article class="card span-12">
+          <h3>기억해야 할 한 줄 정리</h3>
+          <div class="flow">
+            <div class="flow-step"><span class="num">A</span><div><strong>Perspective Distort</strong>는 사다리꼴 원근 왜곡.</div></div>
+            <div class="flow-step"><span class="num">B</span><div><strong>Puppet Warp</strong>는 핀을 꽂아 부분 변형.</div></div>
+            <div class="flow-step"><span class="num">C</span><div><strong>Warp Tool</strong>은 문질러 자유롭게 형태 수정.</div></div>
+            <div class="flow-step"><span class="num">D</span><div><strong>Intertwine</strong>는 앞뒤가 일부 교차하며 얽힌 효과.</div></div>
+            <div class="flow-step"><span class="num">E</span><div><strong>Point Text</strong>는 클릭, <strong>Area Text</strong>는 드래그.</div></div>
+            <div class="flow-step"><span class="num">F</span><div><strong>Create Outline = Ctrl + Shift + O = 글자를 깬다.</strong></div></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="shortcuts">
+      <div class="section-head">
+        <div>
+          <h2>4. 빠른 암기 카드</h2>
+          <p>짧게 보고 바로 떠올릴 수 있게 핵심만 모았습니다.</p>
+        </div>
+        <span class="tag">암기 카드</span>
+      </div>
+
+      <div class="shortcut-list">
+        <div class="shortcut-item">
+          <div>
+            <strong>클릭해서 텍스트 작성</strong>
+            Point Text
+          </div>
+          <span class="chip">짧은 문구</span>
+        </div>
+        <div class="shortcut-item">
+          <div>
+            <strong>드래그해서 텍스트 작성</strong>
+            Area Text
+          </div>
+          <span class="chip">문단 입력</span>
+        </div>
+        <div class="shortcut-item">
+          <div>
+            <strong>대문자·소문자 변경</strong>
+            Type &gt; Change Case
+          </div>
+          <span class="chip">영문 변경</span>
+        </div>
+        <div class="shortcut-item">
+          <div>
+            <strong>텍스트 타입 전환</strong>
+            Type &gt; Convert to Area Text / Point Text
+          </div>
+          <span class="chip">형식 전환</span>
+        </div>
+        <div class="shortcut-item">
+          <div>
+            <strong>윤곽선 만들기</strong>
+            Create Outline
+          </div>
+          <kbd>Ctrl + Shift + O</kbd>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <div>
+          <h2>5. 복습문제</h2>
+          <p>읽고 끝내지 말고 직접 선택하고 입력해 보세요. 객관식과 매칭 문제는 채점되고, 서술형은 예시 답안을 볼 수 있습니다.</p>
+        </div>
+        <span class="tag">실전 확인</span>
+      </div>
+
+      <div class="worksheet-tools">
+        <button class="btn" onclick="gradeQuiz()">채점하기</button>
+        <button class="btn secondary" onclick="showSampleAnswer()">서술형 예시 보기</button>
+        <button class="btn gold" onclick="resetQuiz()">초기화</button>
+      </div>
+
+      <div class="scoreboard" id="scoreboard">점수: 아직 채점 전</div>
+
+      <div class="quiz-list">
+        <article class="quiz-item">
+          <h3>1. 사각형을 원근감 있는 사다리꼴처럼 보이게 만들 때 가장 직접적으로 연결되는 기능은 무엇인가요?</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q1" value="outline">Create Outline</label>
+            <label class="option"><input type="radio" name="q1" value="perspective">Free Transform의 Perspective Distort</label>
+            <label class="option"><input type="radio" name="q1" value="change-case">Type &gt; Change Case</label>
+          </div>
+          <div class="feedback" id="feedback-q1"></div>
+        </article>
+
+        <article class="quiz-item">
+          <h3>2. 다음 설명에 맞는 텍스트 종류를 고르세요.</h3>
+          <div class="match-grid">
+            <div class="match-row">
+              <label for="q2a">클릭해서 자유롭게 짧은 제목을 입력한다.</label>
+              <select class="match-select" id="q2a">
+                <option value="">선택하세요</option>
+                <option value="point">Point Text</option>
+                <option value="area">Area Text</option>
+              </select>
+            </div>
+            <div class="match-row">
+              <label for="q2b">드래그한 박스 안에 문단을 입력한다.</label>
+              <select class="match-select" id="q2b">
+                <option value="">선택하세요</option>
+                <option value="point">Point Text</option>
+                <option value="area">Area Text</option>
+              </select>
+            </div>
+          </div>
+          <div class="feedback" id="feedback-q2"></div>
+        </article>
+
+        <article class="quiz-item">
+          <h3>3. 글자를 윤곽선 오브젝트로 바꾸는 단축키를 입력하세요.</h3>
+          <input class="answer-line" id="q3" type="text" placeholder="예: Ctrl + Shift + O">
+          <div class="feedback" id="feedback-q3"></div>
+        </article>
+
+        <article class="quiz-item">
+          <h3>4. 다음 중 설명이 알맞은 것을 고르세요.</h3>
+          <div class="options">
+            <label class="option"><input type="radio" name="q4" value="puppet">Puppet Warp는 핀으로 일부를 고정하고 부분 변형한다.</label>
+            <label class="option"><input type="radio" name="q4" value="outline">Create Outline는 대소문자를 바꾸는 기능이다.</label>
+            <label class="option"><input type="radio" name="q4" value="area">Area Text는 클릭 한 번으로만 만들어진다.</label>
+          </div>
+          <div class="feedback" id="feedback-q4"></div>
+        </article>
+
+        <article class="quiz-item">
+          <h3>5. 왜 글자는 수정이 끝난 뒤 마지막 단계에서 아웃라인을 만드는 것이 좋은지 두 문장 안으로 적어 보세요.</h3>
+          <textarea class="answer-box" id="q5" placeholder="수정 가능 상태와 최종 출력 상태를 비교해서 적어 보세요."></textarea>
+          <div class="feedback" id="feedback-q5"></div>
+        </article>
+      </div>
+      <p class="print-note">인쇄해서 사용할 경우 서술형은 손글씨로 작성해도 되고, 화면으로 사용할 경우 바로 입력하면 됩니다.</p>
+    </section>
+
+    <section class="section" id="checklist">
+      <div class="section-head">
+        <div>
+          <h2>6. 수업 직후 체크리스트</h2>
+          <p>아래 항목을 스스로 체크해 보면서 오늘 배운 내용을 말로 설명할 수 있는지 확인하세요.</p>
+        </div>
+        <span class="tag">마무리 확인</span>
+      </div>
+
+      <div class="review-list">
+        <label class="review-item">
+          <input type="checkbox">
+          <span><strong>Perspective Distort를 보면 사다리꼴 원근 왜곡이 바로 떠오른다.</strong></span>
+        </label>
+        <label class="review-item">
+          <input type="checkbox">
+          <span><strong>Puppet Warp와 Warp Tool의 차이를 설명할 수 있다.</strong> 하나는 핀 기반, 하나는 문지르며 자유 왜곡이다.</span>
+        </label>
+        <label class="review-item">
+          <input type="checkbox">
+          <span><strong>Object &gt; Intertwine는 얽힘 효과라는 것을 안다.</strong></span>
+        </label>
+        <label class="review-item">
+          <input type="checkbox">
+          <span><strong>Point Text는 클릭, Area Text는 드래그라는 기준을 구분할 수 있다.</strong></span>
+        </label>
+        <label class="review-item">
+          <input type="checkbox">
+          <span><strong>가독성 좋은 행간은 글자 크기의 1.4배~1.8배라는 기준을 기억한다.</strong></span>
+        </label>
+        <label class="review-item">
+          <input type="checkbox">
+          <span><strong>Create Outline 단축키가 <code>Ctrl + Shift + O</code>라는 것을 기억한다.</strong></span>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function normalizeText(value) {
+      return value.toLowerCase().replace(/\s+/g, "");
+    }
+
+    function setFeedback(id, message, isCorrect) {
+      const node = document.getElementById(id);
+      node.textContent = message;
+      node.className = "feedback show " + (isCorrect ? "correct" : "wrong");
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+      const total = 5;
+
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      if (q1 && q1.value === "perspective") {
+        score += 1;
+        setFeedback("feedback-q1", "정답입니다. Perspective Distort는 사다리꼴 원근 왜곡과 바로 연결됩니다.", true);
+      } else if (q1) {
+        setFeedback("feedback-q1", "오답입니다. 이번 문제의 핵심은 Free Transform의 Perspective Distort입니다.", false);
+      } else {
+        setFeedback("feedback-q1", "선택하지 않았습니다.", false);
+      }
+
+      const q2a = document.getElementById("q2a").value;
+      const q2b = document.getElementById("q2b").value;
+      if (q2a === "point" && q2b === "area") {
+        score += 1;
+        setFeedback("feedback-q2", "정답입니다. 클릭은 Point Text, 드래그 박스는 Area Text입니다.", true);
+      } else {
+        setFeedback("feedback-q2", "다시 확인하세요. 짧은 제목은 Point Text, 문단 박스는 Area Text입니다.", false);
+      }
+
+      const q3 = normalizeText(document.getElementById("q3").value);
+      if (q3 === "ctrl+shift+o" || q3 === "ctrlshift+o" || q3 === "ctrlshifto") {
+        score += 1;
+        setFeedback("feedback-q3", "정답입니다. Create Outline 단축키는 Ctrl + Shift + O입니다.", true);
+      } else {
+        setFeedback("feedback-q3", "오답입니다. 글자를 '깨는' 단축키를 다시 떠올려 보세요.", false);
+      }
+
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      if (q4 && q4.value === "puppet") {
+        score += 1;
+        setFeedback("feedback-q4", "정답입니다. Puppet Warp는 핀으로 고정점을 두고 부분적으로 변형합니다.", true);
+      } else if (q4) {
+        setFeedback("feedback-q4", "오답입니다. 정답은 Puppet Warp 설명입니다.", false);
+      } else {
+        setFeedback("feedback-q4", "선택하지 않았습니다.", false);
+      }
+
+      const q5 = document.getElementById("q5").value.trim();
+      if (q5.length > 0) {
+        score += 1;
+        setFeedback("feedback-q5", "작성 완료. 예시 답안과 비교해서 내용이 빠지지 않았는지 확인해 보세요.", true);
+      } else {
+        setFeedback("feedback-q5", "서술형 답안을 입력해 보세요.", false);
+      }
+
+      document.getElementById("scoreboard").textContent = "점수: " + score + " / " + total + " (서술형은 작성 여부 기준 포함)";
+    }
+
+    function showSampleAnswer() {
+      const sample = "예시 답안: 글자를 일반 텍스트 상태로 두면 오탈자 수정, 글씨체 변경, 문장 편집이 쉽습니다. 최종본에서만 아웃라인을 만들면 출력용 형태는 안전하게 고정하면서도 작업 중 수정은 자유롭게 할 수 있습니다.";
+      setFeedback("feedback-q5", sample, true);
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"]').forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll("select").forEach((select) => {
+        select.value = "";
+      });
+      document.getElementById("q3").value = "";
+      document.getElementById("q5").value = "";
+      document.querySelectorAll(".feedback").forEach((node) => {
+        node.className = "feedback";
+        node.textContent = "";
+      });
+      document.getElementById("scoreboard").textContent = "점수: 아직 채점 전";
+    }
+  </script>
+</body>
+</html>
