@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTQ 일러스트 정리본</title>
+  <style>
+    :root {
+      --bg: #f7efe4;
+      --bg-deep: #ead8c1;
+      --paper: rgba(255, 251, 245, 0.94);
+      --card: #fffdfa;
+      --ink: #1e2430;
+      --muted: #66707c;
+      --line: rgba(30, 36, 48, 0.12);
+      --orange: #ef7b45;
+      --orange-soft: rgba(239, 123, 69, 0.14);
+      --teal: #127c75;
+      --teal-soft: rgba(18, 124, 117, 0.12);
+      --blue: #2e66d8;
+      --blue-soft: rgba(46, 102, 216, 0.12);
+      --gold: #d89a23;
+      --gold-soft: rgba(216, 154, 35, 0.15);
+      --rose: #d7556b;
+      --rose-soft: rgba(215, 85, 107, 0.12);
+      --shadow: 0 24px 60px rgba(30, 36, 48, 0.14);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max: 1240px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.65;
+      background:
+        radial-gradient(circle at top left, rgba(239, 123, 69, 0.24), transparent 24%),
+        radial-gradient(circle at 88% 10%, rgba(46, 102, 216, 0.14), transparent 22%),
+        radial-gradient(circle at 50% 100%, rgba(18, 124, 117, 0.12), transparent 28%),
+        linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 34%, #fcfaf6 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.26) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px);
+      background-size: 26px 26px;
+      opacity: 0.32;
+    }
+
+    body, button {
+      font: inherit;
+    }
+
+    h1, h2, h3, p, ul {
+      margin-top: 0;
+    }
+
+    h1, h2, h3, p, li, span, strong, td, th {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    code, kbd {
+      font-family: Consolas, "SFMono-Regular", "Roboto Mono", monospace;
+    }
+
+    code {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: rgba(30, 36, 48, 0.07);
+      font-size: 0.95em;
+      font-weight: 700;
+    }
+
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 4px 10px;
+      border: 1px solid rgba(30, 36, 48, 0.16);
+      border-bottom-width: 3px;
+      border-radius: 10px;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 30px 0 72px;
+    }
+
+    .hero,
+    .section {
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius-xl);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 28px;
+      padding: 34px;
+      overflow: hidden;
+    }
+
+    .eyebrow,
+    .pill,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: var(--orange);
+      border: 1px solid rgba(239, 123, 69, 0.22);
+      background: var(--orange-soft);
+    }
+
+    .pill {
+      color: var(--blue);
+      border: 1px solid rgba(46, 102, 216, 0.18);
+      background: var(--blue-soft);
+    }
+
+    .chip {
+      color: var(--teal);
+      border: 1px solid rgba(18, 124, 117, 0.18);
+      background: var(--teal-soft);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 0;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(38px, 5vw, 64px);
+      letter-spacing: -0.05em;
+    }
+
+    h2 {
+      font-size: clamp(25px, 3vw, 38px);
+      letter-spacing: -0.04em;
+    }
+
+    h3 {
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .lead,
+    .muted,
+    .section-intro,
+    .tiny {
+      color: var(--muted);
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      max-width: 760px;
+      font-size: 18px;
+    }
+
+    .hero-pills,
+    .nav,
+    .summary-grid,
+    .tip-list,
+    .timeline,
+    .toolbar-grid,
+    .feature-grid,
+    .shortcut-grid,
+    .exam-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-pills {
+      margin-top: 24px;
+    }
+
+    .nav {
+      margin-top: 24px;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .hero-card {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 239, 0.94)),
+        linear-gradient(135deg, rgba(239, 123, 69, 0.08), rgba(46, 102, 216, 0.05));
+      border: 1px solid rgba(30, 36, 48, 0.08);
+    }
+
+    .hero-card h3 {
+      font-size: 24px;
+    }
+
+    .hero-stat {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px 14px;
+      border-radius: var(--radius-md);
+      background: var(--card);
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.05;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 30px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-intro {
+      max-width: 620px;
+      margin: 10px 0 0;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .summary-card,
+    .info-card,
+    .feature-card,
+    .shortcut-card,
+    .setting-card,
+    .flow-card {
+      position: relative;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .summary-card::after,
+    .info-card::after,
+    .feature-card::after,
+    .shortcut-card::after,
+    .setting-card::after,
+    .flow-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -50px auto;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(30, 36, 48, 0.04);
+    }
+
+    .summary-card strong,
+    .flow-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 26px;
+      line-height: 1.05;
+    }
+
+    .summary-card p,
+    .flow-card p,
+    .info-card p,
+    .setting-card p,
+    .feature-card p,
+    .shortcut-card p {
+      margin-bottom: 0;
+    }
+
+    .summary-card.orange strong { color: var(--orange); }
+    .summary-card.teal strong { color: var(--teal); }
+    .summary-card.blue strong { color: var(--blue); }
+    .summary-card.gold strong { color: var(--gold); }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 16px;
+    }
+
+    .tip-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tip {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff, #fffbf6);
+      border: 1px solid var(--line);
+    }
+
+    .tip strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .tip.alert strong { color: var(--rose); }
+    .tip.focus strong { color: var(--orange); }
+    .tip.ready strong { color: var(--teal); }
+    .tip.score strong { color: var(--blue); }
+    .tip.order strong { color: var(--gold); }
+    .tip.finish strong { color: var(--rose); }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .time-card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, #fff, #faf6f0);
+      border: 1px solid var(--line);
+    }
+
+    .time-card .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .time-card.orange .badge {
+      color: var(--orange);
+      background: var(--orange-soft);
+    }
+
+    .time-card.blue .badge {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .time-card.teal .badge {
+      color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .time-card h3 {
+      margin: 14px 0 12px;
+    }
+
+    .time-card ul,
+    .setting-card ul,
+    .feature-card ul,
+    .shortcut-card ul,
+    .info-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .time-card li + li,
+    .setting-card li + li,
+    .feature-card li + li,
+    .shortcut-card li + li,
+    .info-card li + li {
+      margin-top: 7px;
+    }
+
+    .final-check {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      color: var(--gold);
+      background: var(--gold-soft);
+      font-weight: 800;
+    }
+
+    .exam-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .flow-card {
+      min-height: 170px;
+    }
+
+    .flow-card .step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 14px;
+      border-radius: 50%;
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+      background: var(--ink);
+    }
+
+    .toolbar-grid,
+    .feature-grid,
+    .shortcut-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .toolbar-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .feature-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .shortcut-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 12px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      background: rgba(30, 36, 48, 0.06);
+    }
+
+    .card-label::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .feature-card h3,
+    .shortcut-card h3,
+    .setting-card h3,
+    .info-card h3 {
+      margin-bottom: 12px;
+    }
+
+    .shortcut-card li {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .shortcut-card ul {
+      padding-left: 0;
+    }
+
+    .shortcut-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid rgba(30, 36, 48, 0.08);
+    }
+
+    .shortcut-row:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .shortcut-row span {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      padding: 18px 22px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(239, 123, 69, 0.1), rgba(46, 102, 216, 0.08));
+      border: 1px solid rgba(30, 36, 48, 0.1);
+      font-weight: 700;
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .grid-two,
+      .summary-grid,
+      .timeline,
+      .exam-flow,
+      .toolbar-grid,
+      .feature-grid,
+      .shortcut-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .timeline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .exam-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .shortcut-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 18px;
+        padding-bottom: 36px;
+      }
+
+      .hero,
+      .section {
+        padding: 20px;
+        border-radius: 24px;
+      }
+
+      .summary-grid,
+      .tip-list,
+      .timeline,
+      .exam-flow,
+      .toolbar-grid,
+      .feature-grid,
+      .shortcut-grid,
+      .hero-stat,
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .shortcut-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .shortcut-row span {
+        text-align: left;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        backdrop-filter: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>GTQ Illustrator Student Handout</div>
+        <h1>GTQ 일러스트 정리본</h1>
+        <p class="lead">
+          시험장에서 중요한 건 완벽함보다 속도와 점수 확보입니다.
+          이 자료는 수강생이 바로 훑고 실전에 적용할 수 있도록 시험 정보, 시간 배분, 초기 세팅, 주요 기능, 단축키를 한 장 흐름으로 정리한 참고자료입니다.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">난이도 중상</span>
+          <span class="pill">시험시간 90분</span>
+          <span class="pill">총 3문제</span>
+          <span class="chip">빠르게 끝내고 검수까지</span>
+        </div>
+        <nav class="nav">
+          <a href="#summary">시험 개요</a>
+          <a href="#tips">주의사항</a>
+          <a href="#setup">초기 세팅</a>
+          <a href="#features">주요 기능</a>
+          <a href="#shortcuts">단축키</a>
+        </nav>
+      </div>
+
+      <aside class="hero-card">
+        <h3>실전 핵심 한 줄</h3>
+        <p class="muted">
+          정확하게 그리려고 집착하면 시간에서 무너집니다. 먼저 색을 등록하고, 기능 적용과 문제 완성도를 우선 챙기고, 마지막 5분은 반드시 검수에 남겨두세요.
+        </p>
+        <div class="hero-stat">
+          <div class="stat">
+            <strong>90</strong>
+            <span>분 안에 끝내기</span>
+          </div>
+          <div class="stat">
+            <strong>3</strong>
+            <span>문제 구성</span>
+          </div>
+          <div class="stat">
+            <strong>5</strong>
+            <span>마지막 검수 시간</span>
+          </div>
+        </div>
+        <div class="final-check">
+          팁: 다 못 풀었더라도 기능은 반드시 적용해두기. 부분 점수가 남습니다.
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="summary">
+      <div class="section-head">
+        <div>
+          <h2>시험 개요</h2>
+          <p class="section-intro">시험의 큰 틀을 먼저 머리에 넣어두면 시간 배분과 풀이 순서 판단이 쉬워집니다.</p>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card orange">
+          <strong>중상</strong>
+          <p>GTQ 일러스트는 기본 기능 숙련도와 빠른 처리 속도를 동시에 요구하는 편입니다.</p>
+        </article>
+        <article class="summary-card teal">
+          <strong>90분</strong>
+          <p>문제별 배분을 지키지 못하면 뒤 문제에서 무너질 가능성이 큽니다.</p>
+        </article>
+        <article class="summary-card blue">
+          <strong>총 3문제</strong>
+          <p>각 문제마다 색상 등록과 도형 구성, 기능 적용을 빠르게 처리해야 합니다.</p>
+        </article>
+        <article class="summary-card gold">
+          <strong>검수 5분</strong>
+          <p>마지막에는 레이어 순서, 색상 누락, 기능 적용 누락만 집중 확인합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="tips">
+      <div class="section-head">
+        <div>
+          <h2>주의사항</h2>
+          <p class="section-intro">점수에 직접 연결되는 실전 감각 위주로 정리했습니다. 시험장에서는 이 원칙만 지켜도 훨씬 안정적입니다.</p>
+        </div>
+      </div>
+
+      <div class="grid-two">
+        <div class="tip-list">
+          <article class="tip alert">
+            <strong>정확함 집착 금지</strong>
+            <p>정확하게 그리려고 오래 붙잡으면 떨어질 가능성이 커집니다. 빠르게 끝내고, 애매한 부분은 흐린 눈으로 넘어가는 판단이 필요합니다.</p>
+          </article>
+          <article class="tip ready">
+            <strong>컬러 먼저 등록</strong>
+            <p>문제 시작 후 바로 색을 등록해두세요. 등록한 색상은 해당 색 펜으로 체크하며 누락 없이 정리합니다.</p>
+          </article>
+          <article class="tip order">
+            <strong>시간 부족 시 풀이 순서</strong>
+            <p>시간이 부족할 것 같으면 <code>3 → 2 → 1</code> 순서로 접근합니다. 뒤 문제의 배점과 난도를 먼저 챙기는 전략입니다.</p>
+          </article>
+          <article class="tip score">
+            <strong>부분 점수 확보</strong>
+            <p>완성하지 못한 문제라도 기능은 적용해두세요. 결과물이 덜 끝나도 기능 사용 흔적이 있으면 점수를 건질 수 있습니다.</p>
+          </article>
+        </div>
+
+        <article class="info-card">
+          <div class="card-label">시험장 운영 원칙</div>
+          <h3>가장 중요한 기준</h3>
+          <ul>
+            <li>색상 등록과 레이어 순서를 초반에 안정화합니다.</li>
+            <li>완성도를 조금 포기하더라도 전체 문제를 만져봅니다.</li>
+            <li>도형 하나에 오래 매달리지 않습니다.</li>
+            <li>기능 적용 여부는 눈에 보이는 점수 포인트라고 생각합니다.</li>
+            <li>마지막 5분은 제작 시간이 아니라 오류 제거 시간입니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>시간 배분</h2>
+          <p class="section-intro">컬러 등록 시간과 제작 시간을 분리해서 생각하면 훨씬 덜 꼬입니다.</p>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <article class="time-card orange">
+          <div class="badge">1번 문제</div>
+          <h3>짧고 빠르게 처리</h3>
+          <ul>
+            <li>컬러 등록: 5분 내</li>
+            <li>문제 풀이: 15분</li>
+          </ul>
+        </article>
+        <article class="time-card blue">
+          <div class="badge">2번 문제</div>
+          <h3>속도 유지하며 진행</h3>
+          <ul>
+            <li>컬러 등록: 7분 내</li>
+            <li>문제 풀이: 20분</li>
+          </ul>
+        </article>
+        <article class="time-card teal">
+          <div class="badge">3번 문제</div>
+          <h3>배점 체감이 큰 구간</h3>
+          <ul>
+            <li>컬러 등록: 7분 내</li>
+            <li>문제 풀이: 35분</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="final-check">마지막 5분은 검수. 색상 누락, 레이어 위아래 순서, 기능 적용 여부를 끝까지 확인합니다.</div>
+
+      <div class="exam-flow">
+        <article class="flow-card">
+          <div class="step">1</div>
+          <strong>색상 등록</strong>
+          <p>문제 시작 직후 필요한 컬러를 먼저 등록하고 체크 표시까지 완료합니다.</p>
+        </article>
+        <article class="flow-card">
+          <div class="step">2</div>
+          <strong>도형 큰 틀부터</strong>
+          <p>세부 디테일보다는 큰 형태와 배치를 먼저 잡아 전체 진행 속도를 올립니다.</p>
+        </article>
+        <article class="flow-card">
+          <div class="step">3</div>
+          <strong>기능 적용</strong>
+          <p>패스파인더, 블렌드, 왜곡 등 채점 포인트가 되는 기능은 중간중간 바로 넣습니다.</p>
+        </article>
+        <article class="flow-card">
+          <div class="step">4</div>
+          <strong>최종 점검</strong>
+          <p>미완성 문제도 그냥 두지 말고, 가능한 범위에서 기능이나 색상 적용 흔적을 남깁니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="setup">
+      <div class="section-head">
+        <div>
+          <h2>처음 세팅</h2>
+          <p class="section-intro">시험 시작 후 바로 해야 하는 창 세팅과 환경설정입니다. 이 부분은 손에 익을 때까지 반복해야 합니다.</p>
+        </div>
+      </div>
+
+      <div class="toolbar-grid">
+        <article class="setting-card">
+          <div class="card-label">창 세팅</div>
+          <h3>필수 패널 열기</h3>
+          <ul>
+            <li><code>Window → Control</code></li>
+            <li><code>Window → Toolbar → Advanced</code></li>
+          </ul>
+        </article>
+
+        <article class="setting-card">
+          <div class="card-label">환경설정</div>
+          <h3>Ctrl + K 설정</h3>
+          <ul>
+            <li><code>Scale Corner</code> 켜두고 작업하기</li>
+            <li><code>Scale Stroke &amp; Effect</code> 끄고 작업하기</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-head">
+        <div>
+          <h2>주요 기능</h2>
+          <p class="section-intro">시험에서 자주 등장하고, 빠른 제작에 직접 도움이 되는 기능만 모아 정리했습니다.</p>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="card-label">도형 결합</div>
+          <h3>Pathfinder / Shape Builder</h3>
+          <ul>
+            <li><strong>Pathfinder</strong>: 도형 합치기, 빼기, 나누기 기본.</li>
+            <li><strong>Shape Builder</strong> 더하기: 드래그</li>
+            <li><strong>Shape Builder</strong> 빼기: <code>Alt</code> 드래그 또는 클릭</li>
+            <li><strong>Shape Builder</strong> 나누기: 클릭</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="card-label">변형</div>
+          <h3>Rotate / Reflect</h3>
+          <ul>
+            <li>회전과 반사는 중심축 지정이 중요합니다.</li>
+            <li>중심축을 찍는 동시에 옵션창 띄우기: <code>Alt + 클릭</code></li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="card-label">빠른 드로잉</div>
+          <h3>Knife / Blob Brush / Pencil</h3>
+          <ul>
+            <li><strong>Knife</strong>: 면이나 도형 분할에 유용.</li>
+            <li><strong>Blob Brush</strong>: 면으로 그려지는 브러시. 펜툴 대신 빠르게 그릴 때 사용.</li>
+            <li><strong>Pencil</strong>: 닫힌 패스를 그릴 수 있어 빠른 작업에 유리.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="card-label">왜곡</div>
+          <h3>Envelope Distort</h3>
+          <ul>
+            <li><code>Ctrl + Alt + Shift + W</code>: Make with Warp</li>
+            <li><code>Ctrl + Alt + C</code>: Make with Top Object</li>
+            <li>단축키가 기억 안 나면 <code>Object → Envelope Distort</code>로 접근</li>
+            <li><strong>Make with Top Object</strong>는 왜곡시킬 틀이 반드시 레이어 순서상 위에 있어야 합니다.</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="card-label">반복/연결</div>
+          <h3>Symbol / Blend</h3>
+          <ul>
+            <li><strong>Symbol</strong>: 반복되는 요소를 관리할 때 유리</li>
+            <li><code>Ctrl + Alt + B</code>: Blend 실행</li>
+            <li><code>W</code> 후 <code>Enter</code>: Blend 옵션 열기</li>
+          </ul>
+        </article>
+
+        <article class="feature-card">
+          <div class="card-label">패턴</div>
+          <h3>패턴 크기만 조절하기</h3>
+          <ul>
+            <li><code>Scale Tool → Enter</code></li>
+            <li><code>Transform Pattern</code>만 체크하고 조절</li>
+            <li>도형 크기는 유지하고 패턴만 확대/축소할 때 사용</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="shortcuts">
+      <div class="section-head">
+        <div>
+          <h2>단축키 정리</h2>
+          <p class="section-intro">반복 사용 빈도가 높은 단축키만 빠르게 눈에 들어오도록 묶었습니다.</p>
+        </div>
+      </div>
+
+      <div class="shortcut-grid">
+        <article class="shortcut-card">
+          <div class="card-label">기본 작업</div>
+          <h3>문서 / 그룹 / 잠금</h3>
+          <div class="shortcut-row"><kbd>Ctrl + N</kbd><span>새 파일</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + G</kbd><span>그룹</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + Shift + G</kbd><span>그룹 해제</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + 2</kbd><span>선택 잠금</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + Alt + 2</kbd><span>전체 잠금 해제</span></div>
+        </article>
+
+        <article class="shortcut-card">
+          <div class="card-label">복제 / 채색</div>
+          <h3>자주 쓰는 편집</h3>
+          <div class="shortcut-row"><kbd>Ctrl + C / Ctrl + F</kbd><span>제자리 복제(앞)</span></div>
+          <div class="shortcut-row"><kbd>.</kbd><span>그라디언트 삽입</span></div>
+          <div class="shortcut-row"><kbd>G</kbd><span>그라디언트 툴</span></div>
+        </article>
+
+        <article class="shortcut-card">
+          <div class="card-label">블렌드 / 왜곡</div>
+          <h3>기능 실행</h3>
+          <div class="shortcut-row"><kbd>Ctrl + Alt + B</kbd><span>블렌드 실행</span></div>
+          <div class="shortcut-row"><kbd>W → Enter</kbd><span>블렌드 옵션</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + Alt + Shift + W</kbd><span>Make with Warp</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + Alt + C</kbd><span>Make with Top Object</span></div>
+        </article>
+
+        <article class="shortcut-card">
+          <div class="card-label">패널</div>
+          <h3>작업창 열기</h3>
+          <div class="shortcut-row"><kbd>Ctrl + Shift + F9</kbd><span>패스파인더 패널</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + F10</kbd><span>스트로크 패널</span></div>
+        </article>
+
+        <article class="shortcut-card">
+          <div class="card-label">레이어 순서</div>
+          <h3>위아래 이동</h3>
+          <div class="shortcut-row"><kbd>Ctrl + ]</kbd><span>한 칸씩 위로</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + Shift + ]</kbd><span>맨 위로</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + [</kbd><span>한 칸씩 아래로</span></div>
+          <div class="shortcut-row"><kbd>Ctrl + Shift + [</kbd><span>맨 아래로</span></div>
+        </article>
+
+        <article class="shortcut-card">
+          <div class="card-label">시험장 팁</div>
+          <h3>암기 우선순위</h3>
+          <ul>
+            <li>블렌드, 왜곡, 패스파인더, 레이어 순서는 반드시 자동 반응 수준까지 익히기</li>
+            <li>색상 등록 후 체크하는 습관을 같이 암기하기</li>
+            <li>단축키가 막히면 메뉴 접근 경로도 함께 기억하기</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="footer-note">
+        핵심 요약: GTQ 일러스트는 예쁘게 그리는 시험이 아니라, 제한 시간 안에 기능을 정확히 적용해 점수를 회수하는 시험입니다. 빠른 판단, 선등록한 컬러, 기능 적용 흔적, 마지막 검수 5분을 끝까지 지키세요.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
