@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator 복습 자료 | 컴파운드 패스, 반복, 라이브페인트, 원근감 격자</title>
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --paper: rgba(255, 251, 245, 0.96);
+      --card: #ffffff;
+      --ink: #1f252c;
+      --muted: #5f6972;
+      --line: rgba(31, 37, 44, 0.12);
+      --orange: #dd6d38;
+      --yellow: #f0b448;
+      --blue: #2f65d4;
+      --teal: #177a78;
+      --violet: #705ad3;
+      --soft-orange: rgba(221, 109, 56, 0.12);
+      --soft-blue: rgba(47, 101, 212, 0.12);
+      --soft-teal: rgba(23, 122, 120, 0.12);
+      --soft-violet: rgba(112, 90, 211, 0.12);
+      --shadow: 0 22px 52px rgba(20, 24, 30, 0.12);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(240, 180, 72, 0.26), transparent 26%),
+        radial-gradient(circle at 85% 8%, rgba(112, 90, 211, 0.16), transparent 22%),
+        linear-gradient(180deg, #efe4d3 0%, var(--bg) 44%, #fbf8f3 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.22;
+    }
+
+    h1, h2, h3, p, ul, ol {
+      margin: 0;
+    }
+
+    p, li, span, button, label, input, textarea {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-wrap: pretty;
+    }
+
+    code {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.95em;
+      background: rgba(31, 37, 44, 0.07);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 34px 0 64px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .eyebrow,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      border: 1px solid rgba(221, 109, 56, 0.2);
+      color: var(--orange);
+      background: var(--soft-orange);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.18;
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 58px);
+      letter-spacing: -0.04em;
+    }
+
+    h2 {
+      font-size: clamp(26px, 3vw, 34px);
+      letter-spacing: -0.03em;
+    }
+
+    h3 {
+      font-size: 21px;
+    }
+
+    .lead {
+      margin-top: 18px;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .nav,
+    .hero-pills,
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav {
+      margin-top: 24px;
+    }
+
+    .hero-pills {
+      margin-top: 20px;
+    }
+
+    .nav a,
+    .pill,
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .nav a,
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav a:hover,
+    .pill:hover,
+    .btn:hover,
+    .choice:hover,
+    .quiz-card:hover,
+    .summary-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      color: #fff;
+      background: var(--ink);
+      box-shadow: 0 14px 28px rgba(31, 37, 44, 0.18);
+    }
+
+    .btn.secondary {
+      color: var(--teal);
+      background: var(--soft-teal);
+      box-shadow: none;
+    }
+
+    .hero-visual {
+      min-height: 360px;
+      padding: 20px;
+      border-radius: 26px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(140deg, #d96439 0%, #f1b54a 33%, #2f65d4 68%, #177a78 100%);
+      background-size: 24px 24px, 24px 24px, auto;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    }
+
+    .artboard {
+      position: relative;
+      min-height: 320px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.72);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 24px 44px rgba(16, 20, 28, 0.24);
+    }
+
+    .chip,
+    .ring,
+    .copy,
+    .grid-line {
+      position: absolute;
+    }
+
+    .chip {
+      top: 34px;
+      left: 28px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 800;
+      background: rgba(31, 37, 44, 0.84);
+    }
+
+    .ring {
+      border-radius: 50%;
+      border: 18px solid rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 30px rgba(16, 20, 28, 0.2);
+    }
+
+    .ring.one {
+      width: 138px;
+      height: 138px;
+      top: 80px;
+      left: 56px;
+    }
+
+    .ring.two {
+      width: 88px;
+      height: 88px;
+      top: 110px;
+      left: 138px;
+      border-width: 12px;
+      border-color: rgba(217, 100, 57, 0.8);
+    }
+
+    .copy {
+      width: 150px;
+      height: 86px;
+      border-radius: 22px;
+      transform: rotate(-8deg);
+      box-shadow: 0 18px 34px rgba(16, 20, 28, 0.18);
+    }
+
+    .copy.front {
+      right: 44px;
+      top: 72px;
+      background: rgba(255, 255, 255, 0.86);
+    }
+
+    .copy.back {
+      right: 76px;
+      top: 102px;
+      background: rgba(255, 255, 255, 0.38);
+    }
+
+    .copy-label {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .perspective {
+      position: absolute;
+      right: 28px;
+      bottom: 22px;
+      width: 220px;
+      height: 132px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .grid-line {
+      left: 50%;
+      bottom: -8px;
+      width: 1px;
+      height: 170px;
+      background: rgba(255, 255, 255, 0.54);
+      transform-origin: bottom center;
+    }
+
+    .grid-line.g1 { transform: rotate(-64deg); }
+    .grid-line.g2 { transform: rotate(-38deg); }
+    .grid-line.g3 { transform: rotate(-16deg); }
+    .grid-line.g4 { transform: rotate(16deg); }
+    .grid-line.g5 { transform: rotate(38deg); }
+    .grid-line.g6 { transform: rotate(64deg); }
+
+    .grid-band {
+      position: absolute;
+      inset-inline: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.42);
+    }
+
+    .grid-band.b1 { bottom: 22px; }
+    .grid-band.b2 { bottom: 44px; }
+    .grid-band.b3 { bottom: 68px; }
+    .grid-band.b4 { bottom: 96px; }
+
+    .section {
+      margin-top: 24px;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 251, 245, 0.92);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .section-head p {
+      max-width: 58ch;
+      color: var(--muted);
+    }
+
+    .summary-grid,
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .summary-card,
+    .quiz-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--card);
+      box-shadow: 0 14px 26px rgba(20, 24, 30, 0.06);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .summary-card h3,
+    .quiz-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .summary-card ul {
+      padding-left: 18px;
+    }
+
+    .summary-card li + li {
+      margin-top: 8px;
+    }
+
+    .summary-card.orange { background: linear-gradient(180deg, #fff7f2, #ffffff); }
+    .summary-card.blue { background: linear-gradient(180deg, #f4f8ff, #ffffff); }
+    .summary-card.teal { background: linear-gradient(180deg, #f2fbf8, #ffffff); }
+    .summary-card.violet { background: linear-gradient(180deg, #f7f4ff, #ffffff); }
+
+    .memory-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .memory-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .memory-item strong {
+      min-width: 122px;
+      color: var(--orange);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 14px;
+      background: rgba(31, 37, 44, 0.04);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .quiz-card p {
+      color: var(--muted);
+    }
+
+    .choices {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .choice {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .choice input {
+      margin-top: 4px;
+    }
+
+    .quiz-card input[type="text"] {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(31, 37, 44, 0.16);
+      border-radius: 14px;
+      font: inherit;
+      background: #fff;
+    }
+
+    .feedback {
+      margin-top: 12px;
+      min-height: 26px;
+      font-weight: 700;
+    }
+
+    .feedback.correct {
+      color: var(--teal);
+    }
+
+    .feedback.wrong {
+      color: #c44545;
+    }
+
+    .score-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      margin-top: 20px;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.86);
+    }
+
+    .score-text strong {
+      display: block;
+      font-size: 1.12rem;
+    }
+
+    .score-text span {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .answer-box {
+      display: none;
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 16px 16px 0;
+      background: rgba(47, 101, 212, 0.08);
+    }
+
+    .answer-box.show {
+      display: block;
+    }
+
+    .answer-box ul {
+      padding-left: 18px;
+      margin-top: 8px;
+    }
+
+    .print-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .summary-grid,
+      .quiz-grid,
+      .score-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .section {
+        padding: 24px;
+      }
+
+      .memory-item {
+        display: block;
+      }
+
+      .memory-item strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      body::before,
+      .toolbar,
+      .nav {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .section,
+      .summary-card,
+      .quiz-card {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Illustrator Review Sheet</div>
+        <h1>컴파운드 패스부터 원근감 격자까지 빠르게 복습하기</h1>
+        <p class="lead">요청한 항목만 시험 직전용으로 압축했다. 단축키, 기능 개념, 바로 확인 가능한 문제 풀이를 한 페이지 안에 넣어서 수업 배포용으로 바로 쓸 수 있게 구성했다.</p>
+        <div class="hero-pills">
+          <span class="pill">컴파운드 패스</span>
+          <span class="pill">Offset Path</span>
+          <span class="pill">Make with Warp</span>
+          <span class="pill">반복</span>
+          <span class="pill">라이브페인트</span>
+          <span class="pill">원근감 격자</span>
+        </div>
+        <div class="nav">
+          <a href="#summary">핵심 정리</a>
+          <a href="#memory">암기 포인트</a>
+          <a href="#worksheet">복습 문제</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="artboard">
+          <div class="chip">Ctrl + 8</div>
+          <div class="ring one"></div>
+          <div class="ring two"></div>
+          <div class="copy back"><div class="copy-label">Ctrl + B</div></div>
+          <div class="copy front"><div class="copy-label">Ctrl + C</div></div>
+          <div class="perspective">
+            <div class="grid-line g1"></div>
+            <div class="grid-line g2"></div>
+            <div class="grid-line g3"></div>
+            <div class="grid-line g4"></div>
+            <div class="grid-line g5"></div>
+            <div class="grid-line g6"></div>
+            <div class="grid-band b1"></div>
+            <div class="grid-band b2"></div>
+            <div class="grid-band b3"></div>
+            <div class="grid-band b4"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="summary">
+      <div class="section-head">
+        <div>
+          <h2>핵심 정리</h2>
+          <p>헷갈리는 기능명을 단어 하나씩 쪼개지 말고, "언제 쓰는지"와 "무슨 결과가 나오는지"로 묶어서 보는 쪽이 기억에 오래 남는다.</p>
+        </div>
+        <span class="badge pill">시험 직전 3분 복습</span>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card orange">
+          <h3>컴파운드 패스</h3>
+          <ul>
+            <li>여러 오브젝트를 하나의 경로처럼 처리한다.</li>
+            <li>겹친 도형 안쪽을 뚫어 문자, 로고, 구멍 난 형태를 만들 때 자주 쓴다.</li>
+            <li>바로 떠올릴 단축키는 <code>Ctrl + 8</code> 이다.</li>
+          </ul>
+        </article>
+
+        <article class="summary-card blue">
+          <h3>제자리 복제 뒤로 붙이기</h3>
+          <ul>
+            <li><code>Ctrl + C</code> 로 복사하고 <code>Ctrl + B</code> 로 뒤에 붙여넣는다.</li>
+            <li>같은 위치에 복제본이 생기고 원본 뒤에 쌓인다.</li>
+            <li>외곽 장식, 그림자 베이스, 뒷판 만들기에서 많이 쓴다.</li>
+          </ul>
+        </article>
+
+        <article class="summary-card teal">
+          <h3>Offset Path / Make with Warp</h3>
+          <ul>
+            <li><strong>Offset Path</strong>: 경로에서 일정 간격 떨어진 새 경로를 만든다.</li>
+            <li><strong>Make with Warp</strong>: 오브젝트나 글자를 아치, 물결 같은 형태로 왜곡한다.</li>
+            <li>둘 다 "모양을 변형한다"는 공통점이 있지만, 방식은 전혀 다르다.</li>
+          </ul>
+        </article>
+
+        <article class="summary-card violet">
+          <h3>반복 / 라이브페인트 / 원근감 격자</h3>
+          <ul>
+            <li><strong>반복</strong>: 규칙적으로 자동 복제한다.</li>
+            <li><strong>라이브페인트</strong>: 선으로 나뉜 영역을 색칠하듯 채운다.</li>
+            <li><strong>원근감 격자</strong>: 원근 공간에 맞춰 오브젝트를 배치한다. 토글은 <code>Ctrl + Shift + I</code>.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="memory">
+      <div class="section-head">
+        <div>
+          <h2>암기 포인트</h2>
+          <p>이 파트는 기능명과 결과를 짧게 연결하는 구간이다. 입으로 읽듯이 한 줄씩 외우면 빠르다.</p>
+        </div>
+      </div>
+
+      <div class="memory-list">
+        <div class="memory-item">
+          <strong>Ctrl + 8</strong>
+          <span>컴파운드 패스 만들기. 겹친 도형 안쪽이 뚫리는 형태를 떠올린다.</span>
+        </div>
+        <div class="memory-item">
+          <strong>Ctrl + C / Ctrl + B</strong>
+          <span>복사 후 뒤에 붙여넣기. 같은 자리에 복제되고 레이어 순서상 뒤로 들어간다.</span>
+        </div>
+        <div class="memory-item">
+          <strong>Offset Path</strong>
+          <span>원본에서 일정 간격 떨어진 새 경로 만들기. 외곽선 확장, 테두리, 여백 제작.</span>
+        </div>
+        <div class="memory-item">
+          <strong>Make with Warp</strong>
+          <span>아치, 볼록, 물결처럼 왜곡. 특히 텍스트 변형 문제에서 자주 보인다.</span>
+        </div>
+        <div class="memory-item">
+          <strong>Ctrl + Shift + I</strong>
+          <span>원근감 격자 켜기 / 끄기. 격자가 보였다 사라지는 토글 단축키다.</span>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-top:18px;">
+        <table>
+          <thead>
+            <tr>
+              <th>기능명</th>
+              <th>바로 기억할 핵심</th>
+              <th>주로 쓰는 상황</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>컴파운드 패스</td>
+              <td>여러 도형을 하나의 경로처럼 처리</td>
+              <td>구멍 뚫린 글자, 도형 결합 표현</td>
+            </tr>
+            <tr>
+              <td>반복</td>
+              <td>자동 규칙 복제</td>
+              <td>패턴, 좌우 대칭, 원형 배열</td>
+            </tr>
+            <tr>
+              <td>라이브페인트</td>
+              <td>영역 단위로 색칠</td>
+              <td>선 드로잉 채색, 구획별 색 넣기</td>
+            </tr>
+            <tr>
+              <td>원근감 격자</td>
+              <td>원근 공간에 맞춘 배치</td>
+              <td>건물, 도로, 입체 공간 구성</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-head">
+        <div>
+          <h2>복습 문제</h2>
+          <p>선택하고, 입력하고, 바로 채점할 수 있게 만들었다. 수업 중 확인용이나 개인 복습용으로 그대로 쓰면 된다.</p>
+        </div>
+      </div>
+
+      <div class="quiz-grid">
+        <article class="quiz-card">
+          <h3>1. 컴파운드 패스 단축키</h3>
+          <p>컴파운드 패스를 만드는 단축키를 고르세요.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q1" value="a"> <span>Ctrl + 7</span></label>
+            <label class="choice"><input type="radio" name="q1" value="b"> <span>Ctrl + 8</span></label>
+            <label class="choice"><input type="radio" name="q1" value="c"> <span>Ctrl + Shift + 8</span></label>
+          </div>
+          <div class="feedback" id="feedback-q1"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>2. 제자리 복제 뒤로 붙이기</h3>
+          <p>복사 후 뒤에 붙여넣는 조합을 고르세요.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q2" value="a"> <span>Ctrl + C / Ctrl + F</span></label>
+            <label class="choice"><input type="radio" name="q2" value="b"> <span>Ctrl + X / Ctrl + B</span></label>
+            <label class="choice"><input type="radio" name="q2" value="c"> <span>Ctrl + C / Ctrl + B</span></label>
+          </div>
+          <div class="feedback" id="feedback-q2"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>3. 빈칸 채우기</h3>
+          <p><strong>Offset Path</strong> 는 기존 경로에서 일정 <strong>_____</strong> 만큼 떨어진 새 경로를 만든다.</p>
+          <input type="text" id="q3" placeholder="한글로 입력">
+          <div class="feedback" id="feedback-q3"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>4. 기능 연결</h3>
+          <p>글자나 오브젝트를 아치 형태처럼 왜곡할 때 가장 알맞은 기능을 고르세요.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q4" value="a"> <span>Make with Warp</span></label>
+            <label class="choice"><input type="radio" name="q4" value="b"> <span>Live Paint</span></label>
+            <label class="choice"><input type="radio" name="q4" value="c"> <span>Repeat</span></label>
+          </div>
+          <div class="feedback" id="feedback-q4"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>5. 체크 문제</h3>
+          <p>다음 중 설명이 맞는 것을 모두 고르세요.</p>
+          <div class="choices">
+            <label class="choice"><input type="checkbox" id="q5a"> <span>라이브페인트는 영역을 색칠하듯 채울 수 있다.</span></label>
+            <label class="choice"><input type="checkbox" id="q5b"> <span>반복은 자동 규칙 복제와 관련 있다.</span></label>
+            <label class="choice"><input type="checkbox" id="q5c"> <span>원근감 격자 토글은 Ctrl + Shift + I 이다.</span></label>
+            <label class="choice"><input type="checkbox" id="q5d"> <span>컴파운드 패스 단축키는 Ctrl + 5 이다.</span></label>
+          </div>
+          <div class="feedback" id="feedback-q5"></div>
+        </article>
+
+        <article class="quiz-card">
+          <h3>6. 원근감 격자 단축키</h3>
+          <p>원근감 격자를 켜고 끄는 단축키를 입력하세요.</p>
+          <input type="text" id="q6" placeholder="예: Ctrl + Shift + I">
+          <div class="feedback" id="feedback-q6"></div>
+        </article>
+      </div>
+
+      <div class="score-panel">
+        <div class="score-text">
+          <strong id="score-text">아직 채점 전</strong>
+          <span id="score-subtext">문제를 푼 뒤 채점하기를 누르세요.</span>
+        </div>
+        <div class="toolbar">
+          <button class="btn" type="button" id="grade-btn">채점하기</button>
+          <button class="btn secondary" type="button" id="reset-btn">초기화</button>
+          <button class="btn secondary" type="button" id="toggle-answer-btn">예시 답 보기</button>
+        </div>
+      </div>
+
+      <div class="answer-box" id="answer-box">
+        <strong>예시 답</strong>
+        <ul>
+          <li>1번: Ctrl + 8</li>
+          <li>2번: Ctrl + C / Ctrl + B</li>
+          <li>3번: 간격</li>
+          <li>4번: Make with Warp</li>
+          <li>5번: a, b, c 선택</li>
+          <li>6번: Ctrl + Shift + I</li>
+        </ul>
+      </div>
+
+      <p class="print-note">인쇄해 배포할 때는 위 문제를 종이로 풀고, 화면에서는 채점 기능으로 다시 확인할 수 있다.</p>
+    </section>
+  </main>
+
+  <script>
+    const gradeButton = document.getElementById("grade-btn");
+    const resetButton = document.getElementById("reset-btn");
+    const toggleAnswerButton = document.getElementById("toggle-answer-btn");
+    const answerBox = document.getElementById("answer-box");
+    const scoreText = document.getElementById("score-text");
+    const scoreSubtext = document.getElementById("score-subtext");
+
+    function setFeedback(id, ok, message) {
+      const target = document.getElementById(id);
+      target.textContent = message;
+      target.className = "feedback " + (ok ? "correct" : "wrong");
+    }
+
+    function normalize(value) {
+      return value.toLowerCase().replace(/\s+/g, "");
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q4 = document.querySelector('input[name="q4"]:checked');
+
+      if (q1 && q1.value === "b") {
+        score += 1;
+        setFeedback("feedback-q1", true, "정답. 컴파운드 패스는 Ctrl + 8.");
+      } else {
+        setFeedback("feedback-q1", false, "오답. 정답은 Ctrl + 8.");
+      }
+
+      if (q2 && q2.value === "c") {
+        score += 1;
+        setFeedback("feedback-q2", true, "정답. 복사 후 뒤에 붙여넣기는 Ctrl + C / Ctrl + B.");
+      } else {
+        setFeedback("feedback-q2", false, "오답. 정답은 Ctrl + C / Ctrl + B.");
+      }
+
+      const q3 = normalize(document.getElementById("q3").value);
+      if (q3 === "간격") {
+        score += 1;
+        setFeedback("feedback-q3", true, "정답. Offset Path 는 일정 간격만큼 새 경로를 만든다.");
+      } else {
+        setFeedback("feedback-q3", false, "오답. 핵심 단어는 '간격'.");
+      }
+
+      if (q4 && q4.value === "a") {
+        score += 1;
+        setFeedback("feedback-q4", true, "정답. 왜곡 변형은 Make with Warp.");
+      } else {
+        setFeedback("feedback-q4", false, "오답. 정답은 Make with Warp.");
+      }
+
+      const q5a = document.getElementById("q5a").checked;
+      const q5b = document.getElementById("q5b").checked;
+      const q5c = document.getElementById("q5c").checked;
+      const q5d = document.getElementById("q5d").checked;
+      if (q5a && q5b && q5c && !q5d) {
+        score += 1;
+        setFeedback("feedback-q5", true, "정답. a, b, c 만 맞다.");
+      } else {
+        setFeedback("feedback-q5", false, "오답. 라이브페인트, 반복, 원근감 격자 단축키 설명만 맞다.");
+      }
+
+      const q6 = normalize(document.getElementById("q6").value);
+      if (q6 === "ctrl+shift+i" || q6 === "ctrlshifti") {
+        score += 1;
+        setFeedback("feedback-q6", true, "정답. 원근감 격자 토글은 Ctrl + Shift + I.");
+      } else {
+        setFeedback("feedback-q6", false, "오답. 정답은 Ctrl + Shift + I.");
+      }
+
+      scoreText.textContent = "점수: " + score + " / 6";
+      scoreSubtext.textContent = score === 6 ? "전부 맞았습니다." : "틀린 문항 피드백을 보고 다시 확인하세요.";
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"]').forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+        input.checked = false;
+      });
+      document.querySelectorAll('input[type="text"]').forEach((input) => {
+        input.value = "";
+      });
+      document.querySelectorAll(".feedback").forEach((node) => {
+        node.textContent = "";
+        node.className = "feedback";
+      });
+      scoreText.textContent = "아직 채점 전";
+      scoreSubtext.textContent = "문제를 푼 뒤 채점하기를 누르세요.";
+    }
+
+    gradeButton.addEventListener("click", gradeQuiz);
+    resetButton.addEventListener("click", resetQuiz);
+    toggleAnswerButton.addEventListener("click", () => {
+      answerBox.classList.toggle("show");
+    });
+  </script>
+</body>
+</html>
