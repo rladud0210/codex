@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illustrator Effect & Appearance 수강생 정리</title>
+  <style>
+    :root {
+      --bg: #f6efe6;
+      --paper: rgba(255, 251, 246, 0.94);
+      --panel: #fffdfa;
+      --ink: #1f2430;
+      --muted: #626c78;
+      --line: rgba(31, 36, 48, 0.12);
+      --orange: #e56a2c;
+      --orange-soft: rgba(229, 106, 44, 0.12);
+      --teal: #0f7d73;
+      --teal-soft: rgba(15, 125, 115, 0.11);
+      --blue: #3d67dd;
+      --blue-soft: rgba(61, 103, 221, 0.11);
+      --gold: #b9871f;
+      --gold-soft: rgba(185, 135, 31, 0.14);
+      --shadow: 0 24px 54px rgba(31, 36, 48, 0.12);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      line-height: 1.65;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(229, 106, 44, 0.16), transparent 22%),
+        radial-gradient(circle at 88% 12%, rgba(61, 103, 221, 0.14), transparent 20%),
+        linear-gradient(180deg, #efe4d4 0%, var(--bg) 48%, #fcfaf7 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    h1, h2, h3, h4, p, ul, ol {
+      margin-top: 0;
+    }
+
+    p, li {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    .hero,
+    .section {
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: var(--radius-xl);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      gap: 24px;
+      padding: 34px;
+    }
+
+    .eyebrow,
+    .chip,
+    .mini-chip,
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: var(--orange);
+      border: 1px solid rgba(229, 106, 44, 0.24);
+      background: var(--orange-soft);
+    }
+
+    .chip {
+      color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .mini-chip {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .label {
+      min-height: 32px;
+      padding: 5px 11px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .label.orange { color: var(--orange); background: var(--orange-soft); }
+    .label.teal { color: var(--teal); background: var(--teal-soft); }
+    .label.blue { color: var(--blue); background: var(--blue-soft); }
+    .label.gold { color: var(--gold); background: var(--gold-soft); }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(36px, 5vw, 62px);
+    }
+
+    h2 {
+      font-size: clamp(26px, 3vw, 38px);
+      margin-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .lead,
+    .muted {
+      color: var(--muted);
+    }
+
+    .lead {
+      margin-bottom: 0;
+      font-size: 18px;
+    }
+
+    .chip-row,
+    .hero-actions,
+    .toolbar,
+    .shortcut-grid,
+    .grid,
+    .compare-grid,
+    .process-grid,
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip-row,
+    .hero-actions {
+      margin-top: 22px;
+    }
+
+    .hero-card {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.78));
+    }
+
+    .summary-box {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: rgba(31, 36, 48, 0.04);
+    }
+
+    .section {
+      margin-top: 24px;
+      padding: 30px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .grid.two,
+    .compare-grid,
+    .process-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card,
+    .step-card,
+    .mini-card,
+    .check-card {
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .card.orange {
+      background: linear-gradient(180deg, rgba(229, 106, 44, 0.08), rgba(255, 253, 250, 0.98));
+    }
+
+    .card.teal {
+      background: linear-gradient(180deg, rgba(15, 125, 115, 0.08), rgba(255, 253, 250, 0.98));
+    }
+
+    .card.blue {
+      background: linear-gradient(180deg, rgba(61, 103, 221, 0.08), rgba(255, 253, 250, 0.98));
+    }
+
+    .card.gold {
+      background: linear-gradient(180deg, rgba(185, 135, 31, 0.1), rgba(255, 253, 250, 0.98));
+    }
+
+    .toolbar {
+      margin-top: 14px;
+    }
+
+    .pill,
+    code,
+    kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 0.93rem;
+      font-weight: 700;
+      background: rgba(31, 36, 48, 0.08);
+    }
+
+    kbd {
+      border: 1px solid rgba(31, 36, 48, 0.16);
+      border-bottom-width: 3px;
+      background: #fff;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .key-point {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--orange);
+      border-radius: 14px;
+      background: rgba(229, 106, 44, 0.08);
+    }
+
+    .note-box {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(61, 103, 221, 0.08);
+    }
+
+    .step-card strong,
+    .mini-card strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .check-card {
+      display: grid;
+      gap: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,248,241,0.92));
+    }
+
+    .footer {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .grid.two,
+      .compare-grid,
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 18px;
+      }
+
+      .hero,
+      .section {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 11vw, 46px);
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Illustrator Class Note</div>
+        <h1>Effect와 Appearance는<br>모양을 만들고 관리하는 핵심 도구</h1>
+        <p class="lead">
+          Illustrator의 <code>Effect</code>는 개체에 시각 효과를 적용하는 기능이고,
+          <code>Appearance</code>는 그 개체가 가진 속성과 효과를 한눈에 보여주고 수정하게 해주는 패널이다.
+        </p>
+        <div class="chip-row">
+          <span class="chip">Distort &amp; Transform</span>
+          <span class="chip">Stylize</span>
+          <span class="mini-chip">Path</span>
+          <span class="mini-chip">Appearance</span>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h3>오늘 수업 핵심</h3>
+        <div class="summary-box">
+          <strong>외워둘 포인트</strong>
+          <ul>
+            <li><code>Effect &gt; Offset Path</code>는 원본을 유지한 채 여백 느낌을 조절한다.</li>
+            <li><code>Object &gt; Path &gt; Offset Path</code>는 경로를 복제해 새로운 개체를 만든다.</li>
+            <li><code>Appearance</code> 패널에서는 적용된 효과를 다시 눌러 수정할 수 있다.</li>
+          </ul>
+        </div>
+        <div class="toolbar">
+          <kbd>Ctrl + 8</kbd>
+          <span class="pill">Compound Path</span>
+          <span class="pill">Offset Path</span>
+          <span class="pill">Transform</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="illustrator-effect">
+      <div class="section-head">
+        <div>
+          <h2>1. Illustrator Effect</h2>
+          <p class="muted">효과 메뉴는 개체를 직접 다시 그리지 않고도 다양한 변형과 스타일을 빠르게 줄 때 사용한다.</p>
+        </div>
+        <span class="label orange">effect basics</span>
+      </div>
+
+      <div class="grid two">
+        <article class="card orange">
+          <span class="label orange">Distort &amp; Transform</span>
+          <h3>모양을 찌그러뜨리거나 반복 변형</h3>
+          <ul>
+            <li><strong>Pucker &amp; Bloat</strong> : 중심을 기준으로 안쪽으로 오므리거나 바깥으로 부풀린다.</li>
+            <li><strong>Transform</strong> : 이동, 회전, 크기 변경, 복제를 한 번에 제어한다.</li>
+            <li><strong>Zig Zag</strong> : 선이나 도형의 가장자리를 지그재그나 물결 모양으로 바꾼다.</li>
+          </ul>
+          <div class="key-point">
+            같은 도형도 직접 수정하지 않고 효과만으로 다양한 시안 변형을 빠르게 만들 수 있다.
+          </div>
+        </article>
+
+        <article class="card teal">
+          <span class="label teal">Stylize</span>
+          <h3>입체감과 분위기 추가</h3>
+          <ul>
+            <li><strong>Drop Shadow</strong> : 그림자를 넣어 떠 있는 느낌을 만든다.</li>
+            <li><strong>Outer Glow</strong> : 바깥쪽 광택이나 퍼지는 빛 효과를 만든다.</li>
+            <li><strong>등등</strong> : Feather, Scribble 같은 스타일 계열도 함께 자주 묶여 나온다.</li>
+          </ul>
+          <div class="note-box">
+            Stylize 계열은 디자인을 화려하게 만들지만, 너무 많이 겹치면 지저분해질 수 있으니 강도 조절이 중요하다.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="path-offset">
+      <div class="section-head">
+        <div>
+          <h2>2. Path와 Offset Path</h2>
+          <p class="muted">같은 이름처럼 보이지만, 어디에서 실행하느냐에 따라 결과가 다르다.</p>
+        </div>
+        <span class="label blue">must know</span>
+      </div>
+
+      <div class="compare-grid">
+        <article class="card blue">
+          <span class="label blue">Effect &gt; Path</span>
+          <h3>원본 유지형 Offset Path</h3>
+          <ul>
+            <li><code>Effect &gt; Path &gt; Offset Path</code></li>
+            <li>개체 자체의 여백을 조절하는 느낌으로 사용한다.</li>
+            <li>원본 경로는 그대로 두고, 효과처럼 덧씌워진 상태로 보인다.</li>
+            <li>나중에 <code>Appearance</code> 패널에서 수치를 다시 바꿀 수 있다.</li>
+          </ul>
+        </article>
+
+        <article class="card gold">
+          <span class="label gold">Object &gt; Path</span>
+          <h3>복제 생성형 Offset Path</h3>
+          <ul>
+            <li><code>Object &gt; Path &gt; Offset Path</code></li>
+            <li>경로가 자동으로 하나 복제된다.</li>
+            <li>효과가 아니라 실제 새 오브젝트가 만들어지는 개념이다.</li>
+            <li>윤곽선 따기, 외곽 배경 만들기, 실제 도형 분리 작업에 유리하다.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="process-grid" style="margin-top: 18px;">
+        <article class="step-card">
+          <strong>언제 Effect로 쓰나?</strong>
+          <p class="muted">수정 가능성을 남겨두고, 여백 수치를 계속 조절해야 할 때.</p>
+        </article>
+        <article class="step-card">
+          <strong>언제 Object로 쓰나?</strong>
+          <p class="muted">실제 경로가 필요하거나, 복제된 도형을 따로 선택해서 편집해야 할 때.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="photoshop-effect">
+      <div class="section-head">
+        <div>
+          <h2>3. Photoshop Effect 비교</h2>
+          <p class="muted">포토샵에서는 같은 “effect”라도 주로 필터 중심으로 접근한다.</p>
+        </div>
+        <span class="label teal">cross check</span>
+      </div>
+
+      <div class="grid two">
+        <article class="mini-card">
+          <strong>Filter Gallery</strong>
+          <p class="muted">여러 필터를 미리보기하면서 질감, 왜곡, 회화 느낌 등을 빠르게 적용할 수 있다.</p>
+        </article>
+        <article class="mini-card">
+          <strong>Blur</strong>
+          <p class="muted">흐림 효과를 통해 배경 분리, 초점 표현, 부드러운 분위기를 만든다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="appearance">
+      <div class="section-head">
+        <div>
+          <h2>4. Appearance 패널</h2>
+          <p class="muted">개체가 가지고 있는 모든 속성을 보여주고, 적용된 효과를 다시 수정하는 기능이다.</p>
+        </div>
+        <span class="label orange">appearance</span>
+      </div>
+
+      <div class="grid two">
+        <article class="card orange">
+          <h3>Appearance에서 볼 수 있는 것</h3>
+          <ul>
+            <li>Fill, Stroke 같은 기본 속성</li>
+            <li>적용된 Effect 목록</li>
+            <li>Offset Path, Transform 같은 세부 효과</li>
+            <li>효과 순서와 적용 여부</li>
+          </ul>
+        </article>
+
+        <article class="card blue">
+          <h3>Appearance의 장점</h3>
+          <ul>
+            <li>효과를 다시 눌러 수치 수정 가능</li>
+            <li>원본 개체를 유지하면서 시각 효과만 바꾸기 쉬움</li>
+            <li>복잡한 디자인도 구조를 파악하기 쉬움</li>
+            <li>여러 속성을 한 패널에서 관리 가능</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="key-point">
+        수업에서 자주 보는 <code>Offset Path</code>와 <code>Transform</code>은 Appearance 패널에서 다시 선택해 수정하는 습관을 들이면 작업 속도가 빨라진다.
+      </div>
+    </section>
+
+    <section class="section" id="practice-check">
+      <div class="section-head">
+        <div>
+          <h2>5. 실습 체크</h2>
+          <p class="muted">아래 항목을 스스로 설명할 수 있으면 오늘 내용은 제대로 정리된 상태다.</p>
+        </div>
+        <span class="label gold">self check</span>
+      </div>
+
+      <div class="checklist">
+        <article class="check-card">
+          <h4>체크 1</h4>
+          <p class="muted"><code>Pucker &amp; Bloat</code>, <code>Transform</code>, <code>Zig Zag</code>가 어떤 모양 변형인지 말할 수 있는가?</p>
+        </article>
+        <article class="check-card">
+          <h4>체크 2</h4>
+          <p class="muted"><code>Drop Shadow</code>와 <code>Outer Glow</code>의 시각적 차이를 구분할 수 있는가?</p>
+        </article>
+        <article class="check-card">
+          <h4>체크 3</h4>
+          <p class="muted"><code>Effect &gt; Offset Path</code>와 <code>Object &gt; Offset Path</code>의 차이를 설명할 수 있는가?</p>
+        </article>
+        <article class="check-card">
+          <h4>체크 4</h4>
+          <p class="muted"><code>Appearance</code> 패널에서 적용된 효과를 다시 수정하는 흐름을 알고 있는가?</p>
+        </article>
+      </div>
+    </section>
+
+    <p class="footer">Illustrator Effect / Appearance 수업용 요약 정리</p>
+  </main>
+</body>
+</html>
